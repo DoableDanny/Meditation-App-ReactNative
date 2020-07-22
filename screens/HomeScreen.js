@@ -15,14 +15,12 @@ function HomeScreen({
   selectedMeditation,
   updateSelectedMeditation,
 }) {
-  const selectMeditationAndNavigate = () => {};
-
-  let index = 0;
   return (
     <View style={styles.screenContainer}>
       <Button title="Guide" onPress={() => navigation.navigate('Guide')} />
       <FlatList
         data={meditations}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({item, index}) => (
           <TouchableOpacity
             onPress={() => {
