@@ -1,8 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, StatusBar} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+
+// This function is called when full 1 hour completed
+const storeData = async (meditationsCopy) => {
+  try {
+    const jsonValue = JSON.stringify(meditationsCopy);
+    await AsyncStorage.setItem('@meditations_completed', jsonValue);
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 function TimerScreen({selectedMeditation, meditations, unlockMeditation}) {
-  //   console.log(selectedMeditation);
   const [seconds, setSeconds] = useState(55);
   const [minutes, setMinutes] = useState(59);
   const [hours, setHours] = useState(0);
@@ -62,6 +72,8 @@ function TimerScreen({selectedMeditation, meditations, unlockMeditation}) {
               'You completed all 60 days, hopefully you gained self-understanding and peace.',
             );
           }
+          // Save to asyncStorage
+          storeData(meditationsCopy);
         }
       }
     }, 1000);

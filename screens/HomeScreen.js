@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,11 +8,21 @@ import {
   Button,
   TouchableOpacity,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+
+const getData = async (unlockMeditation) => {
+  try {
+    const jsonValue = await AsyncStorage.getItem('@meditations_completed');
+    return jsonValue != null ? unlockMeditation(JSON.parse(jsonValue)) : null;
+  } catch (e) {
+    console.log('Failed when getting data from AsyncStorage :(');
+  }
+};
 
 function HomeScreen({
   navigation,
   meditations,
-  selectedMeditation,
+  unlockMeditation,
   updateSelectedMeditation,
 }) {
   return (
@@ -33,6 +43,7 @@ function HomeScreen({
             }}>
             <Image source={item.image} style={styles.image} />
             <Text style={styles.title}>{item.title} </Text>
+            {}
           </TouchableOpacity>
         )}
       />

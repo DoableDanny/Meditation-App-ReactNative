@@ -1,6 +1,5 @@
 import 'react-native-gesture-handler';
 import React, {useState} from 'react';
-import {View, Text, Image, StyleSheet, FlatList, Button} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from './screens/HomeScreen';
@@ -67,6 +66,7 @@ const App = () => {
             <HomeScreen
               {...props}
               meditations={meditations}
+              unlockMeditation={unlockMeditation}
               selectedMeditation={selectedMeditation}
               updateSelectedMeditation={updateSelectedMeditation}
             />
