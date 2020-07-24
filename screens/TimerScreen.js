@@ -7,6 +7,7 @@ const storeData = async (meditationsCopy) => {
   try {
     const jsonValue = JSON.stringify(meditationsCopy);
     await AsyncStorage.setItem('@meditations_completed', jsonValue);
+    // alert('Data successfully saved');
   } catch (e) {
     console.log(e);
   }
