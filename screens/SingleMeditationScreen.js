@@ -29,7 +29,7 @@ function SingleMeditationScreen({selectedMeditation, navigation}) {
 
 const styles = StyleSheet.create({
   pageContainer: {
-    backgroundColor: '#14145a',
+    backgroundColor: 'rgb(59, 50, 131)',
     flex: 1,
     flexDirection: 'column',
     borderWidth: 5,

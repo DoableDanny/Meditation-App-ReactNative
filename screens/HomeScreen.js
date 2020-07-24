@@ -67,16 +67,26 @@ function HomeScreen({
           <TouchableOpacity
             onPress={() => {
               updateSelectedMeditation(item);
-              navigation.navigate('Meditation');
+              item.locked ? null : navigation.navigate('Meditation');
             }}
             style={{
               ...styles.listItem,
               borderBottomWidth: index === meditations.length - 1 ? 0 : 1,
-              backgroundColor: item.locked ? 'grey' : null,
+              backgroundColor: item.locked
+                ? 'rgb(37, 27, 113)'
+                : 'rgb(59, 50, 131)',
             }}>
             <Image source={item.image} style={styles.image} />
 
-            <Text style={styles.title}>{item.title} </Text>
+            {item.locked ? null : (
+              <Text
+                style={{
+                  ...styles.title,
+                  color: item.locked ? 'black' : 'white',
+                }}>
+                {item.title}{' '}
+              </Text>
+            )}
             {item.locked ? <Text style={styles.locked}>LOCKED</Text> : null}
           </TouchableOpacity>
         )}
@@ -94,13 +104,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     borderBottomWidth: 1,
+    borderBottomColor: 'rgb(104,186,223)',
   },
   title: {
-    fontSize: 15,
+    fontSize: 20,
   },
   locked: {
-    fontSize: 25,
-    color: 'white',
+    fontSize: 20,
+    color: 'rgba(255,255,255,0.6)',
   },
   image: {
     width: 140,

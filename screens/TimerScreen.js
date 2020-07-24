@@ -14,7 +14,7 @@ const storeData = async (meditationsCopy) => {
 };
 
 function TimerScreen({selectedMeditation, meditations, unlockMeditation}) {
-  const [seconds, setSeconds] = useState(55);
+  const [seconds, setSeconds] = useState(58);
   const [minutes, setMinutes] = useState(59);
   const [hours, setHours] = useState(0);
   const [timerOn, setTimerOn] = useState(true);
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#14145a',
+    backgroundColor: 'rgb(59, 50, 131)',
   },
   time: {
     fontSize: 40,
