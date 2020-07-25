@@ -7,9 +7,11 @@ import {
   FlatList,
   Button,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useIsFocused} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 // Get data stored in asyncStorage
 const getData = async () => {
@@ -24,18 +26,31 @@ const getData = async () => {
 
 // Delete all saved data
 let meditationsCopy;
-const clearStorage = async (meditations, unlockMeditation) => {
-  try {
-    await AsyncStorage.clear();
-    meditationsCopy = [...meditations];
-    meditationsCopy.forEach((med) => {
-      med.id == 0 ? (med.locked = false) : (med.locked = true);
-    });
-    alert('Storage successfully cleared!');
-    unlockMeditation(meditationsCopy);
-  } catch (e) {
-    alert('Failed to clear the async storage.');
-  }
+const clearStorage = (meditations, unlockMeditation) => {
+  Alert.alert(
+    'You Absolutely Sure?',
+    'This will permanently delete all your progress.',
+    [
+      {
+        text: 'Yes',
+        onPress: async () => {
+          try {
+            await AsyncStorage.clear();
+            meditationsCopy = [...meditations];
+            meditationsCopy.forEach((med) => {
+              med.id == 0 ? (med.locked = false) : (med.locked = true);
+            });
+            alert('Progress successfully deleted');
+            unlockMeditation(meditationsCopy);
+          } catch (e) {
+            alert('Failed to clear the async storage.');
+          }
+        },
+        style: 'destructive',
+      },
+      {text: 'No', onPress: () => console.log('No pressed')},
+    ],
+  );
 };
 
 function HomeScreen({
@@ -55,6 +70,7 @@ function HomeScreen({
 
   return (
     <View style={styles.screenContainer}>
+      <Icon name="vine" size={30} color="#900" />
       <Button title="Guide" onPress={() => navigation.navigate('Guide')} />
       <Button
         title="Clear all Saved Data"
@@ -72,6 +88,7 @@ function HomeScreen({
             style={{
               ...styles.listItem,
               borderBottomWidth: index === meditations.length - 1 ? 0 : 1,
+              marginBottom: index === meditations.length - 1 ? 20 : 0,
               backgroundColor: item.locked
                 ? 'rgb(37, 27, 113)'
                 : 'rgb(59, 50, 131)',
@@ -97,7 +114,8 @@ function HomeScreen({
 
 const styles = StyleSheet.create({
   screenContainer: {
-    paddingBottom: 50,
+    paddingBottom: 70,
+    backgroundColor: 'rgb(37, 27, 113)',
   },
   listItem: {
     flexDirection: 'row',

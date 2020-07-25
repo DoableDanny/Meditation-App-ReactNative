@@ -17,7 +17,12 @@ const App = () => {
       image: require('./images/1.png'),
       locked: false,
     },
-    {id: 1, title: 'Habits', image: require('./images/2.png'), locked: false},
+    {
+      id: 1,
+      title: 'Understanding Oneself',
+      image: require('./images/2.png'),
+      locked: true,
+    },
     {id: 2, title: 'Muscles', image: require('./images/3.png'), locked: true},
     {
       id: 3,
@@ -29,7 +34,7 @@ const App = () => {
     {id: 5, title: 'Noise', image: require('./images/6.png'), locked: true},
     {
       id: 6,
-      title: 'Understanding Oneself',
+      title: 'Habits',
       image: require('./images/7.png'),
       locked: true,
     },
@@ -60,8 +65,18 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" options={{title: 'Meditations'}}>
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: 'rgb(104,186,223)',
+          },
+          headerTintColor: 'rgb(37, 27, 113)',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}>
+        <Stack.Screen name="Home" options={{title: '60 Days of Meditation'}}>
           {(props) => (
             <HomeScreen
               {...props}

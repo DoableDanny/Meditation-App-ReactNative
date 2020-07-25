@@ -70,7 +70,7 @@ function TimerScreen({selectedMeditation, meditations, unlockMeditation}) {
             unlockMeditation(meditationsCopy);
           } else {
             setCompletionText(
-              'You completed all 60 days, hopefully you gained self-understanding and peace.',
+              'You completed all 60 days, I hope you gained self-understanding and peace.',
             );
           }
           // Save to asyncStorage
