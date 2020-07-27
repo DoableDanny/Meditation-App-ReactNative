@@ -11,7 +11,8 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useIsFocused} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+// import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // Get data stored in asyncStorage
 const getData = async () => {
@@ -22,35 +23,6 @@ const getData = async () => {
   } catch (e) {
     console.log('Failed when getting data from AsyncStorage :(');
   }
-};
-
-// Delete all saved data
-let meditationsCopy;
-const clearStorage = (meditations, unlockMeditation) => {
-  Alert.alert(
-    'You Absolutely Sure?',
-    'This will permanently delete all your progress.',
-    [
-      {
-        text: 'Yes',
-        onPress: async () => {
-          try {
-            await AsyncStorage.clear();
-            meditationsCopy = [...meditations];
-            meditationsCopy.forEach((med) => {
-              med.id == 0 ? (med.locked = false) : (med.locked = true);
-            });
-            alert('Progress successfully deleted');
-            unlockMeditation(meditationsCopy);
-          } catch (e) {
-            alert('Failed to clear the async storage.');
-          }
-        },
-        style: 'destructive',
-      },
-      {text: 'No', onPress: () => console.log('No pressed')},
-    ],
-  );
 };
 
 function HomeScreen({
@@ -66,16 +38,22 @@ function HomeScreen({
     getData().then((data) =>
       data != null ? unlockMeditation(JSON.parse(data)) : null,
     );
+    ('');
   }, []);
 
   return (
     <View style={styles.screenContainer}>
-      <Icon name="vine" size={30} color="#900" />
-      <Button title="Guide" onPress={() => navigation.navigate('Guide')} />
-      <Button
-        title="Clear all Saved Data"
-        onPress={() => clearStorage(meditations, unlockMeditation)}
-      />
+      <View style={styles.buttonsContainer}>
+        <View style={styles.singleButtonContainer}>
+          <Button title="Guide" onPress={() => navigation.navigate('Guide')} />
+        </View>
+        <View style={{...styles.singleButtonContainer, borderLeftWidth: 1}}>
+          <Button
+            title="Settings"
+            onPress={() => navigation.navigate('Settings')}
+          />
+        </View>
+      </View>
       <FlatList
         data={meditations}
         keyExtractor={(item, index) => index.toString()}
@@ -92,8 +70,13 @@ function HomeScreen({
               backgroundColor: item.locked
                 ? 'rgb(37, 27, 113)'
                 : 'rgb(59, 50, 131)',
+              justifyContent: item.locked ? 'center' : null,
             }}>
-            <Image source={item.image} style={styles.image} />
+            {item.locked ? (
+              <Icon name="lock" size={60} style={styles.lockIcon} />
+            ) : (
+              <Image source={item.image} style={styles.image} />
+            )}
 
             {item.locked ? null : (
               <Text
@@ -104,7 +87,6 @@ function HomeScreen({
                 {item.title}{' '}
               </Text>
             )}
-            {item.locked ? <Text style={styles.locked}>LOCKED</Text> : null}
           </TouchableOpacity>
         )}
       />
@@ -117,6 +99,14 @@ const styles = StyleSheet.create({
     paddingBottom: 70,
     backgroundColor: 'rgb(37, 27, 113)',
   },
+  buttonsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  singleButtonContainer: {
+    flex: 1,
+  },
   listItem: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -127,9 +117,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
   },
-  locked: {
-    fontSize: 20,
-    color: 'rgba(255,255,255,0.6)',
+  // locked: {
+  //   fontSize: 20,
+  //   color: 'rgba(255,255,255,0.6)',
+  // },
+  lockIcon: {
+    color: '#000',
   },
   image: {
     width: 140,

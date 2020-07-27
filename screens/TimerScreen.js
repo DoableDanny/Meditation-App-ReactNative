@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, StatusBar} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import FA5Icon from 'react-native-vector-icons/FontAwesome5';
 
 // This function is called when full 1 hour completed
 const storeData = async (meditationsCopy) => {
@@ -91,6 +93,11 @@ function TimerScreen({selectedMeditation, meditations, unlockMeditation}) {
         {hours}:{minutes}:{seconds}
       </Text>
       <Text style={styles.completionText}>{completionText}</Text>
+      {hours >= 1 ? (
+        <FA5Icon name="smile-beam" size={90} style={styles.meditationIcon} />
+      ) : (
+        <Icon name="meditation" size={90} style={styles.meditationIcon} />
+      )}
     </View>
   );
 }
@@ -100,7 +107,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgb(59, 50, 131)',
+    backgroundColor: 'rgb(37, 27, 113)',
   },
   time: {
     fontSize: 40,
@@ -111,6 +118,10 @@ const styles = StyleSheet.create({
     color: '#3CB371',
     textAlign: 'center',
     marginTop: 10,
+  },
+  meditationIcon: {
+    position: 'absolute',
+    bottom: 18,
   },
 });
 
