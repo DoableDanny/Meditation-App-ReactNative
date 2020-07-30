@@ -1,9 +1,45 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+
+// Get yesterday's date
+let today = new Date();
+let yesterday = new Date(today);
+yesterday.setDate(yesterday.getDate() - 1);
+yesterday = yesterday.toDateString();
 
 function GuideScreen() {
+  const [dateLastCompleted, setDateLastCompleted] = useState('');
+
+  // Getting the local current time
+  // let [hour, minute, second] = new Date()
+  //   .toLocaleTimeString()
+  //   .slice(0, 7)
+  //   .split(':');
+
+  // Get data stored in asyncStorage
+  const getData = async (storageKey) => {
+    try {
+      const jsonValue = await AsyncStorage.getItem(storageKey);
+      // alert(jsonValue);
+      return jsonValue != null ? jsonValue : null;
+    } catch (e) {
+      console.log('Failed when getting data from AsyncStorage :(');
+    }
+  };
+
+  getData(`@date_last_completed`).then((data) => {
+    if (data != null) {
+      setDateLastCompleted(data.slice(1, -1));
+    }
+  });
+
   return (
     <View style={styles.screenContainer}>
+      <Text style={styles.text}>
+        Last completed meditation: {dateLastCompleted}
+      </Text>
+
       <Text style={styles.text}>
         This is not your usual meditation app. This app does not do the
         meditating for you, there are no voiceovers or sounds to listen to. No
@@ -14,7 +50,7 @@ function GuideScreen() {
         discover what meditation is for yourself.
       </Text>
       <Text style={styles.text}>
-        There are 60 meditations in total - 1 per day. Each one lasts an hour.
+        There are 60 meditations in total, 1 per day. Each one lasts an hour.
         The following day is unlocked after completing the current day's full
         hour.
       </Text>

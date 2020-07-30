@@ -11,6 +11,8 @@ import TimerScreen from './screens/TimerScreen';
 const Stack = createStackNavigator();
 
 const App = () => {
+  const [streak, setStreak] = useState(0);
+  const [longestStreak, setLongestStreak] = useState(0);
   const [meditations, unlockMeditation] = useState([
     {
       id: 0,
@@ -85,6 +87,10 @@ const App = () => {
               unlockMeditation={unlockMeditation}
               selectedMeditation={selectedMeditation}
               updateSelectedMeditation={updateSelectedMeditation}
+              streak={streak}
+              setStreak={setStreak}
+              longestStreak={longestStreak}
+              setLongestStreak={setLongestStreak}
             />
           )}
         </Stack.Screen>
@@ -97,6 +103,7 @@ const App = () => {
               {...props}
               meditations={meditations}
               unlockMeditation={unlockMeditation}
+              setStreak={setStreak}
             />
           )}
         </Stack.Screen>
@@ -117,6 +124,9 @@ const App = () => {
               selectedMeditation={selectedMeditation}
               meditations={meditations}
               unlockMeditation={unlockMeditation}
+              streak={streak}
+              setStreak={setStreak}
+              setLongestStreak={setLongestStreak}
             />
           )}
         </Stack.Screen>

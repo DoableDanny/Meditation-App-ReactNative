@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
-function SettingsScreen({meditations, unlockMeditation}) {
+function SettingsScreen({meditations, unlockMeditation, setStreak}) {
   // Delete all saved data
   let meditationsCopy;
   const clearStorage = (meditations, unlockMeditation) => {
@@ -28,6 +28,7 @@ function SettingsScreen({meditations, unlockMeditation}) {
               });
               Alert.alert('Success', 'Your progress was deleted successfully.');
               unlockMeditation(meditationsCopy);
+              setStreak(0);
             } catch (e) {
               alert('Failed to clear the async storage.');
             }
@@ -69,16 +70,17 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     color: '#fff',
-    marginBottom: 5,
+    marginBottom: 8,
   },
   deleteButton: {
-    backgroundColor: 'red',
+    backgroundColor: 'black',
     borderBottomWidth: 2,
     borderRightWidth: 2,
-    padding: 3,
+    borderColor: 'crimson',
+    padding: 5,
   },
   buttonText: {
-    color: 'white',
+    color: '#fff',
     fontSize: 22,
     textAlign: 'center',
   },

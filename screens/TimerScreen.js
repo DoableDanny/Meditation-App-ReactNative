@@ -1,71 +1,59 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, StatusBar} from 'react-native';
+import {View, Text, StyleSheet, StatusBar, Platform} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FA5Icon from 'react-native-vector-icons/FontAwesome5';
+import BackgroundTimer from 'react-native-background-timer';
+import {navalQuotes} from '../quotes.js';
 
-// This function is called when full 1 hour completed
-const storeData = async (meditationsCopy) => {
-  try {
-    const jsonValue = JSON.stringify(meditationsCopy);
-    await AsyncStorage.setItem('@meditations_completed', jsonValue);
-    // alert('Data successfully saved');
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-function TimerScreen({selectedMeditation, meditations, unlockMeditation}) {
-  const [seconds, setSeconds] = useState(58);
-  const [minutes, setMinutes] = useState(59);
-  const [hours, setHours] = useState(0);
+function TimerScreen({
+  selectedMeditation,
+  meditations,
+  unlockMeditation,
+  setStreak,
+  setLongestStreak,
+}) {
+  const [seconds, setSeconds] = useState(`54`);
+  const [minutes, setMinutes] = useState(`59`);
+  const [hours, setHours] = useState(`0`);
   const [timerOn, setTimerOn] = useState(true);
   const [completionText, setCompletionText] = useState('');
 
   let nextMeditationId = selectedMeditation.id + 1;
-  var navalQuotes = [
-    'Impatience with action, patience with results',
-    'A busy calendar and a busy mind will destroy your ability to create anything great.',
-    'You have one life. You’re dead for tens of billions of years, and you’re going to be dead for tens of billions of years.',
-    'Happiness is a state where nothing is missing.',
-    'Guard your time. It’s all you have.',
-    'The greatest superpower is the ability to change yourself.',
-    'People spend too much time doing and not enough time thinking about what they should be doing.',
-    'Most of modern life, all our diseases, are diseases of abundance, not diseases of scarcity.',
-    'That’s the fundamental delusion – that there is something out there that will make you happy forever.',
-    'As long as you can keep taking shots on goal, and you keep getting back up, eventually you’ll get through. Just stick at it.',
-    'True happiness comes out of peace. Peace comes out of many things, but it comes from fundamentally understanding yourself.',
-    'Nothing you do is going to matter that much in the long run. Don’t take yourself so seriously.',
-    'The modern mind is overstimulated and the modern body is understimulated and overfed. Meditation, exercise, and fasting restore an ancient balance.',
-    'If you could literally just sit for 30 minutes and be happy, you are successful. ',
-    'Most of our suffering comes from avoidance.',
-  ];
 
   // Takes f(n) as arg - runs like componentDidMount
   useEffect(() => {
-    let interval = setInterval(() => {
+    if (Platform.OS == 'ios') {
+      BackgroundTimer.start();
+    }
+    let interval = BackgroundTimer.setInterval(() => {
+      // Stop the interval from calling itself if timer not on
       if (!timerOn) {
-        clearInterval(interval);
+        BackgroundTimer.clearInterval(interval);
       }
       if (timerOn) {
-        setSeconds(seconds + 1);
+        parseInt(seconds) < 9
+          ? setSeconds(`0${parseInt(seconds) + 1}`)
+          : setSeconds(`${parseInt(seconds) + 1}`);
 
-        if (seconds === 59) {
-          setMinutes(minutes + 1);
-          setSeconds(0);
+        if (seconds === `59`) {
+          parseInt(minutes) < 9
+            ? setMinutes(`0${parseInt(minutes) + 1}`)
+            : setMinutes(`${parseInt(minutes) + 1}`);
+          setSeconds(`00`);
         }
         // When full hour done, stop timer and unlock the next meditation
-        if (minutes === 59 && seconds === 59) {
-          setHours(hours + 1);
-          setMinutes(0);
-          setSeconds(0);
+        if (minutes === `59` && seconds === `59`) {
+          setHours(`${parseInt(hours) + 1}`);
+          setMinutes(`00`);
+          setSeconds(`00`);
           setTimerOn(false);
 
           setCompletionText(
             navalQuotes[Math.floor(Math.random() * navalQuotes.length)],
           );
 
-          // Make copy of meditations and mutate it
+          // Make copy of meditations and change next meditation to unlocked
           let meditationsCopy = meditations;
           if (meditations[nextMeditationId]) {
             meditationsCopy[nextMeditationId].locked = false;
@@ -75,14 +63,61 @@ function TimerScreen({selectedMeditation, meditations, unlockMeditation}) {
               'You completed all 60 days, I hope you gained self-understanding and peace.',
             );
           }
+
+          // Define today's and yesterday's date
+          let today = new Date();
+          let yesterday = new Date(today);
+          yesterday.setDate(yesterday.getDate() - 1);
+          today = today.toDateString();
+          yesterday = yesterday.toDateString();
+
+          // Update the daily streak
+          let dateLastCompleted;
+
+          getData(`@date_last_completed`).then((data) => {
+            dateLastCompleted = data != null ? data.slice(1, -1) : null;
+
+            getData(`@streak_key`).then((data) => {
+              // If your last meditation was yesterday, then +1 to daily streak
+              if (dateLastCompleted == yesterday) {
+                var streak = data != null ? parseInt(data) + 1 : 1;
+                setStreak(streak);
+                // Save new streak
+                storeData('@streak_key', streak);
+              } else {
+                let streak = 1;
+                setStreak(streak);
+                storeData('@streak_key', streak);
+              }
+              // Get longest streak data and check if needs updating
+              getData(`@longest_streak_key`).then((data) => {
+                let longestStreak;
+                if (data && parseInt(data) < streak) {
+                  longestStreak = streak;
+                  storeData(`@longest_streak_key`, longestStreak);
+                  setLongestStreak(longestStreak);
+                  console.log('Ran if');
+                } else if (data === null) {
+                  longestStreak = 1;
+                  storeData(`@longest_streak_key`, longestStreak);
+                  setLongestStreak(longestStreak);
+                  console.log('Ran else if');
+                }
+              });
+            });
+          });
+
+          dateLastCompleted = today;
+
           // Save to asyncStorage
-          storeData(meditationsCopy);
+          storeData('@meditations_completed', meditationsCopy);
+          storeData(`@date_last_completed`, dateLastCompleted);
         }
       }
     }, 1000);
     // Return a function in useEffect - same as componentWillUnmount
     return () => {
-      clearInterval(interval);
+      BackgroundTimer.clearInterval(interval);
     };
   });
 
@@ -102,6 +137,27 @@ function TimerScreen({selectedMeditation, meditations, unlockMeditation}) {
   );
 }
 
+// This function is called when full 1 hour completed
+const storeData = async (storageKey, meditationsCopy) => {
+  try {
+    const jsonValue = JSON.stringify(meditationsCopy);
+    await AsyncStorage.setItem(storageKey, jsonValue);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+// Get data stored in asyncStorage
+const getData = async (storageKey) => {
+  try {
+    const jsonValue = await AsyncStorage.getItem(storageKey);
+    // alert(jsonValue);
+    return jsonValue != null ? jsonValue : null;
+  } catch (e) {
+    console.log('Failed when getting data from AsyncStorage :(');
+  }
+};
+
 const styles = StyleSheet.create({
   timerContainer: {
     flex: 1,
@@ -118,6 +174,8 @@ const styles = StyleSheet.create({
     color: '#3CB371',
     textAlign: 'center',
     marginTop: 10,
+    marginRight: 3,
+    marginLeft: 3,
   },
   meditationIcon: {
     position: 'absolute',

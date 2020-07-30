@@ -1,6 +1,7 @@
 {
-  "name": "NavalsMeditations",
+  "name": "60-days-of-meditation",
   "version": "0.0.1",
+  "author": "Danny Adams",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -16,10 +17,12 @@
     "@react-navigation/stack": "^5.7.1",
     "react": "16.13.1",
     "react-native": "0.63.1",
+    "react-native-background-timer": "^2.3.1",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-reanimated": "^1.9.0",
     "react-native-safe-area-context": "^3.1.1",
     "react-native-screens": "^2.9.0",
+    "react-native-sound": "^0.11.0",
     "react-native-vector-icons": "^7.0.0"
   },
   "devDependencies": {

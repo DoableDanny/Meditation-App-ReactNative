@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -11,34 +11,31 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useIsFocused} from '@react-navigation/native';
-// import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
-// Get data stored in asyncStorage
-const getData = async () => {
-  try {
-    const jsonValue = await AsyncStorage.getItem('@meditations_completed');
-    // alert(jsonValue);
-    return jsonValue != null ? jsonValue : null;
-  } catch (e) {
-    console.log('Failed when getting data from AsyncStorage :(');
-  }
-};
 
 function HomeScreen({
   navigation,
   meditations,
   unlockMeditation,
   updateSelectedMeditation,
+  streak,
+  setStreak,
+  longestStreak,
+  setLongestStreak,
 }) {
   // True if we're on this screen, false if not (I'm using this to re-render homescreen)
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    getData().then((data) =>
+    getData(`@meditations_completed`).then((data) =>
       data != null ? unlockMeditation(JSON.parse(data)) : null,
     );
-    ('');
+    getData(`@streak_key`).then((data) => {
+      setStreak(parseInt(data));
+    });
+    getData(`@longest_streak_key`).then((data) => {
+      setLongestStreak(parseInt(data));
+    });
   }, []);
 
   return (
@@ -54,6 +51,15 @@ function HomeScreen({
           />
         </View>
       </View>
+      <View style={styles.streakContainer}>
+        <Text style={styles.streakText}>
+          Streak: {streak} {streak == 1 ? 'day' : 'days'}
+        </Text>
+        <Text style={styles.streakText}>
+          Longest: {longestStreak} {longestStreak == 1 ? 'day' : 'days'}
+        </Text>
+      </View>
+
       <FlatList
         data={meditations}
         keyExtractor={(item, index) => index.toString()}
@@ -66,6 +72,7 @@ function HomeScreen({
             style={{
               ...styles.listItem,
               borderBottomWidth: index === meditations.length - 1 ? 0 : 1,
+              paddingBottom: index === meditations.length - 1 ? 40 : null,
               marginBottom: index === meditations.length - 1 ? 20 : 0,
               backgroundColor: item.locked
                 ? 'rgb(37, 27, 113)'
@@ -94,10 +101,30 @@ function HomeScreen({
   );
 }
 
+// Get data stored in asyncStorage
+const getData = async (storageKey) => {
+  try {
+    const jsonValue = await AsyncStorage.getItem(storageKey);
+    // alert(jsonValue);
+    return jsonValue != null ? jsonValue : null;
+  } catch (e) {
+    console.log('Failed when getting data from AsyncStorage :(');
+  }
+};
+
 const styles = StyleSheet.create({
   screenContainer: {
-    paddingBottom: 70,
+    paddingBottom: 0,
     backgroundColor: 'rgb(37, 27, 113)',
+  },
+  streakContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  },
+  streakText: {
+    color: 'rgb(104,186,223)',
+    fontSize: 20,
+    padding: 2,
   },
   buttonsContainer: {
     flexDirection: 'row',
@@ -117,10 +144,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
   },
-  // locked: {
-  //   fontSize: 20,
-  //   color: 'rgba(255,255,255,0.6)',
-  // },
   lockIcon: {
     color: '#000',
   },
