@@ -3,35 +3,78 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
   TouchableOpacity,
   Alert,
+  Button,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import {removeValue} from '../functionsAndQuotes/asyncStorageFunctions';
 
-function SettingsScreen({meditations, unlockMeditation, setStreak}) {
+function SettingsScreen({
+  meditations,
+  unlockMeditation,
+  setStreak,
+  setLongestStreak,
+}) {
   // Delete all saved data
-  let meditationsCopy;
-  const clearStorage = (meditations, unlockMeditation) => {
+  // let meditationsCopy;
+  // const clearStorage = (meditations, unlockMeditation) => {
+  //   Alert.alert(
+  //     'You Absolutely Sure?',
+  //     'This will permanently delete all your progress.',
+  //     [
+  //       {
+  //         text: 'Yes',
+  //         onPress: async () => {
+  //           try {
+  //             await AsyncStorage.clear();
+  //             meditationsCopy = [...meditations];
+  //             meditationsCopy.forEach((med) => {
+  //               med.id == 0 ? (med.locked = false) : (med.locked = true);
+  //             });
+  //             Alert.alert('Success', 'Your progress was deleted successfully.');
+  //             unlockMeditation(meditationsCopy);
+  //             setStreak(0);
+  //             setLongestStreak(0);
+  //           } catch (e) {
+  //             alert('Failed to clear the async storage.');
+  //           }
+  //         },
+  //         style: 'destructive',
+  //       },
+  //       {text: 'No', onPress: () => console.log('No pressed')},
+  //     ],
+  //   );
+  // };
+
+  // This function is called from alertAndDelete so can update meditationState
+  const deleteMeditationsProgress = (messageFocus) => {
+    removeValue(`@meditations_completed`, messageFocus);
+    let meditationsCopy = [...meditations];
+    meditationsCopy.forEach((med) => {
+      med.id == 0 ? (med.locked = false) : (med.locked = true);
+    });
+    unlockMeditation(meditationsCopy);
+  };
+
+  const alertAndDelete = (setState, streakKey, title) => {
+    let messageFocus = title;
     Alert.alert(
       'You Absolutely Sure?',
-      'This will permanently delete all your progress.',
+      `This will permanently delete your ${messageFocus}.`,
       [
         {
           text: 'Yes',
-          onPress: async () => {
-            try {
-              await AsyncStorage.clear();
-              meditationsCopy = [...meditations];
-              meditationsCopy.forEach((med) => {
-                med.id == 0 ? (med.locked = false) : (med.locked = true);
-              });
-              Alert.alert('Success', 'Your progress was deleted successfully.');
-              unlockMeditation(meditationsCopy);
-              setStreak(0);
-            } catch (e) {
-              alert('Failed to clear the async storage.');
+          onPress: () => {
+            if (streakKey == `@meditations_completed`) {
+              deleteMeditationsProgress(messageFocus);
+            } else {
+              removeValue(streakKey, messageFocus);
+              setState(0);
             }
+            streakKey == `@streak_key`
+              ? removeValue(`@date_last_completed`)
+              : null;
           },
           style: 'destructive',
         },
@@ -42,14 +85,67 @@ function SettingsScreen({meditations, unlockMeditation, setStreak}) {
 
   return (
     <View style={styles.screenContainer}>
-      <Text style={styles.text}>
+      <TouchableOpacity
+        style={styles.deleteButton}
+        onPress={() => {
+          alertAndDelete(setStreak, `@streak_key`, 'day streak');
+        }}>
+        <Text style={styles.buttonText}>Delete Streak</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.deleteButton}
+        onPress={() =>
+          alertAndDelete(
+            setLongestStreak,
+            `@longest_streak_key`,
+            'longest streak',
+          )
+        }>
+        <Text style={styles.buttonText}>Delete Longest Streak</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.deleteButton}
+        onPress={() =>
+          alertAndDelete(
+            setStreak,
+            `@meditations_completed`,
+            'meditation progress',
+          )
+        }>
+        <Text style={styles.buttonText}>Delete Meditation Progress</Text>
+      </TouchableOpacity>
+      {/* <Button
+        title="Delete Streak"
+        onPress={() => {
+          alertAndDelete(setStreak, `@streak_key`, 'day streak');
+        }}></Button>
+      <Button
+        title="Delete Longest Streak"
+        onPress={() =>
+          alertAndDelete(
+            setLongestStreak,
+            `@longest_streak_key`,
+            'longest streak',
+          )
+        }></Button>
+      <Button
+        title="Delete All Meditation Progress"
+        onPress={() =>
+          alertAndDelete(
+            setStreak,
+            `@meditations_completed`,
+            'meditation progress',
+          )
+        }></Button> */}
+
+      {/* <Text style={styles.text}>
         Permanently delete all of your saved progress.
       </Text>
       <TouchableOpacity
         style={styles.deleteButton}
         onPress={() => clearStorage(meditations, unlockMeditation)}>
         <Text style={styles.buttonText}>PERMANENTLY DELETE</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 }
@@ -78,6 +174,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 2,
     borderColor: 'crimson',
     padding: 5,
+    marginTop: 20,
   },
   buttonText: {
     color: '#fff',

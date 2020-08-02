@@ -7,11 +7,11 @@ import {
   FlatList,
   Button,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+
 import {useIsFocused} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {getData, storeData} from '../functionsAndQuotes/asyncStorageFunctions';
 
 function HomeScreen({
   navigation,
@@ -26,15 +26,32 @@ function HomeScreen({
   // True if we're on this screen, false if not (I'm using this to re-render homescreen)
   const isFocused = useIsFocused();
 
+  // Define today's and yesterday's date
+  let today = new Date();
+  let yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+  today = today.toDateString();
+  yesterday = yesterday.toDateString();
+
   useEffect(() => {
     getData(`@meditations_completed`).then((data) =>
       data != null ? unlockMeditation(JSON.parse(data)) : null,
     );
     getData(`@streak_key`).then((data) => {
-      setStreak(parseInt(data));
+      data != null ? setStreak(parseInt(data)) : setStreak(0);
     });
     getData(`@longest_streak_key`).then((data) => {
-      setLongestStreak(parseInt(data));
+      data != null ? setLongestStreak(parseInt(data)) : setLongestStreak(0);
+    });
+    getData(`@date_last_completed`).then((data) => {
+      if (data != null) {
+        if (data.slice(1, -1) == today || data.slice(1, -1) == yesterday) {
+          return;
+        } else {
+          setStreak(0);
+          storeData('@streak_key', 0);
+        }
+      }
     });
   }, []);
 
@@ -72,7 +89,7 @@ function HomeScreen({
             style={{
               ...styles.listItem,
               borderBottomWidth: index === meditations.length - 1 ? 0 : 1,
-              paddingBottom: index === meditations.length - 1 ? 40 : null,
+              paddingBottom: index === meditations.length - 1 ? 65 : null,
               marginBottom: index === meditations.length - 1 ? 20 : 0,
               backgroundColor: item.locked
                 ? 'rgb(37, 27, 113)'
@@ -100,17 +117,6 @@ function HomeScreen({
     </View>
   );
 }
-
-// Get data stored in asyncStorage
-const getData = async (storageKey) => {
-  try {
-    const jsonValue = await AsyncStorage.getItem(storageKey);
-    // alert(jsonValue);
-    return jsonValue != null ? jsonValue : null;
-  } catch (e) {
-    console.log('Failed when getting data from AsyncStorage :(');
-  }
-};
 
 const styles = StyleSheet.create({
   screenContainer: {

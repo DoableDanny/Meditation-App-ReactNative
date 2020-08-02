@@ -1,10 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, StatusBar, Platform} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FA5Icon from 'react-native-vector-icons/FontAwesome5';
 import BackgroundTimer from 'react-native-background-timer';
-import {navalQuotes} from '../quotes.js';
+import {navalQuotes} from '../functionsAndQuotes/quotes';
+import {
+  getData,
+  storeData,
+} from '../functionsAndQuotes/asyncStorageFunctions.js';
 
 function TimerScreen({
   selectedMeditation,
@@ -13,7 +16,7 @@ function TimerScreen({
   setStreak,
   setLongestStreak,
 }) {
-  const [seconds, setSeconds] = useState(`54`);
+  const [seconds, setSeconds] = useState(`58`);
   const [minutes, setMinutes] = useState(`59`);
   const [hours, setHours] = useState(`0`);
   const [timerOn, setTimerOn] = useState(true);
@@ -73,7 +76,7 @@ function TimerScreen({
 
           // Update the daily streak
           let dateLastCompleted;
-
+          // Get date last completed meditation
           getData(`@date_last_completed`).then((data) => {
             dateLastCompleted = data != null ? data.slice(1, -1) : null;
 
@@ -84,7 +87,7 @@ function TimerScreen({
                 setStreak(streak);
                 // Save new streak
                 storeData('@streak_key', streak);
-              } else {
+              } else if (data === null) {
                 let streak = 1;
                 setStreak(streak);
                 storeData('@streak_key', streak);
@@ -96,12 +99,10 @@ function TimerScreen({
                   longestStreak = streak;
                   storeData(`@longest_streak_key`, longestStreak);
                   setLongestStreak(longestStreak);
-                  console.log('Ran if');
                 } else if (data === null) {
                   longestStreak = 1;
                   storeData(`@longest_streak_key`, longestStreak);
                   setLongestStreak(longestStreak);
-                  console.log('Ran else if');
                 }
               });
             });
@@ -136,27 +137,6 @@ function TimerScreen({
     </View>
   );
 }
-
-// This function is called when full 1 hour completed
-const storeData = async (storageKey, meditationsCopy) => {
-  try {
-    const jsonValue = JSON.stringify(meditationsCopy);
-    await AsyncStorage.setItem(storageKey, jsonValue);
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-// Get data stored in asyncStorage
-const getData = async (storageKey) => {
-  try {
-    const jsonValue = await AsyncStorage.getItem(storageKey);
-    // alert(jsonValue);
-    return jsonValue != null ? jsonValue : null;
-  } catch (e) {
-    console.log('Failed when getting data from AsyncStorage :(');
-  }
-};
 
 const styles = StyleSheet.create({
   timerContainer: {

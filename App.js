@@ -104,6 +104,7 @@ const App = () => {
               meditations={meditations}
               unlockMeditation={unlockMeditation}
               setStreak={setStreak}
+              setLongestStreak={setLongestStreak}
             />
           )}
         </Stack.Screen>
