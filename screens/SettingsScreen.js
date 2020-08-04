@@ -159,7 +159,7 @@ function SettingsScreen({
 
 const styles = StyleSheet.create({
   screenContainer: {
-    backgroundColor: 'rgb(37, 27, 113)',
+    backgroundColor: '#0e0a2e',
     flex: 1,
     padding: 10,
   },

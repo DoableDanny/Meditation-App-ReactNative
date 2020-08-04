@@ -7,6 +7,7 @@ import {
   FlatList,
   Button,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 
 import {useIsFocused} from '@react-navigation/native';
@@ -57,7 +58,7 @@ function HomeScreen({
 
   return (
     <View style={styles.screenContainer}>
-      <View style={styles.buttonsContainer}>
+      {/* <View style={styles.buttonsContainer}>
         <View style={styles.singleButtonContainer}>
           <Button title="Guide" onPress={() => navigation.navigate('Guide')} />
         </View>
@@ -67,15 +68,15 @@ function HomeScreen({
             onPress={() => navigation.navigate('Settings')}
           />
         </View>
-      </View>
-      <View style={styles.streakContainer}>
+      </View> */}
+      {/* <View style={styles.streakContainer}>
         <Text style={styles.streakText}>
           Streak: {streak} {streak == 1 ? 'day' : 'days'}
         </Text>
         <Text style={styles.streakText}>
           Longest: {longestStreak} {longestStreak == 1 ? 'day' : 'days'}
         </Text>
-      </View>
+      </View> */}
 
       <FlatList
         data={meditations}
@@ -89,11 +90,11 @@ function HomeScreen({
             style={{
               ...styles.listItem,
               borderBottomWidth: index === meditations.length - 1 ? 0 : 1,
-              paddingBottom: index === meditations.length - 1 ? 65 : null,
-              marginBottom: index === meditations.length - 1 ? 20 : 0,
-              backgroundColor: item.locked
-                ? 'rgb(37, 27, 113)'
-                : 'rgb(59, 50, 131)',
+              borderTopWidth: index === 0 ? 18 : 12,
+              marginBottom: index === meditations.length - 1 ? 60 : 0,
+              // backgroundColor: item.locked
+              //   ? 'rgb(37, 27, 113)'
+              //   : 'rgb(59, 50, 131)',
               justifyContent: item.locked ? 'center' : null,
             }}>
             <View style={{position: 'relative'}}>
@@ -121,14 +122,27 @@ function HomeScreen({
           </TouchableOpacity>
         )}
       />
+      <View style={styles.optionBtnsContainer}>
+        <TouchableOpacity
+          style={styles.optionBtn}
+          onPress={() => navigation.navigate('Guide')}>
+          <Text style={styles.begin}>GUIDE</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.optionBtn}
+          onPress={() => navigation.navigate('Settings')}>
+          <Text style={styles.begin}>SETTINGS</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
+const darkPurple = '#0e0a2e';
 const styles = StyleSheet.create({
   screenContainer: {
     paddingBottom: 0,
-    backgroundColor: 'rgb(37, 27, 113)',
+    backgroundColor: darkPurple,
   },
   streakContainer: {
     flexDirection: 'row',
@@ -150,20 +164,26 @@ const styles = StyleSheet.create({
   listItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgb(104,186,223)',
+    padding: 15,
+    // borderBottomWidth: 1,
+    // borderBottomColor: 'rgb(104,186,223)',
+    borderColor: darkPurple,
+    borderWidth: 12,
+    borderRadius: 20,
+    backgroundColor: '#1f1a47',
   },
   title: {
     fontSize: 20,
+    marginLeft: 40,
+    flex: 1,
   },
   lockIcon: {
     color: '#000',
   },
   image: {
-    width: 140,
-    height: 65,
-    marginRight: 10,
+    width: 150,
+    height: 75,
+    borderRadius: 10,
   },
   numberWrapper: {
     position: 'absolute',
@@ -174,7 +194,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  number: {color: 'white', fontSize: 50},
+  number: {color: 'white', fontSize: 40},
+  optionBtnsContainer: {
+    position: 'absolute',
+    bottom: 0,
+    backgroundColor: 'red',
+    width: Dimensions.get('window').width,
+    flexDirection: 'row',
+  },
+  optionBtn: {
+    backgroundColor: '#5376cf',
+    height: 45,
+    width: 0.5 * Dimensions.get('window').width,
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  begin: {
+    color: 'white',
+    fontSize: 15,
+  },
 });
 
 export default HomeScreen;

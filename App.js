@@ -77,9 +77,9 @@ const App = () => {
         initialRouteName="Home"
         screenOptions={{
           headerStyle: {
-            backgroundColor: 'rgb(104,186,223)',
+            backgroundColor: '#002',
           },
-          headerTintColor: 'rgb(37, 27, 113)',
+          headerTintColor: '#fff',
           headerTitleStyle: {
             fontWeight: 'bold',
           },
@@ -123,7 +123,7 @@ const App = () => {
           )}
         </Stack.Screen>
 
-        <Stack.Screen name="Timer" options={{title: 'Let it go...'}}>
+        <Stack.Screen name="Timer" options={{title: 'Let it flow...'}}>
           {(props) => (
             <TimerScreen
               {...props}

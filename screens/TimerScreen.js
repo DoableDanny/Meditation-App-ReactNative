@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgb(37, 27, 113)',
+    backgroundColor: '#0e0a2e',
   },
   stop: {
     color: 'crimson',
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   completionText: {
-    fontSize: 20,
+    fontSize: 23,
     color: '#3CB371',
     textAlign: 'center',
     marginTop: 10,
@@ -202,6 +202,7 @@ const styles = StyleSheet.create({
   meditationIcon: {
     position: 'absolute',
     bottom: 18,
+    color: '#3CB371',
   },
 });
 

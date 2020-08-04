@@ -64,7 +64,7 @@ function GuideScreen() {
 
 const styles = StyleSheet.create({
   screenContainer: {
-    backgroundColor: 'rgb(37, 27, 113)',
+    backgroundColor: '#0e0a2e',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
