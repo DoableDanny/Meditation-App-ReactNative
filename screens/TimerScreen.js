@@ -8,6 +8,12 @@ import {
   getData,
   storeData,
 } from '../functionsAndQuotes/asyncStorageFunctions.js';
+import TrackPlayer from 'react-native-track-player';
+import tracks from '../sounds/tracks';
+
+// Select a random track
+const randomNum = Math.floor(Math.random() * tracks.length);
+const track = tracks[randomNum];
 
 function TimerScreen({
   selectedMeditation,
@@ -23,6 +29,26 @@ function TimerScreen({
   const [completionText, setCompletionText] = useState('');
 
   let nextMeditationId = selectedMeditation.id + 1;
+
+  // Function that sets up the track player
+  const trackPlayerInit = async () => {
+    // Takes under 1 sec
+    await TrackPlayer.setupPlayer();
+    // Adding background controls. stopWithApp kills sound if app closes. These remote controls have eventListeners in service.js file.
+    TrackPlayer.updateOptions({
+      stopWithApp: false,
+      capabilities: [
+        TrackPlayer.CAPABILITY_PLAY,
+        TrackPlayer.CAPABILITY_PAUSE,
+        TrackPlayer.CAPABILITY_STOP,
+      ],
+      compactCapabilities: [
+        TrackPlayer.CAPABILITY_PLAY,
+        TrackPlayer.CAPABILITY_PAUSE,
+      ],
+    });
+    await TrackPlayer.add(track);
+  };
 
   // Takes f(n) as arg - runs like componentDidMount
   useEffect(() => {
@@ -47,6 +73,9 @@ function TimerScreen({
         }
         // When full hour done, stop timer and unlock the next meditation
         if (minutes === `59` && seconds === `59`) {
+          // Play zen completion sound
+          TrackPlayer.play();
+
           setHours(`${parseInt(hours) + 1}`);
           setMinutes(`00`);
           setSeconds(`00`);
@@ -122,9 +151,19 @@ function TimerScreen({
     };
   });
 
+  useEffect(() => {
+    // Initialise TrackPlayer on component mount
+    trackPlayerInit();
+    // Stop playing sound on unmount
+    return () => {
+      TrackPlayer.stop();
+    };
+  }, []);
+
   return (
     <View style={styles.timerContainer}>
       <StatusBar hidden={true} />
+
       <Text style={styles.time}>
         {hours}:{minutes}:{seconds}
       </Text>
@@ -144,6 +183,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgb(37, 27, 113)',
+  },
+  stop: {
+    color: 'crimson',
   },
   time: {
     fontSize: 40,

@@ -38,10 +38,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
+    marginBottom: 20,
   },
   img: {
     flex: 1,
-    height: 170,
+    height: 190,
   },
   contentContainer: {
     flex: 2,

@@ -96,11 +96,18 @@ function HomeScreen({
                 : 'rgb(59, 50, 131)',
               justifyContent: item.locked ? 'center' : null,
             }}>
-            {item.locked ? (
-              <Icon name="lock" size={60} style={styles.lockIcon} />
-            ) : (
-              <Image source={item.image} style={styles.image} />
-            )}
+            <View style={{position: 'relative'}}>
+              {item.locked ? (
+                <Icon name="lock" size={60} style={styles.lockIcon} />
+              ) : (
+                <Image source={item.image} style={styles.image} />
+              )}
+              <View style={styles.numberWrapper}>
+                {item.locked ? null : (
+                  <Text style={styles.number}>{index + 1}</Text>
+                )}
+              </View>
+            </View>
 
             {item.locked ? null : (
               <Text
@@ -155,9 +162,19 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 140,
-    height: 60,
+    height: 65,
     marginRight: 10,
   },
+  numberWrapper: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  number: {color: 'white', fontSize: 50},
 });
 
 export default HomeScreen;

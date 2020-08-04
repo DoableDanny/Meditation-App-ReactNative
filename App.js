@@ -17,23 +17,28 @@ const App = () => {
     {
       id: 0,
       title: 'Meditation',
-      image: require('./images/1.png'),
+      image: require('./images/sage-friedman-HS5CLnQbCOc-unsplash.jpg'),
       locked: false,
     },
     {
       id: 1,
       title: 'Understanding Oneself',
-      image: require('./images/2.png'),
+      image: require('./images/dorota-dylka-Y6nFvt1ebyw-unsplash.jpg'),
       locked: true,
     },
     {id: 2, title: 'Muscles', image: require('./images/3.png'), locked: true},
     {
       id: 3,
       title: 'Perception',
-      image: require('./images/4.png'),
+      image: require('./images/daria-rom-fT4BRGAK5aQ-unsplash.jpg'),
       locked: true,
     },
-    {id: 4, title: 'Truth', image: require('./images/5.png'), locked: true},
+    {
+      id: 4,
+      title: 'Truth',
+      image: require('./images/elijah-hiett-wW0BUXTTUmU-unsplash.jpg'),
+      locked: true,
+    },
     {id: 5, title: 'Noise', image: require('./images/6.png'), locked: true},
     {
       id: 6,

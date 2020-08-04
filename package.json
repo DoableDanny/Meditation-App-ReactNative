@@ -24,6 +24,7 @@
     "react-native-screens": "^2.9.0",
     "react-native-sound": "^0.11.0",
     "react-native-swift": "^1.2.3",
+    "react-native-track-player": "^1.2.3",
     "react-native-vector-icons": "^7.0.0"
   },
   "devDependencies": {
