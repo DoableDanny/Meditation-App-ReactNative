@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -9,7 +9,12 @@ import {
   Dimensions,
 } from 'react-native';
 
-function SingleMeditationScreen({selectedMeditation, navigation}) {
+function SingleMeditationScreen({
+  selectedMeditation,
+  navigation,
+  selectedTime,
+  setSelectedTime,
+}) {
   return (
     <ScrollView style={styles.pageContainer}>
       <View style={styles.imgContainer}>
@@ -42,6 +47,45 @@ function SingleMeditationScreen({selectedMeditation, navigation}) {
           dignissim a velit.
         </Text>
       </View>
+
+      <View style={styles.timeBtnsContainer}>
+        <TouchableOpacity
+          style={{
+            ...styles.timeBtn,
+            backgroundColor: selectedTime == 15 ? '#d5e4f0' : '#84afd1',
+          }}
+          onPress={() => setSelectedTime(15)}>
+          <Text style={styles.timeText}>15</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            ...styles.timeBtn,
+            backgroundColor: selectedTime == 30 ? '#d5e4f0' : '#84afd1',
+          }}>
+          <Text style={styles.timeText} onPress={() => setSelectedTime(30)}>
+            30
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            ...styles.timeBtn,
+            backgroundColor: selectedTime == 45 ? '#d5e4f0' : '#84afd1',
+          }}>
+          <Text style={styles.timeText} onPress={() => setSelectedTime(45)}>
+            45
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            ...styles.timeBtn,
+            backgroundColor: selectedTime == 60 ? '#d5e4f0' : '#84afd1',
+          }}>
+          <Text style={styles.timeText} onPress={() => setSelectedTime(60)}>
+            60
+          </Text>
+        </TouchableOpacity>
+      </View>
+
       <TouchableOpacity
         style={styles.beginBtn}
         onPress={() => navigation.navigate('Timer')}>
@@ -72,20 +116,38 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   title: {
-    fontSize: 30,
+    fontSize: 35,
     color: 'white',
   },
   paragraph: {
-    fontSize: 19,
+    fontSize: 20,
     color: 'white',
     marginTop: 9,
-    lineHeight: 24,
+    lineHeight: 25,
+  },
+  timeBtnsContainer: {
+    flexDirection: 'row',
+  },
+  timeBtn: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    marginTop: 15,
+    borderWidth: 1,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'black',
+  },
+  timeText: {
+    color: '#fff',
+    fontSize: 19,
   },
   beginBtn: {
     backgroundColor: '#5376cf',
     height: 55,
     margin: 10,
     marginTop: 20,
+    marginBottom: 20,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',

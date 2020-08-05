@@ -70,6 +70,9 @@ const App = () => {
   ]);
 
   const [selectedMeditation, updateSelectedMeditation] = useState('');
+  const [selectedTime, setSelectedTime] = useState(60);
+  const [totalMeditationTime, setTotalMeditationTime] = useState(0);
+  const [totalMeditationsCompleted, setTotalMeditationsCompleted] = useState(0);
 
   return (
     <NavigationContainer>
@@ -92,24 +95,26 @@ const App = () => {
               unlockMeditation={unlockMeditation}
               selectedMeditation={selectedMeditation}
               updateSelectedMeditation={updateSelectedMeditation}
-              streak={streak}
-              setStreak={setStreak}
-              longestStreak={longestStreak}
-              setLongestStreak={setLongestStreak}
             />
           )}
         </Stack.Screen>
 
         <Stack.Screen name="Guide" component={GuideScreen} />
 
-        <Stack.Screen name="Settings" options={{title: 'Settings'}}>
+        <Stack.Screen name="Settings" options={{title: 'Stats'}}>
           {(props) => (
             <SettingsScreen
               {...props}
               meditations={meditations}
               unlockMeditation={unlockMeditation}
+              streak={streak}
               setStreak={setStreak}
+              longestStreak={longestStreak}
               setLongestStreak={setLongestStreak}
+              totalMeditationTime={totalMeditationTime}
+              setTotalMeditationTime={setTotalMeditationTime}
+              totalMeditationsCompleted={totalMeditationsCompleted}
+              setTotalMeditationsCompleted={setTotalMeditationsCompleted}
             />
           )}
         </Stack.Screen>
@@ -119,6 +124,8 @@ const App = () => {
             <SingleMeditationScreen
               {...props}
               selectedMeditation={selectedMeditation}
+              setSelectedTime={setSelectedTime}
+              selectedTime={selectedTime}
             />
           )}
         </Stack.Screen>
@@ -133,6 +140,9 @@ const App = () => {
               streak={streak}
               setStreak={setStreak}
               setLongestStreak={setLongestStreak}
+              selectedTime={selectedTime}
+              setTotalMeditationTime={setTotalMeditationTime}
+              setTotalMeditationsCompleted={setTotalMeditationsCompleted}
             />
           )}
         </Stack.Screen>

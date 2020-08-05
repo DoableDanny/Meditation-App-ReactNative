@@ -5,79 +5,31 @@ import {
   Image,
   StyleSheet,
   FlatList,
-  Button,
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
 
 import {useIsFocused} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {getData, storeData} from '../functionsAndQuotes/asyncStorageFunctions';
+import {getData} from '../functionsAndQuotes/asyncStorageFunctions';
 
 function HomeScreen({
   navigation,
   meditations,
   unlockMeditation,
   updateSelectedMeditation,
-  streak,
-  setStreak,
-  longestStreak,
-  setLongestStreak,
 }) {
   // True if we're on this screen, false if not (I'm using this to re-render homescreen)
   const isFocused = useIsFocused();
-
-  // Define today's and yesterday's date
-  let today = new Date();
-  let yesterday = new Date(today);
-  yesterday.setDate(yesterday.getDate() - 1);
-  today = today.toDateString();
-  yesterday = yesterday.toDateString();
 
   useEffect(() => {
     getData(`@meditations_completed`).then((data) =>
       data != null ? unlockMeditation(JSON.parse(data)) : null,
     );
-    getData(`@streak_key`).then((data) => {
-      data != null ? setStreak(parseInt(data)) : setStreak(0);
-    });
-    getData(`@longest_streak_key`).then((data) => {
-      data != null ? setLongestStreak(parseInt(data)) : setLongestStreak(0);
-    });
-    getData(`@date_last_completed`).then((data) => {
-      if (data != null) {
-        if (data.slice(1, -1) == today || data.slice(1, -1) == yesterday) {
-          return;
-        } else {
-          setStreak(0);
-          storeData('@streak_key', 0);
-        }
-      }
-    });
   }, []);
 
   return (
     <View style={styles.screenContainer}>
-      {/* <View style={styles.buttonsContainer}>
-        <View style={styles.singleButtonContainer}>
-          <Button title="Guide" onPress={() => navigation.navigate('Guide')} />
-        </View>
-        <View style={{...styles.singleButtonContainer, borderLeftWidth: 1}}>
-          <Button
-            title="Settings"
-            onPress={() => navigation.navigate('Settings')}
-          />
-        </View>
-      </View> */}
-      {/* <View style={styles.streakContainer}>
-        <Text style={styles.streakText}>
-          Streak: {streak} {streak == 1 ? 'day' : 'days'}
-        </Text>
-        <Text style={styles.streakText}>
-          Longest: {longestStreak} {longestStreak == 1 ? 'day' : 'days'}
-        </Text>
-      </View> */}
-
       <FlatList
         data={meditations}
         keyExtractor={(item, index) => index.toString()}
@@ -131,7 +83,7 @@ function HomeScreen({
         <TouchableOpacity
           style={styles.optionBtn}
           onPress={() => navigation.navigate('Settings')}>
-          <Text style={styles.begin}>SETTINGS</Text>
+          <Text style={styles.begin}>STATS</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -144,15 +96,7 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     backgroundColor: darkPurple,
   },
-  streakContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-  },
-  streakText: {
-    color: 'rgb(104,186,223)',
-    fontSize: 20,
-    padding: 2,
-  },
+
   buttonsContainer: {
     flexDirection: 'row',
     alignItems: 'center',

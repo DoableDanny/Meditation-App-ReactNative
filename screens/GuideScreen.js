@@ -37,10 +37,6 @@ function GuideScreen() {
   return (
     <View style={styles.screenContainer}>
       <Text style={styles.text}>
-        Last completed meditation: {dateLastCompleted}
-      </Text>
-
-      <Text style={styles.text}>
         This is not your usual meditation app. This app does not do the
         meditating for you, there are no voiceovers or sounds to listen to. No
         distractions from your own thoughts.

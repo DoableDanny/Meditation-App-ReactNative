@@ -21,9 +21,12 @@ function TimerScreen({
   unlockMeditation,
   setStreak,
   setLongestStreak,
+  selectedTime,
+  setTotalMeditationTime,
+  setTotalMeditationsCompleted,
 }) {
-  const [seconds, setSeconds] = useState(`58`);
-  const [minutes, setMinutes] = useState(`59`);
+  const [seconds, setSeconds] = useState(`01`);
+  const [minutes, setMinutes] = useState(`0${0}`);
   const [hours, setHours] = useState(`0`);
   const [timerOn, setTimerOn] = useState(true);
   const [completionText, setCompletionText] = useState('');
@@ -61,22 +64,22 @@ function TimerScreen({
         BackgroundTimer.clearInterval(interval);
       }
       if (timerOn) {
-        parseInt(seconds) < 9
-          ? setSeconds(`0${parseInt(seconds) + 1}`)
-          : setSeconds(`${parseInt(seconds) + 1}`);
+        parseInt(seconds) < 11
+          ? setSeconds(`0${parseInt(seconds) - 1}`)
+          : setSeconds(`${parseInt(seconds) - 1}`);
 
-        if (seconds === `59`) {
-          parseInt(minutes) < 9
-            ? setMinutes(`0${parseInt(minutes) + 1}`)
-            : setMinutes(`${parseInt(minutes) + 1}`);
-          setSeconds(`00`);
+        if (seconds === `00`) {
+          parseInt(minutes) < 11
+            ? setMinutes(`0${parseInt(minutes) - 1}`)
+            : setMinutes(`${parseInt(minutes) - 1}`);
+          setSeconds(`59`);
         }
         // When full hour done, stop timer and unlock the next meditation
-        if (minutes === `59` && seconds === `59`) {
+        if (minutes === `00` && seconds === `01`) {
           // Play zen completion sound
           TrackPlayer.play();
 
-          setHours(`${parseInt(hours) + 1}`);
+          setHours(`0`);
           setMinutes(`00`);
           setSeconds(`00`);
           setTimerOn(false);
@@ -137,6 +140,20 @@ function TimerScreen({
             });
           });
 
+          // Update total meditation time user stat
+          getData(`@hours_meditated`).then((data) => {
+            let hours = data ? parseInt(data) + selectedTime : selectedTime;
+            setTotalMeditationTime(hours);
+            storeData(`@hours_meditated`, hours);
+
+            // Update sessions completed
+            getData('@sessions_completed').then((data) => {
+              let total = data == null ? 1 : parseInt(data) + 1;
+              setTotalMeditationsCompleted(total);
+              storeData('@sessions_completed', total);
+            });
+          });
+
           dateLastCompleted = today;
 
           // Save to asyncStorage
@@ -162,7 +179,7 @@ function TimerScreen({
 
   return (
     <View style={styles.timerContainer}>
-      <StatusBar hidden={true} />
+      {/* <StatusBar hidden={true} /> */}
 
       <Text style={styles.time}>
         {hours}:{minutes}:{seconds}
