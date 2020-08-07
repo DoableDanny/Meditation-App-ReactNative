@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {Alert} from 'react-native';
 
+// Save single item
 export const storeData = async (storageKey, meditationsCopy) => {
   try {
     const jsonValue = JSON.stringify(meditationsCopy);
@@ -10,6 +11,7 @@ export const storeData = async (storageKey, meditationsCopy) => {
   }
 };
 
+// Get single item of data
 export const getData = async (storageKey) => {
   try {
     const jsonValue = await AsyncStorage.getItem(storageKey);
@@ -20,6 +22,7 @@ export const getData = async (storageKey) => {
   }
 };
 
+// Delete single item of data
 export const removeValue = async (storageKey, title) => {
   try {
     await AsyncStorage.removeItem(storageKey);
@@ -33,8 +36,31 @@ export const removeValue = async (storageKey, title) => {
   console.log(storageKey, title);
 };
 
+// Save multiple items ...args should be ([key1, value1], [key2, value2]...) if values are objects then JSON.stringify them first.
+export const multiSet = async (...keyValuePairs) => {
+  try {
+    await AsyncStorage.multiSet(...keyValuePairs);
+  } catch (e) {
+    alert('Failed to store items');
+  }
+  console.log('Done');
+};
+
+// Get multiple data items. keys = ("@key_one", "@key_two")
+export const getMultiple = async (...keys) => {
+  let values;
+  try {
+    values = await AsyncStorage.multiGet([...keys]);
+  } catch (e) {
+    alert(e);
+  }
+  console.log(values);
+};
+
 export default {
   storeData,
   getData,
   removeValue,
+  multiSet,
+  getMultiple,
 };

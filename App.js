@@ -15,14 +15,20 @@ const App = () => {
   const [longestStreak, setLongestStreak] = useState(0);
   const [meditations, unlockMeditation] = useState([
     {
-      id: 1,
+      id: 0,
       title: 'Meditation',
       locked: false,
       completionTime: 0,
     },
     {
+      id: 1,
+      title: 'Meditation',
+      locked: true,
+      completionTime: 0,
+    },
+    {
       id: 2,
-      title: 'UnderstandingOneself',
+      title: 'Understanding Oneself',
       locked: true,
       completionTime: 0,
     },
@@ -38,7 +44,7 @@ const App = () => {
       locked: true,
       completionTime: 0,
     },
-    {id: 5, title: 'Noise', completionTime: 0},
+    {id: 5, title: 'Noise', locked: true, completionTime: 0},
     {
       id: 6,
       title: 'Habits',
@@ -255,8 +261,8 @@ const App = () => {
     {
       id: 58,
       title: 'Habits',
-      image: require('./images/7.png'),
-      locked: true,
+      completionTime: 0,
+      locked: false,
     },
     {id: 59, title: 'Death', completionTime: 0, locked: true},
     {
@@ -276,12 +282,6 @@ const App = () => {
     {
       id: 64,
       title: 'Living as We Are',
-      completionTime: 0,
-      locked: true,
-    },
-    {
-      id: 65,
-      title: 'Meditation',
       completionTime: 0,
       locked: true,
     },

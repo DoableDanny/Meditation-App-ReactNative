@@ -7,6 +7,7 @@ import {navalQuotes} from '../functionsAndQuotes/quotes';
 import {
   getData,
   storeData,
+  multiSet,
 } from '../functionsAndQuotes/asyncStorageFunctions.js';
 import TrackPlayer from 'react-native-track-player';
 import tracks from '../sounds/tracks';
@@ -25,9 +26,8 @@ function TimerScreen({
   setTotalMeditationTime,
   setTotalMeditationsCompleted,
 }) {
-  const [seconds, setSeconds] = useState(`03`);
-  const [minutes, setMinutes] = useState(`0${0}`);
-  const [hours, setHours] = useState(`0`);
+  const [seconds, setSeconds] = useState(`02`);
+  const [minutes, setMinutes] = useState(`00`); //CHANGE THIS!!
   const [timerOn, setTimerOn] = useState(true);
   const [completionText, setCompletionText] = useState('');
 
@@ -74,12 +74,11 @@ function TimerScreen({
             : setMinutes(`${parseInt(minutes) - 1}`);
           setSeconds(`59`);
         }
-        // When full hour done, stop timer and unlock the next meditation
+        // When TIME UP, stop timer and unlock the next meditation
         if (minutes === `00` && seconds === `01`) {
           // Play zen completion sound
           TrackPlayer.play();
 
-          setHours(`0`);
           setMinutes(`00`);
           setSeconds(`00`);
           setTimerOn(false);
@@ -88,23 +87,21 @@ function TimerScreen({
             navalQuotes[Math.floor(Math.random() * navalQuotes.length)],
           );
 
-          // Make copy of meditations, change next meditation to unlocked and update the completed meditation's completion time.
-          let meditationsCopy = meditations;
+          // Make copy of meditaitons, check if not last meditation, and unlock next one.
+          let meditationsCopy = [...meditations];
           if (meditations[nextMeditationId]) {
-            meditationsCopy[
-              selectedMeditation.id
-            ].completionTime = selectedTime;
-            console.log(
-              selectedTime,
-              meditationsCopy[selectedMeditation.id].completionTime,
-            );
-            selectedTime > meditationsCopy[selectedMeditation.id].completionTime
-              ? (meditationsCopy[
-                  selectedMeditation.id
-                ].completionTime = selectedTime)
-              : null;
+            let nextMeditation = {...meditationsCopy[nextMeditationId]};
+            nextMeditation.locked = false;
+            meditationsCopy[nextMeditationId] = nextMeditation;
 
-            unlockMeditation(meditationsCopy);
+            // Update the current meditations completion time if it's a new record
+            let currentMeditation = {...meditationsCopy[selectedMeditation.id]};
+            if (selectedTime > currentMeditation.completionTime) {
+              currentMeditation.completionTime = selectedTime;
+              meditationsCopy[selectedMeditation.id] = currentMeditation;
+            }
+
+            unlockMeditation([...meditationsCopy]);
           } else {
             setCompletionText(
               'You completed all 60 days, I hope you gained self-understanding and peace.',
@@ -169,6 +166,10 @@ function TimerScreen({
           dateLastCompleted = today;
 
           // Save to asyncStorage
+          // multiSet(
+          //   ['@meditations_completed', JSON.stringify(meditationsCopy)],
+          //   [`@date_last_completed`, dateLastCompleted],
+          // );
           storeData('@meditations_completed', meditationsCopy);
           storeData(`@date_last_completed`, dateLastCompleted);
         }
@@ -189,7 +190,7 @@ function TimerScreen({
     };
   }, []);
 
-  if (hours == `0` && minutes == `00` && seconds == `00`) {
+  if (minutes == `00` && seconds == `00`) {
     var timeUp = true;
   }
 
@@ -198,7 +199,7 @@ function TimerScreen({
       {/* <StatusBar hidden={true} /> */}
 
       <Text style={styles.time}>
-        {hours}:{minutes}:{seconds}
+        {minutes}:{seconds}
       </Text>
       <Text style={styles.completionText}>{completionText}</Text>
       {timeUp ? (
