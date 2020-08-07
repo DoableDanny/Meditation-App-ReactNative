@@ -12,6 +12,7 @@ import {
 import {useIsFocused} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {getData} from '../functionsAndQuotes/asyncStorageFunctions';
+import {imageArray} from '../imageArray';
 
 function HomeScreen({
   navigation,
@@ -28,6 +29,57 @@ function HomeScreen({
     );
   }, []);
 
+  // console.log(meditations[1].completionTime);
+
+  // Check the users completionTime for each meditation and award corresponding stars
+  const renderStars = (item) => {
+    switch (item.completionTime) {
+      case 30:
+        return (
+          <View style={{justifyContent: 'flex-start', height: 75}}>
+            <Icon name="star" size={25} style={{color: 'gold'}} />
+          </View>
+        );
+      case 45:
+        return (
+          <View style={{justifyContent: 'flex-start', height: 75}}>
+            <Icon name="star" size={25} style={{color: 'gold'}} />
+            <Icon name="star" size={25} style={{color: 'gold'}} />
+          </View>
+        );
+      case 60:
+        return (
+          <View style={{}}>
+            <Icon
+              name="star"
+              size={25}
+              style={{
+                color: 'gold',
+              }}
+            />
+            <Icon name="star" size={25} style={{color: 'gold'}} />
+            <Icon name="star" size={25} style={{color: 'gold'}} />
+          </View>
+        );
+    }
+  };
+  // const renderStars = (item) => {
+  //   if (item.completionTime == 15) {
+  //     return (
+  //       <Icon
+  //         name="star"
+  //         size={40}
+  //         style={{color: 'gold', position: 'absolute', right: 2}}
+  //       />
+  //     );
+  //     if(item.completionTime == 60)
+  //     return (
+
+  //       <Icon name="star" size={40} style={{color: 'gold', position: 'absolute', right: 2}} />
+
+  //     )
+  //   }
+  // };
   return (
     <View style={styles.screenContainer}>
       <FlatList
@@ -44,16 +96,13 @@ function HomeScreen({
               borderBottomWidth: index === meditations.length - 1 ? 0 : 1,
               borderTopWidth: index === 0 ? 18 : 12,
               marginBottom: index === meditations.length - 1 ? 60 : 0,
-              // backgroundColor: item.locked
-              //   ? 'rgb(37, 27, 113)'
-              //   : 'rgb(59, 50, 131)',
               justifyContent: item.locked ? 'center' : null,
             }}>
             <View style={{position: 'relative'}}>
               {item.locked ? (
                 <Icon name="lock" size={60} style={styles.lockIcon} />
               ) : (
-                <Image source={item.image} style={styles.image} />
+                <Image source={imageArray[index].image} style={styles.image} />
               )}
               <View style={styles.numberWrapper}>
                 {item.locked ? null : (
@@ -71,6 +120,8 @@ function HomeScreen({
                 {item.title}{' '}
               </Text>
             )}
+            {/* {console.log(item.completionTime)} */}
+            {renderStars(item)}
           </TouchableOpacity>
         )}
       />

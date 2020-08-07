@@ -37,22 +37,21 @@ function GuideScreen() {
   return (
     <View style={styles.screenContainer}>
       <Text style={styles.text}>
-        This is not your usual meditation app. This app does not do the
-        meditating for you, there are no voiceovers or sounds to listen to. No
-        distractions from your own thoughts.
+        This app does not do the meditating for you, there are no voiceovers or
+        sounds to listen to. No distractions from your own thoughts.
       </Text>
       <Text style={styles.text}>
-        The aim of this app is to guide you towards self understanding and to
-        discover what meditation is for yourself.
+        The aim of this app is to guide you towards self understanding and
+        discovering what meditation is for yourself. To give you a useful tool
+        for dealing with a busy mind in the age of information overload.
       </Text>
       <Text style={styles.text}>
-        There are 60 meditations in total, 1 per day. Each one lasts an hour.
-        The following day is unlocked after completing the current day's full
-        hour.
+        There are 60 meditations in total, 1 per day. You can choose to do 15,
+        30, 45, or 60 mins. The following day is unlocked after completing the
+        current day's meditation.
       </Text>
       <Text style={styles.text}>
-        Nobody else knows what they are doing either. So you may as well follow
-        your own path.
+        Complete all 60 days with 1 hour to unlock the bonus meditation series.
       </Text>
     </View>
   );
@@ -67,7 +66,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 21,
     margin: 10,
   },
 });

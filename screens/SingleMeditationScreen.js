@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
+import {imageArray} from '../imageArray';
 
 function SingleMeditationScreen({
   selectedMeditation,
@@ -18,7 +19,10 @@ function SingleMeditationScreen({
   return (
     <ScrollView style={styles.pageContainer}>
       <View style={styles.imgContainer}>
-        <Image source={selectedMeditation.image} style={styles.img} />
+        <Image
+          source={imageArray[selectedMeditation.id].image}
+          style={styles.img}
+        />
       </View>
       <View style={styles.contentContainer}>
         <Text style={styles.title}>{selectedMeditation.title}</Text>

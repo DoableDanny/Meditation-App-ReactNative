@@ -16,19 +16,8 @@ function SettingsScreen({
   totalMeditationsCompleted,
   setTotalMeditationsCompleted,
 }) {
-  const [dateLastCompleted, setDateLastCompleted] = useState('');
-
-  const resetStats = async () => {
-    try {
-      const keys = await AsyncStorage.getAllKeys();
-      let filteredKeys = keys.filter(
-        (item) => item != '@meditations_completed',
-      );
-      await AsyncStorage.multiRemove(filteredKeys);
-    } catch (error) {
-      console.error('Error clearing up app data.');
-    }
-  };
+  const [dateLastCompleted, setDateLastCompleted] = useState('-');
+  const [averageSessionTime, setAverageSessionTime] = useState(0);
 
   // Define today's and yesterday's date
   let today = new Date();
@@ -49,7 +38,9 @@ function SettingsScreen({
       data != null ? setLongestStreak(parseInt(data)) : setLongestStreak(0);
     });
     getData(`@date_last_completed`).then((data) => {
-      data ? setDateLastCompleted(data.slice(1, -1)) : setDateLastCompleted('');
+      data
+        ? setDateLastCompleted(data.slice(1, -1))
+        : setDateLastCompleted('-');
       if (data != null) {
         if (data.slice(1, -1) == today || data.slice(1, -1) == yesterday) {
           return;
@@ -61,7 +52,6 @@ function SettingsScreen({
     });
 
     getData(`@hours_meditated`).then((data) => {
-      console.log(data, 'hi');
       data != null
         ? setTotalMeditationTime(parseInt(data))
         : setTotalMeditationTime(0);
@@ -71,36 +61,28 @@ function SettingsScreen({
         ? setTotalMeditationsCompleted(parseInt(data))
         : setTotalMeditationsCompleted(0);
     });
+
+    // Calc averageSession time in minutes
+    if (totalMeditationTime && totalMeditationsCompleted) {
+      setAverageSessionTime(
+        (totalMeditationTime / totalMeditationsCompleted).toPrecision(2),
+      );
+    }
   }, []);
 
-  // This function is called from alertAndDelete so can update meditationState
-  const deleteMeditationsProgress = (messageFocus) => {
-    removeValue(`@meditations_completed`, messageFocus);
-    let meditationsCopy = [...meditations];
-    meditationsCopy.forEach((med) => {
-      med.id == 0 ? (med.locked = false) : (med.locked = true);
-    });
-    unlockMeditation(meditationsCopy);
-  };
-
-  const alertAndDelete = (setState, streakKey, title) => {
-    let messageFocus = title;
+  const warningAlert = (messageObject) => {
     Alert.alert(
       'You Absolutely Sure?',
-      `This will permanently delete your ${messageFocus}.`,
+      `This will permanently delete your ${messageObject}.`,
       [
         {
           text: 'Yes',
           onPress: () => {
-            if (streakKey == `@meditations_completed`) {
-              deleteMeditationsProgress(messageFocus);
+            if (messageObject == `meditation progress`) {
+              deleteMeditationsProgress(messageObject);
             } else {
-              removeValue(streakKey, messageFocus);
-              setState(0);
+              resetStats(messageObject);
             }
-            streakKey == `@streak_key`
-              ? removeValue(`@date_last_completed`)
-              : null;
           },
           style: 'destructive',
         },
@@ -109,9 +91,36 @@ function SettingsScreen({
     );
   };
 
-  let averageSession = (
-    totalMeditationTime / totalMeditationsCompleted
-  ).toPrecision(2);
+  // This function is called from warningAlert so can update meditationState
+  const deleteMeditationsProgress = (messageObject) => {
+    removeValue(`@meditations_completed`, messageObject);
+    let meditationsCopy = [...meditations];
+    meditationsCopy.forEach((med) => {
+      med.id == 0 ? (med.locked = false) : (med.locked = true);
+      med.completionTime = 0;
+    });
+    unlockMeditation(meditationsCopy);
+  };
+
+  // Resets users stats to default values
+  const resetStats = async (messageObject) => {
+    try {
+      const keys = await AsyncStorage.getAllKeys();
+      let filteredKeys = keys.filter(
+        (item) => item != '@meditations_completed',
+      );
+      await AsyncStorage.multiRemove(filteredKeys);
+      Alert.alert('Success', `Your ${messageObject} was deleted successfully`);
+      setTotalMeditationTime(0);
+      setTotalMeditationsCompleted(0);
+      setAverageSessionTime(0);
+      setStreak(0);
+      setLongestStreak(0);
+      setDateLastCompleted('-');
+    } catch (error) {
+      console.error('Error clearing up app data.');
+    }
+  };
 
   return (
     <View style={styles.screenContainer}>
@@ -130,7 +139,7 @@ function SettingsScreen({
         <Text style={styles.key}>
           Average Session:{' '}
           <Text style={styles.value}>
-            {averageSession ? averageSession : 0} mins
+            {averageSessionTime ? averageSessionTime : 0} mins
           </Text>
         </Text>
       </View>
@@ -151,51 +160,15 @@ function SettingsScreen({
       <Text style={styles.key}>
         Last Meditation: <Text style={styles.value}>{dateLastCompleted}</Text>
       </Text>
-      {/* <TouchableOpacity
-        style={styles.deleteButton}
-        onPress={() => {
-          alertAndDelete(setStreak, `@streak_key`, 'day streak');
-        }}>
-        <Text style={styles.buttonText}>Delete Streak</Text>
-      </TouchableOpacity> */}
-      {/* <TouchableOpacity
-        style={styles.deleteButton}
-        onPress={() =>
-          alertAndDelete(
-            setLongestStreak,
-            `@longest_streak_key`,
-            'longest streak',
-          )
-        }>
-        <Text style={styles.buttonText}>Delete Longest Streak</Text>
-      </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.deleteButton}
-        onPress={() =>
-          alertAndDelete(
-            setStreak,
-            `@meditations_completed`,
-            'meditation progress',
-          )
-        }>
-        <Text style={styles.buttonText}>Delete Meditation Progress</Text>
-      </TouchableOpacity> */}
-
-      <TouchableOpacity
-        style={styles.deleteButton}
-        onPress={() => resetStats()}>
+        onPress={() => warningAlert('stats data')}>
         <Text style={styles.buttonText}>RESET STATS</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.deleteButton}
-        onPress={() =>
-          alertAndDelete(
-            setStreak,
-            `@meditations_completed`,
-            'meditation progress',
-          )
-        }>
+        onPress={() => warningAlert('meditation progress')}>
         <Text style={styles.buttonText}>RE-LOCK MEDITATIONS</Text>
       </TouchableOpacity>
     </View>
@@ -228,7 +201,9 @@ const styles = StyleSheet.create({
     borderRightWidth: 2,
     borderColor: 'crimson',
     padding: 5,
-    marginTop: 20,
+    marginTop: 40,
+    marginRight: 40,
+    marginLeft: 40,
   },
   buttonText: {
     color: '#fff',
