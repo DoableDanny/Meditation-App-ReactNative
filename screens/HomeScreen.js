@@ -29,8 +29,6 @@ function HomeScreen({
     );
   }, []);
 
-  // console.log(meditations[1].completionTime);
-
   // Check the users completionTime for each meditation and award corresponding stars
   const renderStars = (item) => {
     switch (item.completionTime) {
@@ -63,23 +61,7 @@ function HomeScreen({
         );
     }
   };
-  // const renderStars = (item) => {
-  //   if (item.completionTime == 15) {
-  //     return (
-  //       <Icon
-  //         name="star"
-  //         size={40}
-  //         style={{color: 'gold', position: 'absolute', right: 2}}
-  //       />
-  //     );
-  //     if(item.completionTime == 60)
-  //     return (
 
-  //       <Icon name="star" size={40} style={{color: 'gold', position: 'absolute', right: 2}} />
-
-  //     )
-  //   }
-  // };
   return (
     <View style={styles.screenContainer}>
       <FlatList
@@ -120,7 +102,6 @@ function HomeScreen({
                 {item.title}{' '}
               </Text>
             )}
-            {/* {console.log(item.completionTime)} */}
             {renderStars(item)}
           </TouchableOpacity>
         )}
@@ -160,8 +141,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 15,
-    // borderBottomWidth: 1,
-    // borderBottomColor: 'rgb(104,186,223)',
     borderColor: darkPurple,
     borderWidth: 12,
     borderRadius: 20,

@@ -13,6 +13,7 @@ const Stack = createStackNavigator();
 const App = () => {
   const [streak, setStreak] = useState(0);
   const [longestStreak, setLongestStreak] = useState(0);
+  const [totalStars, setTotalStars] = useState(0);
   const [meditations, unlockMeditation] = useState([
     {
       id: 0,
@@ -333,6 +334,8 @@ const App = () => {
               setTotalMeditationTime={setTotalMeditationTime}
               totalMeditationsCompleted={totalMeditationsCompleted}
               setTotalMeditationsCompleted={setTotalMeditationsCompleted}
+              totalStars={totalStars}
+              setTotalStars={setTotalStars}
             />
           )}
         </Stack.Screen>

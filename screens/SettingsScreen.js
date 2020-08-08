@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {getData, storeData} from '../functionsAndQuotes/asyncStorageFunctions';
 import {removeValue} from '../functionsAndQuotes/asyncStorageFunctions';
 import AsyncStorage from '@react-native-community/async-storage';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function SettingsScreen({
   meditations,
@@ -15,6 +16,8 @@ function SettingsScreen({
   setTotalMeditationTime,
   totalMeditationsCompleted,
   setTotalMeditationsCompleted,
+  totalStars,
+  setTotalStars,
 }) {
   const [dateLastCompleted, setDateLastCompleted] = useState('-');
   const [averageSessionTime, setAverageSessionTime] = useState(0);
@@ -60,6 +63,9 @@ function SettingsScreen({
       data != null
         ? setTotalMeditationsCompleted(parseInt(data))
         : setTotalMeditationsCompleted(0);
+    });
+    getData(`@total_stars`).then((data) => {
+      data != null ? setTotalStars(data) : setTotalStars(0);
     });
 
     // Calc averageSession time in minutes
@@ -117,13 +123,19 @@ function SettingsScreen({
       setStreak(0);
       setLongestStreak(0);
       setDateLastCompleted('-');
+      setTotalStars(0);
     } catch (error) {
       console.error('Error clearing up app data.');
     }
   };
-
+  console.log(65 * 3);
   return (
     <View style={styles.screenContainer}>
+      <Text style={{...styles.key, color: 'gold'}}>
+        <Icon name="star" size={25} style={{color: 'gold'}} />
+        Stars: <Text style={styles.value}>{totalStars} / 195</Text>
+      </Text>
+
       <View style={{margin: 25}}>
         <Text style={styles.key}>
           Hours Meditated:{' '}
@@ -185,16 +197,12 @@ const styles = StyleSheet.create({
     color: 'rgb(104,186,223)',
     fontSize: 22,
     textAlign: 'center',
-    margin: 8,
+    margin: 7,
   },
   value: {
     color: '#fff',
   },
-  text: {
-    fontSize: 20,
-    color: '#fff',
-    marginBottom: 8,
-  },
+
   deleteButton: {
     backgroundColor: 'black',
     borderBottomWidth: 2,

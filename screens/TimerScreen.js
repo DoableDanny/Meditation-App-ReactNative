@@ -94,11 +94,38 @@ function TimerScreen({
             nextMeditation.locked = false;
             meditationsCopy[nextMeditationId] = nextMeditation;
 
-            // Update the current meditations completion time if it's a new record
+            // Update number of stars then the current meditations completion time if they're new records.
             let currentMeditation = {...meditationsCopy[selectedMeditation.id]};
             if (selectedTime > currentMeditation.completionTime) {
-              currentMeditation.completionTime = selectedTime;
-              meditationsCopy[selectedMeditation.id] = currentMeditation;
+              let prevCompletionTime = currentMeditation.completionTime;
+              let timeImprovement = selectedTime - prevCompletionTime;
+              console.log('Time improvement: ', timeImprovement);
+              // update total number of stars
+              if (selectedTime > 15) {
+                getData(`@total_stars`).then((data) => {
+                  data = data == null ? 0 : parseInt(data);
+                  // check for time improvement and add correct amount of stars
+                  switch (timeImprovement) {
+                    case 15:
+                      let starGain = prevCompletionTime == 0 ? 0 : 1;
+                      storeData(`@total_stars`, data + starGain);
+                      break;
+                    case 30:
+                      starGain = prevCompletionTime == 0 ? 1 : 2;
+                      storeData(`@total_stars`, data + starGain);
+                      break;
+                    case 45:
+                      starGain = prevCompletionTime == 0 ? 2 : 3;
+                      storeData(`@total_stars`, data + starGain);
+                      break;
+                    case 60:
+                      storeData(`@total_stars`, data + 3);
+                      break;
+                  }
+                });
+                currentMeditation.completionTime = selectedTime;
+                meditationsCopy[selectedMeditation.id] = currentMeditation;
+              }
             }
 
             unlockMeditation([...meditationsCopy]);
