@@ -37,30 +37,39 @@ export const removeValue = async (storageKey, title) => {
 };
 
 // Save multiple items ...args should be ([key1, value1], [key2, value2]...) if values are objects then JSON.stringify them first.
-export const multiSet = async (...keyValuePairs) => {
-  try {
-    await AsyncStorage.multiSet(...keyValuePairs);
-  } catch (e) {
-    alert('Failed to store items');
-  }
-  console.log('Done');
-};
+// export const multiSet = async (...keyValuePairs) => {
+//   try {
+//     await AsyncStorage.multiSet(...keyValuePairs);
+//   } catch (e) {
+//     alert('Failed to store items');
+//   }
+//   console.log('Done');
+// };
 
 // Get multiple data items. keys = ("@key_one", "@key_two")
-export const getMultiple = async (...keys) => {
-  let values;
+// export const getMultiple = async (...keys) => {
+//   let values;
+//   try {
+//     values = await AsyncStorage.multiGet([...keys]);
+//   } catch (e) {
+//     alert(e);
+//   }
+//   console.log(values);
+// };
+
+// keys e.g. [@key_1, @key_2, ... etc.]
+export const removeMultipleItems = async (keys) => {
   try {
-    values = await AsyncStorage.multiGet([...keys]);
+    await AsyncStorage.multiRemove(keys);
   } catch (e) {
-    alert(e);
+    console.error(e);
   }
-  console.log(values);
+  console.log('MultiRemove Done');
 };
 
 export default {
   storeData,
   getData,
   removeValue,
-  multiSet,
-  getMultiple,
+  removeMultipleItems,
 };

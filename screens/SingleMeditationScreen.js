@@ -54,39 +54,36 @@ function SingleMeditationScreen({
 
       <View style={styles.timeBtnsContainer}>
         <TouchableOpacity
+          onPress={() => setSelectedTime(15)}
           style={{
             ...styles.timeBtn,
             backgroundColor: selectedTime == 15 ? '#d5e4f0' : '#84afd1',
-          }}
-          onPress={() => setSelectedTime(15)}>
+          }}>
           <Text style={styles.timeText}>15</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={() => setSelectedTime(30)}
           style={{
             ...styles.timeBtn,
             backgroundColor: selectedTime == 30 ? '#d5e4f0' : '#84afd1',
           }}>
-          <Text style={styles.timeText} onPress={() => setSelectedTime(30)}>
-            30
-          </Text>
+          <Text style={styles.timeText}>30</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={() => setSelectedTime(45)}
           style={{
             ...styles.timeBtn,
             backgroundColor: selectedTime == 45 ? '#d5e4f0' : '#84afd1',
           }}>
-          <Text style={styles.timeText} onPress={() => setSelectedTime(45)}>
-            45
-          </Text>
+          <Text style={styles.timeText}>45</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={() => setSelectedTime(60)}
           style={{
             ...styles.timeBtn,
             backgroundColor: selectedTime == 60 ? '#d5e4f0' : '#84afd1',
           }}>
-          <Text style={styles.timeText} onPress={() => setSelectedTime(60)}>
-            60
-          </Text>
+          <Text style={styles.timeText}>60</Text>
         </TouchableOpacity>
       </View>
 

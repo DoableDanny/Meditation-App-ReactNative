@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, ScrollView, Text, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 // Get yesterday's date
@@ -10,12 +10,6 @@ yesterday = yesterday.toDateString();
 
 function GuideScreen() {
   const [dateLastCompleted, setDateLastCompleted] = useState('');
-
-  // Getting the local current time
-  // let [hour, minute, second] = new Date()
-  //   .toLocaleTimeString()
-  //   .slice(0, 7)
-  //   .split(':');
 
   // Get data stored in asyncStorage
   const getData = async (storageKey) => {
@@ -35,10 +29,17 @@ function GuideScreen() {
   });
 
   return (
-    <View style={styles.screenContainer}>
+    <ScrollView style={styles.screenContainer}>
+      <Text style={styles.heading}>A Quest for Self-Understanding</Text>
       <Text style={styles.text}>
         This app does not do the meditating for you, there are no voiceovers or
         sounds to listen to. No distractions from your own thoughts.
+      </Text>
+      <Text style={styles.text}>
+        Most meditation apps seem to involve breathy relaxing voices and sounds
+        of rainfall. Whilst this may be relaxing, you aren't getting the full
+        benefits that you get from sitting in silence, with just yourself and
+        your thoughts for company.
       </Text>
       <Text style={styles.text}>
         The aim of this app is to guide you towards self understanding and
@@ -51,18 +52,54 @@ function GuideScreen() {
         current day's meditation.
       </Text>
       <Text style={styles.text}>
-        Complete all 60 days with 1 hour to unlock the bonus meditation series.
+        During your meditation quest, you will be gathering stars. 30 mins gets
+        you 1 star, 45 mins = 2 stars and 60 mins for a glorious 3 stars!
       </Text>
-    </View>
+      <Text style={{...styles.text, marginBottom: 25}}>
+        Complete all 60 days with 3 stars to unlock the bonus meditation series.
+      </Text>
+      <Text style={styles.heading}>The Inspirations</Text>
+      <Text style={styles.text}>
+        Naval Ravikant and his life changing wisdom. The man who got me
+        meditating - a habit that has changed my life. He recommends 60 days of
+        1 hour meditations to truly feel the benefits. I have found this to be
+        true.
+      </Text>
+      <Text style={styles.text}>
+        Jiddu Krishnamurti's books: Freedom from the Known, Think on These
+        Things and Total Freedom. A man that introduced me to a new defintion of
+        freedom. Freedom from ourselves.
+      </Text>
+      <Text style={styles.text}>
+        The Stoics: Seneca's letters from a Stoic, Marcus Aurelius's Meditations
+        and Epictetus's Letters and Discourses. You are responsible for yourself
+        and your thoughts, let go of everything else - you have no control over
+        it.
+      </Text>
+      <Text style={styles.text}>
+        Eckhart Tolle, The Power of Now. A great book for beginners. Explains
+        topics such as the ego, enlightenment, mindfulness, and the problems
+        that thinking of the past on future cause.
+      </Text>
+      <Text style={{...styles.text, marginBottom: 25}}>
+        Philisophical fiction: Siddhartha by Herman Hesse. A beautiful story
+        showing us that there is no right path. Nobody can give us the answers.
+        Follow your own path. Illusions by Richard Bach and The Alchemist by
+        Paulo Cohelo.
+      </Text>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   screenContainer: {
     backgroundColor: '#0e0a2e',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 7,
+  },
+  heading: {
+    color: 'rgb(104,186,223)',
+    fontSize: 30,
+    textAlign: 'center',
   },
   text: {
     color: '#fff',

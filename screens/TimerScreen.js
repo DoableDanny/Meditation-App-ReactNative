@@ -197,6 +197,7 @@ function TimerScreen({
           //   ['@meditations_completed', JSON.stringify(meditationsCopy)],
           //   [`@date_last_completed`, dateLastCompleted],
           // );
+          // @meditations_completed is the big 65 item array.
           storeData('@meditations_completed', meditationsCopy);
           storeData(`@date_last_completed`, dateLastCompleted);
         }

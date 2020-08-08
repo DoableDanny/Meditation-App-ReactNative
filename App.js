@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from './screens/HomeScreen';
 import GuideScreen from './screens/GuideScreen';
 import SettingsScreen from './screens/SettingsScreen';
+import StatsScreen from './screens/StatsScreen';
 import SingleMeditationScreen from './screens/SingleMeditationScreen';
 import TimerScreen from './screens/TimerScreen';
 
@@ -320,11 +321,25 @@ const App = () => {
 
         <Stack.Screen name="Guide" component={GuideScreen} />
 
-        <Stack.Screen name="Settings" options={{title: 'Stats'}}>
+        <Stack.Screen name="Settings" options={{title: 'Settings'}}>
           {(props) => (
             <SettingsScreen
               {...props}
               meditations={meditations}
+              unlockMeditation={unlockMeditation}
+              setStreak={setStreak}
+              setLongestStreak={setLongestStreak}
+              setTotalMeditationTime={setTotalMeditationTime}
+              totalMeditationsCompleted={totalMeditationsCompleted}
+              setTotalMeditationsCompleted={setTotalMeditationsCompleted}
+              setTotalStars={setTotalStars}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="Stats" options={{title: 'Stats'}}>
+          {(props) => (
+            <StatsScreen
+              {...props}
               unlockMeditation={unlockMeditation}
               streak={streak}
               setStreak={setStreak}
@@ -364,6 +379,8 @@ const App = () => {
               selectedTime={selectedTime}
               setTotalMeditationTime={setTotalMeditationTime}
               setTotalMeditationsCompleted={setTotalMeditationsCompleted}
+              totalStars={totalStars}
+              setTotalStars={setTotalStars}
             />
           )}
         </Stack.Screen>

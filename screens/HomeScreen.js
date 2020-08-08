@@ -115,6 +115,11 @@ function HomeScreen({
         <TouchableOpacity
           style={styles.optionBtn}
           onPress={() => navigation.navigate('Settings')}>
+          <Text style={styles.begin}>SETTINGS</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.optionBtn}
+          onPress={() => navigation.navigate('Stats')}>
           <Text style={styles.begin}>STATS</Text>
         </TouchableOpacity>
       </View>
@@ -179,7 +184,7 @@ const styles = StyleSheet.create({
   optionBtn: {
     backgroundColor: '#5376cf',
     height: 45,
-    width: 0.5 * Dimensions.get('window').width,
+    width: 0.33333333 * Dimensions.get('window').width,
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
