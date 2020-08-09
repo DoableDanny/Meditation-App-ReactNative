@@ -19,6 +19,8 @@ function HomeScreen({
   meditations,
   unlockMeditation,
   updateSelectedMeditation,
+  taoSeries,
+  setTaoSeries,
 }) {
   // True if we're on this screen, false if not (I'm using this to re-render homescreen)
   const isFocused = useIsFocused();
@@ -27,7 +29,12 @@ function HomeScreen({
     getData(`@meditations_completed`).then((data) =>
       data != null ? unlockMeditation(JSON.parse(data)) : null,
     );
+    getData(`@tao_series`).then((data) =>
+      data != null ? setTaoSeries(data) : null,
+    );
   }, []);
+
+  // console.log('tao: ', taoSeries);
 
   // Check the users completionTime for each meditation and award corresponding stars
   const renderStars = (item) => {
@@ -92,7 +99,6 @@ function HomeScreen({
                 )}
               </View>
             </View>
-
             {item.locked ? null : (
               <Text
                 style={{

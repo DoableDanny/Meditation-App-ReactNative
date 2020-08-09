@@ -5,6 +5,7 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import {getData, storeData} from '../functionsAndQuotes/asyncStorageFunctions';
 
 function StatsScreen({
+  meditations,
   unlockMeditation,
   streak,
   setStreak,
@@ -113,10 +114,19 @@ function StatsScreen({
           {longestStreak} {longestStreak == 1 ? 'day' : 'days'}
         </Text>
       </Text>
-
       <Text style={styles.key}>
         Last Meditation: <Text style={styles.value}>{dateLastCompleted}</Text>
       </Text>
+
+      <View style={{alignItems: 'center', marginTop: 20}}>
+        <IonIcon name="md-trophy-sharp" size={30} style={{color: 'gold'}} />
+        {totalStars == 195 ? (
+          <Text style={styles.award}>ZEN MASTER</Text>
+        ) : null}
+        {meditations[59].completionTime > 0 ? (
+          <Text style={styles.award}>NAVAL PEACE PRIZE</Text>
+        ) : null}
+      </View>
 
       <IonIcon
         name="stats-chart-outline"
@@ -147,6 +157,10 @@ const styles = StyleSheet.create({
     bottom: 30,
     left: 0.43 * Dimensions.get('window').width,
     color: '#3CB371',
+  },
+  award: {
+    color: 'gold',
+    fontSize: 22,
   },
 });
 

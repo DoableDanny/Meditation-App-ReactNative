@@ -264,7 +264,7 @@ const App = () => {
       id: 58,
       title: 'Habits',
       completionTime: 0,
-      locked: false,
+      locked: true,
     },
     {id: 59, title: 'Death', completionTime: 0, locked: true},
     {
@@ -293,6 +293,7 @@ const App = () => {
   const [selectedTime, setSelectedTime] = useState(60);
   const [totalMeditationTime, setTotalMeditationTime] = useState(0);
   const [totalMeditationsCompleted, setTotalMeditationsCompleted] = useState(0);
+  const [taoSeries, setTaoSeries] = useState(null);
 
   return (
     <NavigationContainer>
@@ -315,6 +316,8 @@ const App = () => {
               unlockMeditation={unlockMeditation}
               selectedMeditation={selectedMeditation}
               updateSelectedMeditation={updateSelectedMeditation}
+              taoSeries={taoSeries}
+              setTaoSeries={setTotalStars}
             />
           )}
         </Stack.Screen>
@@ -340,6 +343,7 @@ const App = () => {
           {(props) => (
             <StatsScreen
               {...props}
+              meditations={meditations}
               unlockMeditation={unlockMeditation}
               streak={streak}
               setStreak={setStreak}
@@ -373,14 +377,13 @@ const App = () => {
               selectedMeditation={selectedMeditation}
               meditations={meditations}
               unlockMeditation={unlockMeditation}
-              streak={streak}
               setStreak={setStreak}
               setLongestStreak={setLongestStreak}
               selectedTime={selectedTime}
               setTotalMeditationTime={setTotalMeditationTime}
               setTotalMeditationsCompleted={setTotalMeditationsCompleted}
-              totalStars={totalStars}
               setTotalStars={setTotalStars}
+              setTaoSeries={setTotalStars}
             />
           )}
         </Stack.Screen>

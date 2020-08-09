@@ -57,7 +57,11 @@ function SettingsScreen({
   // This function is called from warningAlert so can update meditationState
   const deleteMeditationsProgress = (messageObject) => {
     // removeValue(`@meditations_completed`, messageObject);
-    removeMultipleItems([`@meditations_completed`, `@total_stars`]).then(() =>
+    removeMultipleItems([
+      `@meditations_completed`,
+      `@total_stars`,
+      `@tao_series`,
+    ]).then(() =>
       Alert.alert('Success', `Your ${messageObject} was deleted successfully`),
     );
 
@@ -67,6 +71,7 @@ function SettingsScreen({
       med.completionTime = 0;
     });
     unlockMeditation(meditationsCopy);
+    setTotalStars(0);
   };
 
   // Resets all users stats to default values
@@ -101,6 +106,17 @@ function SettingsScreen({
     removeValue(`@total_stars`, 'stars record');
   };
 
+  const unlock59And64 = () => {
+    let medCopy = [...meditations];
+    medCopy[0].locked = false;
+    medCopy[0].id = 0;
+    medCopy[58].locked = false;
+    medCopy[63].locked = false;
+    console.log(medCopy[1]);
+    storeData('@meditations_completed', medCopy);
+    unlockMeditation(medCopy);
+  };
+
   return (
     <View style={styles.screenContainer}>
       <View style={styles.textAndButtonWrapper}>
@@ -109,7 +125,9 @@ function SettingsScreen({
           onPress={() => warningAlert('stars')}>
           <Text style={styles.buttonText}>DELETE STARS</Text>
         </TouchableOpacity>
-        <Text style={styles.description}>Resets all stars to 0.</Text>
+        <Text style={styles.description}>
+          Resets all stars to 0. All unlocked meditations will remain.
+        </Text>
       </View>
 
       <View style={styles.textAndButtonWrapper}>
@@ -133,6 +151,14 @@ function SettingsScreen({
           All meditations but day one will be locked. Your stars will also be
           deleted.
         </Text>
+      </View>
+
+      <View style={styles.textAndButtonWrapper}>
+        <TouchableOpacity
+          style={styles.deleteButton}
+          onPress={() => unlock59And64()}>
+          <Text style={styles.buttonText}>Unlock 59 and 64</Text>
+        </TouchableOpacity>
       </View>
 
       <Icon name="settings-outline" size={90} style={styles.meditationIcon} />

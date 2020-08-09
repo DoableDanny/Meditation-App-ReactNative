@@ -59,4 +59,10 @@ export const imageArray = [
   {id: 13, image: require('./images/dorota-dylka-Y6nFvt1ebyw-unsplash.jpg')},
   {id: 14, image: require('./images/dorota-dylka-Y6nFvt1ebyw-unsplash.jpg')},
   {id: 15, image: require('./images/dorota-dylka-Y6nFvt1ebyw-unsplash.jpg')},
+  {id: 10, image: require('./images/dorota-dylka-Y6nFvt1ebyw-unsplash.jpg')},
+  {id: 11, image: require('./images/dorota-dylka-Y6nFvt1ebyw-unsplash.jpg')},
+  {id: 12, image: require('./images/dorota-dylka-Y6nFvt1ebyw-unsplash.jpg')},
+  {id: 13, image: require('./images/dorota-dylka-Y6nFvt1ebyw-unsplash.jpg')},
+  {id: 14, image: require('./images/dorota-dylka-Y6nFvt1ebyw-unsplash.jpg')},
+  {id: 15, image: require('./images/dorota-dylka-Y6nFvt1ebyw-unsplash.jpg')},
 ];

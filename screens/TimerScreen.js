@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, StatusBar, Platform} from 'react-native';
+import {View, Text, StyleSheet, StatusBar, Platform, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FA5Icon from 'react-native-vector-icons/FontAwesome5';
 import BackgroundTimer from 'react-native-background-timer';
@@ -25,13 +25,13 @@ function TimerScreen({
   selectedTime,
   setTotalMeditationTime,
   setTotalMeditationsCompleted,
+  setTotalStars,
+  setTaoSeries,
 }) {
   const [seconds, setSeconds] = useState(`02`);
   const [minutes, setMinutes] = useState(`00`); //CHANGE THIS!!
   const [timerOn, setTimerOn] = useState(true);
   const [completionText, setCompletionText] = useState('');
-
-  let nextMeditationId = selectedMeditation.id + 1;
 
   // Function that sets up the track player
   const trackPlayerInit = async () => {
@@ -74,6 +74,7 @@ function TimerScreen({
             : setMinutes(`${parseInt(minutes) - 1}`);
           setSeconds(`59`);
         }
+
         // When TIME UP, stop timer and unlock the next meditation
         if (minutes === `00` && seconds === `01`) {
           // Play zen completion sound
@@ -87,52 +88,80 @@ function TimerScreen({
             navalQuotes[Math.floor(Math.random() * navalQuotes.length)],
           );
 
-          // Make copy of meditaitons, check if not last meditation, and unlock next one.
+          // Make copy of meditaitons, check if not last meditation or 61st, and unlock next one.
+          let nextMeditationId = selectedMeditation.id + 1;
           let meditationsCopy = [...meditations];
-          if (meditations[nextMeditationId]) {
-            let nextMeditation = {...meditationsCopy[nextMeditationId]};
+          let currentMeditation = {...meditationsCopy[selectedMeditation.id]};
+          let nextMeditation = {...meditationsCopy[nextMeditationId]};
+
+          console.log(nextMeditationId);
+
+          if (nextMeditationId != 60 && currentMeditation.id != 64) {
             nextMeditation.locked = false;
             meditationsCopy[nextMeditationId] = nextMeditation;
+          } else if (currentMeditation.id == 59) {
+            setCompletionText(
+              'You completed all 60 days, I hope you gained self-understanding and peace. You have been awarded the NAVAL PEACE PRIZE!',
+            );
+          } else if (currentMeditation.id == 64) {
+            setCompletionText(
+              'Congratulations on completing the Tao Series, ZEN MASTER!',
+            );
+          }
+          // update total number of stars
+          if (selectedTime > 15) {
+            getData(`@total_stars`).then((data) => {
+              let stars = data == null ? 0 : parseInt(data);
+              let starsObj = {
+                starGain: 0,
+              };
+              // check for time improvement and add correct amount of stars
 
-            // Update number of stars then the current meditations completion time if they're new records.
-            let currentMeditation = {...meditationsCopy[selectedMeditation.id]};
-            if (selectedTime > currentMeditation.completionTime) {
               let prevCompletionTime = currentMeditation.completionTime;
               let timeImprovement = selectedTime - prevCompletionTime;
-              console.log('Time improvement: ', timeImprovement);
-              // update total number of stars
-              if (selectedTime > 15) {
-                getData(`@total_stars`).then((data) => {
-                  data = data == null ? 0 : parseInt(data);
-                  // check for time improvement and add correct amount of stars
-                  switch (timeImprovement) {
-                    case 15:
-                      let starGain = prevCompletionTime == 0 ? 0 : 1;
-                      storeData(`@total_stars`, data + starGain);
-                      break;
-                    case 30:
-                      starGain = prevCompletionTime == 0 ? 1 : 2;
-                      storeData(`@total_stars`, data + starGain);
-                      break;
-                    case 45:
-                      starGain = prevCompletionTime == 0 ? 2 : 3;
-                      storeData(`@total_stars`, data + starGain);
-                      break;
-                    case 60:
-                      storeData(`@total_stars`, data + 3);
-                      break;
+              console.log('curmed: ', currentMeditation);
+              switch (timeImprovement) {
+                case 15:
+                  starsObj.starGain = prevCompletionTime == 0 ? 0 : 1;
+                  storeData(`@total_stars`, stars + starsObj.starGain);
+                  break;
+                case 30:
+                  starsObj.starGain = prevCompletionTime == 0 ? 1 : 2;
+                  storeData(`@total_stars`, stars + starsObj.starGain);
+                  break;
+                case 45:
+                  starsObj.starGain = prevCompletionTime == 0 ? 2 : 3;
+                  storeData(`@total_stars`, stars + starsObj.starGain);
+                  break;
+                case 60:
+                  starsObj.starGain = 3;
+                  storeData(`@total_stars`, stars + starsObj.starGain);
+                  break;
+              }
+              setTotalStars(stars + starsObj.starGain);
+              console.log(stars, starsObj.starGain);
+              // If users total stars >= 180 => Bonus series!S
+              if (stars + starsObj.starGain >= 180) {
+                getData(`@tao_series`).then((data) => {
+                  if (data == null) {
+                    Alert.alert(
+                      `CONGRATULATIONS!`,
+                      `Your outstanding efforts deserve a reward: The Tao Bonus Meditation Series!`,
+                    );
+                    storeData(`@tao_series`, true);
+                    meditationsCopy.forEach((med) => (med.locked = false));
+                    storeData(`@meditations_completed`, meditationsCopy);
+                    setTaoSeries(true);
                   }
                 });
+              }
+              if (selectedTime > currentMeditation.completionTime) {
                 currentMeditation.completionTime = selectedTime;
                 meditationsCopy[selectedMeditation.id] = currentMeditation;
               }
-            }
-
-            unlockMeditation([...meditationsCopy]);
-          } else {
-            setCompletionText(
-              'You completed all 60 days, I hope you gained self-understanding and peace.',
-            );
+              storeData('@meditations_completed', meditationsCopy);
+              unlockMeditation([...meditationsCopy]);
+            });
           }
 
           // Define today's and yesterday's date
@@ -192,13 +221,7 @@ function TimerScreen({
 
           dateLastCompleted = today;
 
-          // Save to asyncStorage
-          // multiSet(
-          //   ['@meditations_completed', JSON.stringify(meditationsCopy)],
-          //   [`@date_last_completed`, dateLastCompleted],
-          // );
           // @meditations_completed is the big 65 item array.
-          storeData('@meditations_completed', meditationsCopy);
           storeData(`@date_last_completed`, dateLastCompleted);
         }
       }
