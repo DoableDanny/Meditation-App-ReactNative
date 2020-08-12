@@ -9,6 +9,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {imageArray} from '../imageArray';
+import LinearGradient from 'react-native-linear-gradient';
 
 function SingleMeditationScreen({
   selectedMeditation,
@@ -57,7 +58,9 @@ function SingleMeditationScreen({
           onPress={() => setSelectedTime(15)}
           style={{
             ...styles.timeBtn,
-            backgroundColor: selectedTime == 15 ? '#d5e4f0' : '#84afd1',
+            backgroundColor: selectedTime == 15 ? '#66A8DD' : '#2775B4',
+            borderTopLeftRadius: 7,
+            borderBottomLeftRadius: 7,
           }}>
           <Text style={styles.timeText}>15</Text>
         </TouchableOpacity>
@@ -65,7 +68,7 @@ function SingleMeditationScreen({
           onPress={() => setSelectedTime(30)}
           style={{
             ...styles.timeBtn,
-            backgroundColor: selectedTime == 30 ? '#d5e4f0' : '#84afd1',
+            backgroundColor: selectedTime == 30 ? '#66A8DD' : '#2775B4',
           }}>
           <Text style={styles.timeText}>30</Text>
         </TouchableOpacity>
@@ -73,7 +76,7 @@ function SingleMeditationScreen({
           onPress={() => setSelectedTime(45)}
           style={{
             ...styles.timeBtn,
-            backgroundColor: selectedTime == 45 ? '#d5e4f0' : '#84afd1',
+            backgroundColor: selectedTime == 45 ? '#66A8DD' : '#2775B4',
           }}>
           <Text style={styles.timeText}>45</Text>
         </TouchableOpacity>
@@ -81,16 +84,21 @@ function SingleMeditationScreen({
           onPress={() => setSelectedTime(60)}
           style={{
             ...styles.timeBtn,
-            backgroundColor: selectedTime == 60 ? '#d5e4f0' : '#84afd1',
+            backgroundColor: selectedTime == 60 ? '#66A8DD' : '#2775B4',
+            borderTopRightRadius: 7,
+            borderBottomRightRadius: 7,
           }}>
           <Text style={styles.timeText}>60</Text>
         </TouchableOpacity>
       </View>
-
-      <TouchableOpacity
-        style={styles.beginBtn}
-        onPress={() => navigation.navigate('Timer')}>
-        <Text style={styles.begin}>BEGIN</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Timer')}>
+        <LinearGradient
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 0}}
+          colors={['#338AD2', '#2775B4', '#256CA7']}
+          style={styles.beginBtn}>
+          <Text style={styles.begin}>BEGIN</Text>
+        </LinearGradient>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -109,7 +117,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   img: {
-    height: 200,
+    height: 210,
     width: Dimensions.get('window').width,
   },
   contentContainer: {
@@ -118,36 +126,34 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 35,
-    color: 'white',
+    color: '#66A8DD',
+    margin: 10,
+    marginTop: 16,
   },
   paragraph: {
     fontSize: 20,
     color: 'white',
-    marginTop: 9,
+    margin: 8,
     lineHeight: 25,
   },
   timeBtnsContainer: {
     flexDirection: 'row',
+    margin: 16,
   },
   timeBtn: {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    marginTop: 15,
-    borderWidth: 1,
     padding: 10,
-    borderWidth: 1,
-    borderColor: 'black',
+    borderRightWidth: 0.6,
   },
   timeText: {
     color: '#fff',
-    fontSize: 19,
+    fontSize: 20,
   },
   beginBtn: {
-    backgroundColor: '#5376cf',
     height: 55,
-    margin: 10,
-    marginTop: 20,
+    margin: 8,
     marginBottom: 20,
     borderRadius: 10,
     justifyContent: 'center',

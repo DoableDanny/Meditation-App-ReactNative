@@ -13,6 +13,7 @@ import {useIsFocused} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {getData} from '../functionsAndQuotes/asyncStorageFunctions';
 import {imageArray} from '../imageArray';
+import LinearGradient from 'react-native-linear-gradient';
 
 function HomeScreen({
   navigation,
@@ -34,27 +35,36 @@ function HomeScreen({
     );
   }, []);
 
-  // console.log('tao: ', taoSeries);
-
   // Check the users completionTime for each meditation and award corresponding stars
   const renderStars = (item) => {
     switch (item.completionTime) {
+      case 15:
+        return (
+          <View style={{flexDirection: 'row'}}>
+            <Icon name="star-outline" size={25} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={25} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={25} style={{color: 'gold'}} />
+          </View>
+        );
       case 30:
         return (
-          <View style={{justifyContent: 'flex-start', height: 75}}>
+          <View style={{flexDirection: 'row'}}>
             <Icon name="star" size={25} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={25} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={25} style={{color: 'gold'}} />
           </View>
         );
       case 45:
         return (
-          <View style={{justifyContent: 'flex-start', height: 75}}>
+          <View style={{flexDirection: 'row'}}>
             <Icon name="star" size={25} style={{color: 'gold'}} />
             <Icon name="star" size={25} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={25} style={{color: 'gold'}} />
           </View>
         );
       case 60:
         return (
-          <View style={{}}>
+          <View style={{flexDirection: 'row'}}>
             <Icon
               name="star"
               size={25}
@@ -71,6 +81,7 @@ function HomeScreen({
 
   return (
     <View style={styles.screenContainer}>
+      <View style={{width: 160}}></View>
       <FlatList
         data={meditations}
         keyExtractor={(item, index) => index.toString()}
@@ -79,54 +90,81 @@ function HomeScreen({
             onPress={() => {
               updateSelectedMeditation(item);
               item.locked ? null : navigation.navigate('Meditation');
-            }}
-            style={{
-              ...styles.listItem,
-              borderBottomWidth: index === meditations.length - 1 ? 0 : 1,
-              borderTopWidth: index === 0 ? 18 : 12,
-              marginBottom: index === meditations.length - 1 ? 60 : 0,
-              justifyContent: item.locked ? 'center' : null,
             }}>
-            <View style={{position: 'relative'}}>
-              {item.locked ? (
-                <Icon name="lock" size={60} style={styles.lockIcon} />
-              ) : (
-                <Image source={imageArray[index].image} style={styles.image} />
-              )}
-              <View style={styles.numberWrapper}>
-                {item.locked ? null : (
-                  <Text style={styles.number}>{index + 1}</Text>
-                )}
-              </View>
-            </View>
-            {item.locked ? null : (
-              <Text
+            {!item.locked ? (
+              <LinearGradient
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 0}}
+                colors={['#271C7E', '#1F1663', '#171049']}
                 style={{
-                  ...styles.title,
-                  color: item.locked ? 'black' : 'white',
+                  ...styles.listItem,
+                  borderBottomWidth: index === meditations.length - 1 ? 0 : 1,
+                  borderTopWidth: index === 0 ? 18 : 12,
+                  marginBottom: index === meditations.length - 1 ? 60 : 0,
                 }}>
-                {item.title}{' '}
-              </Text>
+                <View style={styles.imageAndNumberWrapper}>
+                  <View style={styles.imageOverlay}>
+                    <Image
+                      source={imageArray[index].image}
+                      style={styles.image}
+                    />
+                  </View>
+
+                  <View style={styles.numberWrapper}>
+                    <Text style={styles.number}>{index + 1}</Text>
+                  </View>
+                </View>
+                <View style={styles.starsAndTitleWrapper}>
+                  {renderStars(item)}
+
+                  <Text style={styles.title}>{item.title} </Text>
+                </View>
+              </LinearGradient>
+            ) : (
+              <LinearGradient
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 0}}
+                colors={['#271C7E', '#1F1663', '#171049']}
+                style={{
+                  ...styles.listItem,
+                  borderBottomWidth: index === meditations.length - 1 ? 0 : 1,
+                  marginBottom: index === meditations.length - 1 ? 60 : 0,
+                  justifyContent: 'center',
+                }}>
+                <Icon name="lock" size={60} style={styles.lockIcon} />
+              </LinearGradient>
             )}
-            {renderStars(item)}
           </TouchableOpacity>
         )}
       />
+
       <View style={styles.optionBtnsContainer}>
-        <TouchableOpacity
-          style={styles.optionBtn}
-          onPress={() => navigation.navigate('Guide')}>
-          <Text style={styles.begin}>GUIDE</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Guide')}>
+          <LinearGradient
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 0}}
+            colors={['#338AD2', '#2775B4', '#256CA7']}
+            style={styles.optionBtn}>
+            <Text style={styles.optionBtnText}>GUIDE</Text>
+          </LinearGradient>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.optionBtn}
-          onPress={() => navigation.navigate('Settings')}>
-          <Text style={styles.begin}>SETTINGS</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
+          <LinearGradient
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 0}}
+            colors={['#338AD2', '#2775B4', '#256CA7']}
+            style={styles.optionBtn}>
+            <Text style={styles.optionBtnText}>SETTINGS</Text>
+          </LinearGradient>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.optionBtn}
-          onPress={() => navigation.navigate('Stats')}>
-          <Text style={styles.begin}>STATS</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Stats')}>
+          <LinearGradient
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 0}}
+            colors={['#338AD2', '#2775B4', '#256CA7']}
+            style={styles.optionBtn}>
+            <Text style={styles.optionBtnText}>STATS</Text>
+          </LinearGradient>
         </TouchableOpacity>
       </View>
     </View>
@@ -139,36 +177,41 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     backgroundColor: darkPurple,
   },
-
-  buttonsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  singleButtonContainer: {
-    flex: 1,
-  },
   listItem: {
     flexDirection: 'row',
-    alignItems: 'center',
     padding: 15,
     borderColor: darkPurple,
     borderWidth: 12,
-    borderRadius: 20,
-    backgroundColor: '#1f1a47',
+    borderRadius: 25,
+    minHeight: 120,
+    alignItems: 'center',
+  },
+  starsAndTitleWrapper: {
+    flex: 1,
+    marginLeft: 40,
+    justifyContent: 'center',
   },
   title: {
     fontSize: 20,
-    marginLeft: 40,
-    flex: 1,
+    color: '#fff',
   },
   lockIcon: {
     color: '#000',
   },
+  imageAndNumberWrapper: {
+    position: 'relative',
+    width: 150,
+    height: 80,
+  },
   image: {
     width: 150,
-    height: 75,
-    borderRadius: 10,
+    height: 80,
+    borderRadius: 15,
+  },
+  imageOverlay: {
+    opacity: 0.75,
+    borderRadius: 15,
+    backgroundColor: '#00009f',
   },
   numberWrapper: {
     position: 'absolute',
@@ -183,19 +226,18 @@ const styles = StyleSheet.create({
   optionBtnsContainer: {
     position: 'absolute',
     bottom: 0,
-    backgroundColor: 'red',
+    backgroundColor: '#22277a',
     width: Dimensions.get('window').width,
     flexDirection: 'row',
   },
   optionBtn: {
-    backgroundColor: '#5376cf',
     height: 45,
     width: 0.33333333 * Dimensions.get('window').width,
-    borderWidth: 1,
+    borderWidth: 0.5,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  begin: {
+  optionBtnText: {
     color: 'white',
     fontSize: 15,
   },

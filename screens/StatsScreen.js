@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import {getData, storeData} from '../functionsAndQuotes/asyncStorageFunctions';
+import LinearGradient from 'react-native-linear-gradient';
 
 function StatsScreen({
   meditations,
@@ -76,7 +77,11 @@ function StatsScreen({
   }, []);
 
   return (
-    <View style={styles.screenContainer}>
+    <LinearGradient
+      start={{x: 0, y: 0}}
+      end={{x: 1, y: 0}}
+      colors={['#271C7E', '#1F1663', '#171049']}
+      style={styles.screenContainer}>
       <Text style={{...styles.key, color: 'gold'}}>
         <Icon name="star" size={25} style={{color: 'gold'}} />
         Stars: <Text style={styles.value}>{totalStars} / 195</Text>
@@ -127,24 +132,24 @@ function StatsScreen({
           <Text style={styles.award}>NAVAL PEACE PRIZE</Text>
         ) : null}
       </View>
-
-      <IonIcon
-        name="stats-chart-outline"
-        size={70}
-        style={styles.meditationIcon}
-      />
-    </View>
+      <View style={styles.iconWrapper}>
+        <IonIcon
+          name="stats-chart-outline"
+          size={70}
+          style={styles.meditationIcon}
+        />
+      </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   screenContainer: {
-    backgroundColor: '#0e0a2e',
     flex: 1,
     paddingTop: 35,
   },
   key: {
-    color: 'rgb(104,186,223)',
+    color: '#BBD8F0',
     fontSize: 22,
     textAlign: 'center',
     margin: 7,
@@ -152,15 +157,21 @@ const styles = StyleSheet.create({
   value: {
     color: '#fff',
   },
-  meditationIcon: {
-    position: 'absolute',
-    bottom: 30,
-    left: 0.43 * Dimensions.get('window').width,
-    color: '#3CB371',
-  },
   award: {
     color: 'gold',
     fontSize: 22,
+    zIndex: 1,
+  },
+  iconWrapper: {
+    alignItems: 'center',
+    position: 'relative',
+    flex: 1,
+  },
+  meditationIcon: {
+    position: 'absolute',
+    bottom: 20,
+    // left: 0.43 * Dimensions.get('window').width,
+    color: '#2775B4',
   },
 });
 

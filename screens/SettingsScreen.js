@@ -14,6 +14,7 @@ import {
 import {removeValue} from '../functionsAndQuotes/asyncStorageFunctions';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
+import LinearGradient from 'react-native-linear-gradient';
 
 function SettingsScreen({
   meditations,
@@ -118,11 +119,15 @@ function SettingsScreen({
   };
 
   return (
-    <View style={styles.screenContainer}>
+    <LinearGradient
+      start={{x: 0, y: 0}}
+      end={{x: 1, y: 0}}
+      colors={['#271C7E', '#1F1663', '#171049']}
+      style={styles.screenContainer}>
       <View style={styles.textAndButtonWrapper}>
         <TouchableOpacity
-          style={styles.deleteButton}
-          onPress={() => warningAlert('stars')}>
+          onPress={() => warningAlert('stars')}
+          style={styles.deleteButton}>
           <Text style={styles.buttonText}>DELETE STARS</Text>
         </TouchableOpacity>
         <Text style={styles.description}>
@@ -132,8 +137,8 @@ function SettingsScreen({
 
       <View style={styles.textAndButtonWrapper}>
         <TouchableOpacity
-          style={styles.deleteButton}
-          onPress={() => warningAlert('stats data')}>
+          onPress={() => warningAlert('stats data')}
+          style={styles.deleteButton}>
           <Text style={styles.buttonText}>RESET STATS</Text>
         </TouchableOpacity>
         <Text style={styles.description}>
@@ -143,8 +148,8 @@ function SettingsScreen({
 
       <View style={styles.textAndButtonWrapper}>
         <TouchableOpacity
-          style={styles.deleteButton}
-          onPress={() => warningAlert('meditation progress')}>
+          onPress={() => warningAlert('meditation progress')}
+          style={styles.deleteButton}>
           <Text style={styles.buttonText}>RE-LOCK MEDITATIONS</Text>
         </TouchableOpacity>
         <Text style={styles.description}>
@@ -153,16 +158,16 @@ function SettingsScreen({
         </Text>
       </View>
 
-      <View style={styles.textAndButtonWrapper}>
+      {/* <View style={styles.textAndButtonWrapper}>
         <TouchableOpacity
           style={styles.deleteButton}
           onPress={() => unlock59And64()}>
           <Text style={styles.buttonText}>Unlock 59 and 64</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       <Icon name="settings-outline" size={90} style={styles.meditationIcon} />
-    </View>
+    </LinearGradient>
   );
 }
 
@@ -175,29 +180,29 @@ const styles = StyleSheet.create({
   textAndButtonWrapper: {
     margin: 20,
   },
+
+  deleteButton: {
+    padding: 15,
+    borderRadius: 10,
+    backgroundColor: '#FF2424',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 22,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
   description: {
     color: 'white',
     marginTop: 8,
     fontSize: 19,
     textAlign: 'center',
   },
-  deleteButton: {
-    backgroundColor: 'black',
-    borderBottomWidth: 2,
-    borderRightWidth: 2,
-    borderColor: 'crimson',
-    padding: 5,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 22,
-    textAlign: 'center',
-  },
   meditationIcon: {
     position: 'absolute',
-    bottom: 30,
+    bottom: 20,
     left: 0.4 * Dimensions.get('window').width,
-    color: '#3CB371',
+    color: '#2775B4',
   },
 });
 

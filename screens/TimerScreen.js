@@ -94,8 +94,6 @@ function TimerScreen({
           let currentMeditation = {...meditationsCopy[selectedMeditation.id]};
           let nextMeditation = {...meditationsCopy[nextMeditationId]};
 
-          console.log(nextMeditationId);
-
           if (nextMeditationId != 60 && currentMeditation.id != 64) {
             nextMeditation.locked = false;
             meditationsCopy[nextMeditationId] = nextMeditation;
@@ -110,58 +108,67 @@ function TimerScreen({
           }
           // update total number of stars
           if (selectedTime > 15) {
-            getData(`@total_stars`).then((data) => {
-              let stars = data == null ? 0 : parseInt(data);
-              let starsObj = {
-                starGain: 0,
-              };
-              // check for time improvement and add correct amount of stars
+            getData(`@total_stars`)
+              .then((data) => {
+                console.log('stars', data);
+                let stars = data == null ? 0 : parseInt(data);
+                let starsObj = {
+                  starGain: 0,
+                };
 
-              let prevCompletionTime = currentMeditation.completionTime;
-              let timeImprovement = selectedTime - prevCompletionTime;
-              console.log('curmed: ', currentMeditation);
-              switch (timeImprovement) {
-                case 15:
-                  starsObj.starGain = prevCompletionTime == 0 ? 0 : 1;
-                  storeData(`@total_stars`, stars + starsObj.starGain);
-                  break;
-                case 30:
-                  starsObj.starGain = prevCompletionTime == 0 ? 1 : 2;
-                  storeData(`@total_stars`, stars + starsObj.starGain);
-                  break;
-                case 45:
-                  starsObj.starGain = prevCompletionTime == 0 ? 2 : 3;
-                  storeData(`@total_stars`, stars + starsObj.starGain);
-                  break;
-                case 60:
-                  starsObj.starGain = 3;
-                  storeData(`@total_stars`, stars + starsObj.starGain);
-                  break;
-              }
-              setTotalStars(stars + starsObj.starGain);
-              console.log(stars, starsObj.starGain);
-              // If users total stars >= 180 => Bonus series!S
-              if (stars + starsObj.starGain >= 180) {
-                getData(`@tao_series`).then((data) => {
-                  if (data == null) {
-                    Alert.alert(
-                      `CONGRATULATIONS!`,
-                      `Your outstanding efforts deserve a reward: The Tao Bonus Meditation Series!`,
-                    );
-                    storeData(`@tao_series`, true);
-                    meditationsCopy.forEach((med) => (med.locked = false));
-                    storeData(`@meditations_completed`, meditationsCopy);
-                    setTaoSeries(true);
-                  }
-                });
-              }
-              if (selectedTime > currentMeditation.completionTime) {
-                currentMeditation.completionTime = selectedTime;
-                meditationsCopy[selectedMeditation.id] = currentMeditation;
-              }
-              storeData('@meditations_completed', meditationsCopy);
-              unlockMeditation([...meditationsCopy]);
-            });
+                // check for time improvement and add correct amount of stars
+                let prevCompletionTime = currentMeditation.completionTime;
+                let timeImprovement = selectedTime - prevCompletionTime;
+                console.log(prevCompletionTime, timeImprovement);
+                switch (timeImprovement) {
+                  case 15:
+                    starsObj.starGain = prevCompletionTime == 0 ? 0 : 1;
+                    storeData(`@total_stars`, stars + starsObj.starGain);
+                    break;
+                  case 30:
+                    starsObj.starGain = prevCompletionTime == 0 ? 1 : 2;
+                    storeData(`@total_stars`, stars + starsObj.starGain);
+                    break;
+                  case 45:
+                    starsObj.starGain = prevCompletionTime == 0 ? 2 : 3;
+                    storeData(`@total_stars`, stars + starsObj.starGain);
+                    break;
+                  case 60:
+                    starsObj.starGain = 3;
+                    storeData(`@total_stars`, stars + starsObj.starGain);
+                    break;
+                }
+                setTotalStars(stars + starsObj.starGain);
+
+                // If users total stars >= 180 => Bonus series!S
+                if (stars + starsObj.starGain >= 180) {
+                  getData(`@tao_series`).then((data) => {
+                    if (data == null) {
+                      Alert.alert(
+                        `CONGRATULATIONS!`,
+                        `Your outstanding efforts deserve a reward: The Tao Bonus Meditation Series!`,
+                      );
+                      storeData(`@tao_series`, true);
+                      meditationsCopy.forEach((med) => (med.locked = false));
+                      storeData(`@meditations_completed`, meditationsCopy);
+                      setTaoSeries(true);
+                    }
+                  });
+                }
+              })
+              .then(() => updateCompletionTime());
+          } else {
+            updateCompletionTime();
+          }
+          function updateCompletionTime() {
+            console.log('updateCompletionTime');
+            if (selectedTime > currentMeditation.completionTime) {
+              currentMeditation.completionTime = selectedTime;
+              meditationsCopy[selectedMeditation.id] = currentMeditation;
+              console.log('IF RAN updateCompletionTime');
+            }
+            storeData('@meditations_completed', meditationsCopy);
+            unlockMeditation([...meditationsCopy]);
           }
 
           // Define today's and yesterday's date
@@ -274,11 +281,11 @@ const styles = StyleSheet.create({
   },
   time: {
     fontSize: 40,
-    color: 'white',
+    color: '#402DCE',
   },
   completionText: {
     fontSize: 23,
-    color: '#3CB371',
+    color: '#fff',
     textAlign: 'center',
     marginTop: 10,
     marginRight: 3,
@@ -287,7 +294,7 @@ const styles = StyleSheet.create({
   meditationIcon: {
     position: 'absolute',
     bottom: 18,
-    color: '#3CB371',
+    color: '#2775B4',
   },
 });
 

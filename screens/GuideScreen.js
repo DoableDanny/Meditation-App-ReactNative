@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, ScrollView, Text, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import LinearGradient from 'react-native-linear-gradient';
 
 // Get yesterday's date
 let today = new Date();
@@ -97,9 +98,10 @@ const styles = StyleSheet.create({
     padding: 7,
   },
   heading: {
-    color: 'rgb(104,186,223)',
+    color: '#66A8DD',
     fontSize: 30,
     textAlign: 'center',
+    margin: 10,
   },
   text: {
     color: '#fff',
