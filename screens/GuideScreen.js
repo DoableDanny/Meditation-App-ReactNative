@@ -31,6 +31,11 @@ function GuideScreen() {
 
   return (
     <ScrollView style={styles.screenContainer}>
+       <LinearGradient
+      start={{x: 0, y: 0}}
+      end={{x: 1, y: 1}}
+      colors={['#271C7E', '#1F1663', '#171049']}
+     >
       <Text style={styles.heading}>A Quest for Self-Understanding</Text>
       <Text style={styles.text}>
         This app does not do the meditating for you, there are no voiceovers or
@@ -88,6 +93,7 @@ function GuideScreen() {
         Follow your own path. Illusions by Richard Bach and The Alchemist by
         Paulo Cohelo.
       </Text>
+      </LinearGradient>
     </ScrollView>
   );
 }
@@ -98,13 +104,13 @@ const styles = StyleSheet.create({
     padding: 7,
   },
   heading: {
-    color: '#66A8DD',
+    color: '#8ABCE5',
     fontSize: 30,
     textAlign: 'center',
     margin: 10,
   },
   text: {
-    color: '#fff',
+    color: '#F0F7FC',
     fontSize: 21,
     margin: 10,
   },

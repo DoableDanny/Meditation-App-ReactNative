@@ -94,8 +94,8 @@ function HomeScreen({
             {!item.locked ? (
               <LinearGradient
                 start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}
-                colors={['#271C7E', '#1F1663', '#171049']}
+                end={{x: 1, y: 1}}
+                colors={purpleGrad}
                 style={{
                   ...styles.listItem,
                   borderBottomWidth: index === meditations.length - 1 ? 0 : 1,
@@ -139,11 +139,11 @@ function HomeScreen({
       />
 
       <View style={styles.optionBtnsContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Guide')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Guide')} style={styles.optionBtn}>
           <LinearGradient
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
-            colors={['#338AD2', '#2775B4', '#256CA7']}
+            colors={['#6DABDF', '#5EA3DC', '#4F9BD8']}
             style={styles.optionBtn}>
             <Text style={styles.optionBtnText}>GUIDE</Text>
           </LinearGradient>
@@ -152,7 +152,7 @@ function HomeScreen({
           <LinearGradient
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
-            colors={['#338AD2', '#2775B4', '#256CA7']}
+            colors={['#6DABDF', '#5EA3DC', '#4F9BD8']}
             style={styles.optionBtn}>
             <Text style={styles.optionBtnText}>SETTINGS</Text>
           </LinearGradient>
@@ -161,7 +161,7 @@ function HomeScreen({
           <LinearGradient
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
-            colors={['#338AD2', '#2775B4', '#256CA7']}
+            colors={['#6DABDF', '#5EA3DC', '#4F9BD8']}
             style={styles.optionBtn}>
             <Text style={styles.optionBtnText}>STATS</Text>
           </LinearGradient>
@@ -172,6 +172,17 @@ function HomeScreen({
 }
 
 const darkPurple = '#0e0a2e';
+const purpleGrad = ['#271C7E', '#1F1663', '#171049']
+
+// const lessDarkPurple = '#271C7E'
+// const lighterPurpleGrad = ['#412ED1', '#3A29BC', '#3425A7']
+
+// const backGreen = '#77DD76'
+// const greenGrad = ['#A6ECA8','#ADEEAF', '#B3EFB5' ]
+
+// const lightBlueGrad = ['#C6EDFF', '#C1ECFF','#BBEAFF']
+
+
 const styles = StyleSheet.create({
   screenContainer: {
     paddingBottom: 0,
@@ -193,7 +204,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    color: '#fff',
+    color: '#D3E6F5',
   },
   lockIcon: {
     color: '#000',
@@ -236,6 +247,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     justifyContent: 'center',
     alignItems: 'center',
+    // backgroundColor: lightBlue
   },
   optionBtnText: {
     color: 'white',

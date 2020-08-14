@@ -182,20 +182,20 @@ const styles = StyleSheet.create({
   },
 
   deleteButton: {
-    padding: 15,
+    padding: 8,
     borderRadius: 10,
-    backgroundColor: '#FF2424',
+    backgroundColor: '#FF5353',
   },
   buttonText: {
     color: '#fff',
-    fontSize: 22,
+    fontSize: 20,
     textAlign: 'center',
     fontWeight: 'bold',
   },
   description: {
     color: 'white',
     marginTop: 8,
-    fontSize: 19,
+    fontSize: 18,
     textAlign: 'center',
   },
   meditationIcon: {

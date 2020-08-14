@@ -18,7 +18,12 @@ function SingleMeditationScreen({
   setSelectedTime,
 }) {
   return (
-    <ScrollView style={styles.pageContainer}>
+    <ScrollView >
+      <LinearGradient
+      start={{x: 0, y: 0}}
+      end={{x: 1, y: 1}}
+      colors={['#271C7E', '#1F1663', '#171049']}
+      style={styles.pageContainer}>
       <View style={styles.imgContainer}>
         <Image
           source={imageArray[selectedMeditation.id].image}
@@ -58,7 +63,7 @@ function SingleMeditationScreen({
           onPress={() => setSelectedTime(15)}
           style={{
             ...styles.timeBtn,
-            backgroundColor: selectedTime == 15 ? '#66A8DD' : '#2775B4',
+            backgroundColor: selectedTime == 15 ? '#8ABCE5' : '#4192D5',
             borderTopLeftRadius: 7,
             borderBottomLeftRadius: 7,
           }}>
@@ -68,7 +73,7 @@ function SingleMeditationScreen({
           onPress={() => setSelectedTime(30)}
           style={{
             ...styles.timeBtn,
-            backgroundColor: selectedTime == 30 ? '#66A8DD' : '#2775B4',
+            backgroundColor: selectedTime == 30 ? '#8ABCE5' : '#4192D5',
           }}>
           <Text style={styles.timeText}>30</Text>
         </TouchableOpacity>
@@ -76,7 +81,7 @@ function SingleMeditationScreen({
           onPress={() => setSelectedTime(45)}
           style={{
             ...styles.timeBtn,
-            backgroundColor: selectedTime == 45 ? '#66A8DD' : '#2775B4',
+            backgroundColor: selectedTime == 45 ? '#8ABCE5' : '#4192D5',
           }}>
           <Text style={styles.timeText}>45</Text>
         </TouchableOpacity>
@@ -84,7 +89,7 @@ function SingleMeditationScreen({
           onPress={() => setSelectedTime(60)}
           style={{
             ...styles.timeBtn,
-            backgroundColor: selectedTime == 60 ? '#66A8DD' : '#2775B4',
+            backgroundColor: selectedTime == 60 ? '#8ABCE5' : '#4192D5',
             borderTopRightRadius: 7,
             borderBottomRightRadius: 7,
           }}>
@@ -95,11 +100,12 @@ function SingleMeditationScreen({
         <LinearGradient
           start={{x: 0, y: 0}}
           end={{x: 1, y: 0}}
-          colors={['#338AD2', '#2775B4', '#256CA7']}
+          colors={['#8ABCE5', '#7BB4E2', '#8ABCE5']}
           style={styles.beginBtn}>
           <Text style={styles.begin}>BEGIN</Text>
         </LinearGradient>
       </TouchableOpacity>
+      </LinearGradient>
     </ScrollView>
   );
 }
@@ -126,13 +132,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 35,
-    color: '#66A8DD',
+    color: '#8ABCE5',
     margin: 10,
     marginTop: 16,
   },
   paragraph: {
     fontSize: 20,
-    color: 'white',
+    color: '#F0F7FC',
     margin: 8,
     lineHeight: 25,
   },

@@ -11,6 +11,8 @@ import {
 } from '../functionsAndQuotes/asyncStorageFunctions.js';
 import TrackPlayer from 'react-native-track-player';
 import tracks from '../sounds/tracks';
+import LinearGradient from 'react-native-linear-gradient';
+
 
 // Select a random track
 const randomNum = Math.floor(Math.random() * tracks.length);
@@ -253,7 +255,12 @@ function TimerScreen({
   }
 
   return (
-    <View style={styles.timerContainer}>
+ 
+      <LinearGradient
+      start={{x: 0, y: 0}}
+      end={{x: 1, y: 1}}
+      colors={['#271C7E', '#1F1663', '#171049']}
+      style={styles.timerContainer}>
       {/* <StatusBar hidden={true} /> */}
 
       <Text style={styles.time}>
@@ -265,7 +272,8 @@ function TimerScreen({
       ) : (
         <Icon name="meditation" size={90} style={styles.meditationIcon} />
       )}
-    </View>
+      </LinearGradient>
+
   );
 }
 
@@ -276,16 +284,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#0e0a2e',
   },
-  stop: {
-    color: 'crimson',
-  },
+  
   time: {
     fontSize: 40,
-    color: '#402DCE',
+    color: '#412ED1',
   },
   completionText: {
     fontSize: 23,
-    color: '#fff',
+    color: '#F0F7FC',
     textAlign: 'center',
     marginTop: 10,
     marginRight: 3,
@@ -294,7 +300,7 @@ const styles = StyleSheet.create({
   meditationIcon: {
     position: 'absolute',
     bottom: 18,
-    color: '#2775B4',
+    color: '#8ABCE5',
   },
 });
 
