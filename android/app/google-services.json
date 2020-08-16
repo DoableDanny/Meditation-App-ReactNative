@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "111225460672",
+    "firebase_url": "https://meditation-app-reactnati-71339.firebaseio.com",
+    "project_id": "meditation-app-reactnati-71339",
+    "storage_bucket": "meditation-app-reactnati-71339.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111225460672:android:b6c108aa75cf1507d75a25",
+        "android_client_info": {
+          "package_name": "com.navalsmeditations"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111225460672-1on958au4a1tgmhm119kme1t1enj798t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.navalsmeditations",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "111225460672-fcfm00u2toraafd36i0cupos6v7gleoj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdA1jtc4SUOCwGcYNIhAvqfENfozRGukk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111225460672-fcfm00u2toraafd36i0cupos6v7gleoj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -55,25 +55,29 @@ function StatsScreen({
     });
 
     getData(`@hours_meditated`).then((data) => {
-      data != null
-        ? setTotalMeditationTime(parseInt(data))
-        : setTotalMeditationTime(0);
+      var dataMinutes = data != null ? data : 0;
+      setTotalMeditationTime(parseInt(dataMinutes));
+
+      getData(`@sessions_completed`).then((data) => {
+        var dataSessionsCompleted = data != null ? data : 0;
+        setTotalMeditationsCompleted(parseInt(dataSessionsCompleted));
+
+        setAverageSessionTime(
+          (dataMinutes / dataSessionsCompleted).toPrecision(2),
+        );
+      });
     });
-    getData(`@sessions_completed`).then((data) => {
-      data != null
-        ? setTotalMeditationsCompleted(parseInt(data))
-        : setTotalMeditationsCompleted(0);
-    });
+
     getData(`@total_stars`).then((data) => {
       data != null ? setTotalStars(data) : setTotalStars(0);
     });
 
     // Calc averageSession time in minutes
-    if (totalMeditationTime && totalMeditationsCompleted) {
-      setAverageSessionTime(
-        (totalMeditationTime / totalMeditationsCompleted).toPrecision(2),
-      );
-    }
+    // if (totalMeditationTime && totalMeditationsCompleted) {
+    //   setAverageSessionTime(
+    //     (totalMeditationTime / totalMeditationsCompleted).toPrecision(2),
+    //   );
+    // }
   }, []);
 
   return (
