@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import {getData, storeData} from '../functionsAndQuotes/asyncStorageFunctions';
 import LinearGradient from 'react-native-linear-gradient';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 function StatsScreen({
   meditations,
@@ -28,6 +29,10 @@ function StatsScreen({
   yesterday.setDate(yesterday.getDate() - 1);
   today = today.toDateString();
   yesterday = yesterday.toDateString();
+
+  useEffect(() => {
+    crashlytics().log('StatsScreen mounted');
+  }, []);
 
   // Get all the AsyncStor data and update the UI upon component mount
   useEffect(() => {
@@ -62,22 +67,17 @@ function StatsScreen({
         var dataSessionsCompleted = data != null ? data : 0;
         setTotalMeditationsCompleted(parseInt(dataSessionsCompleted));
 
-        setAverageSessionTime(
-          (dataMinutes / dataSessionsCompleted).toPrecision(2),
-        );
+        if (dataMinutes && dataSessionsCompleted) {
+          setAverageSessionTime(
+            (dataMinutes / dataSessionsCompleted).toPrecision(2),
+          );
+        }
       });
     });
 
     getData(`@total_stars`).then((data) => {
       data != null ? setTotalStars(data) : setTotalStars(0);
     });
-
-    // Calc averageSession time in minutes
-    // if (totalMeditationTime && totalMeditationsCompleted) {
-    //   setAverageSessionTime(
-    //     (totalMeditationTime / totalMeditationsCompleted).toPrecision(2),
-    //   );
-    // }
   }, []);
 
   return (

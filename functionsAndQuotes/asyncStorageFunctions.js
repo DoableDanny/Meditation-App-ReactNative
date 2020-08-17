@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {Alert} from 'react-native';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 // Save single item
 export const storeData = async (storageKey, meditationsCopy) => {
@@ -8,6 +9,7 @@ export const storeData = async (storageKey, meditationsCopy) => {
     await AsyncStorage.setItem(storageKey, jsonValue);
   } catch (e) {
     console.log(e);
+    crashlytics().recordError(e);
   }
 };
 
@@ -19,6 +21,7 @@ export const getData = async (storageKey) => {
     return jsonValue != null ? jsonValue : null;
   } catch (e) {
     console.log('Failed when getting data from AsyncStorage :(');
+    crashlytics().recordError(e);
   }
 };
 
@@ -31,6 +34,8 @@ export const removeValue = async (storageKey, title) => {
       : null;
   } catch (e) {
     console.log(e);
+    crashlytics().recordError(e);
+
     Alert.alert('Error', 'Delete not successfull');
   }
   console.log(storageKey, title);
@@ -63,6 +68,7 @@ export const removeMultipleItems = async (keys) => {
     await AsyncStorage.multiRemove(keys);
   } catch (e) {
     console.error(e);
+    crashlytics().recordError(e);
   }
   console.log('MultiRemove Done');
 };

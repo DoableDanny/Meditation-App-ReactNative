@@ -12,7 +12,8 @@ import {
 import TrackPlayer from 'react-native-track-player';
 import tracks from '../sounds/tracks';
 import LinearGradient from 'react-native-linear-gradient';
-
+import analytics from '@react-native-firebase/analytics';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 // Select a random track
 const randomNum = Math.floor(Math.random() * tracks.length);
@@ -25,12 +26,14 @@ function TimerScreen({
   setStreak,
   setLongestStreak,
   selectedTime,
+  totalMeditationTime,
   setTotalMeditationTime,
+  totalMeditationsCompleted,
   setTotalMeditationsCompleted,
   setTotalStars,
   setTaoSeries,
 }) {
-  const [seconds, setSeconds] = useState(`02`);
+  const [seconds, setSeconds] = useState(`03`);
   const [minutes, setMinutes] = useState(`00`); //CHANGE THIS!!
   const [timerOn, setTimerOn] = useState(true);
   const [completionText, setCompletionText] = useState('');
@@ -54,6 +57,10 @@ function TimerScreen({
     });
     await TrackPlayer.add(track);
   };
+
+  useEffect(() => {
+    crashlytics().log('TimerScreen mounted');
+  }, []);
 
   // Takes f(n) as arg - runs like componentDidMount
   useEffect(() => {
@@ -79,6 +86,8 @@ function TimerScreen({
 
         // When TIME UP, stop timer and unlock the next meditation
         if (minutes === `00` && seconds === `01`) {
+          crashlytics().log('Time up');
+
           // Play zen completion sound
           TrackPlayer.play();
 
@@ -108,6 +117,7 @@ function TimerScreen({
               'Congratulations on completing the Tao Series, ZEN MASTER!',
             );
           }
+
           // update total number of stars
           if (selectedTime > 15) {
             getData(`@total_stars`)
@@ -141,6 +151,7 @@ function TimerScreen({
                     break;
                 }
                 setTotalStars(stars + starsObj.starGain);
+                console.log('stars', stars, starsObj.starGain);
 
                 // If users total stars >= 180 => Bonus series!S
                 if (stars + starsObj.starGain >= 180) {
@@ -162,6 +173,15 @@ function TimerScreen({
           } else {
             updateCompletionTime();
           }
+
+          console.log('Analytics line b4');
+          analytics().logEvent('Meditation_Completion_Event', {
+            Session_Time: selectedTime,
+            Total_Hours: totalMeditationTime / 60 + selectedTime / 60,
+            Total_Sessions: totalMeditationsCompleted + 1,
+            Meditation_Number: selectedMeditation.id + 1,
+          });
+
           function updateCompletionTime() {
             console.log('updateCompletionTime');
             if (selectedTime > currentMeditation.completionTime) {
@@ -255,13 +275,12 @@ function TimerScreen({
   }
 
   return (
- 
-      <LinearGradient
+    <LinearGradient
       start={{x: 0, y: 0}}
       end={{x: 1, y: 1}}
       colors={['#271C7E', '#1F1663', '#171049']}
       style={styles.timerContainer}>
-      {/* <StatusBar hidden={true} /> */}
+      <StatusBar hidden={true} />
 
       <Text style={styles.time}>
         {minutes}:{seconds}
@@ -272,8 +291,7 @@ function TimerScreen({
       ) : (
         <Icon name="meditation" size={90} style={styles.meditationIcon} />
       )}
-      </LinearGradient>
-
+    </LinearGradient>
   );
 }
 
@@ -284,7 +302,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#0e0a2e',
   },
-  
+
   time: {
     fontSize: 40,
     color: '#412ED1',

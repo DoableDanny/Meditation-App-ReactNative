@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,10 @@ import {
 } from 'react-native';
 import {imageArray} from '../imageArray';
 import LinearGradient from 'react-native-linear-gradient';
+import analytics from '@react-native-firebase/analytics';
+import crashlytics from '@react-native-firebase/crashlytics';
+
+// ADD SELECTED MED EVENT
 
 function SingleMeditationScreen({
   selectedMeditation,
@@ -17,94 +21,122 @@ function SingleMeditationScreen({
   selectedTime,
   setSelectedTime,
 }) {
-  return (
-    <ScrollView >
-      <LinearGradient
-      start={{x: 0, y: 0}}
-      end={{x: 1, y: 1}}
-      colors={['#271C7E', '#1F1663', '#171049']}
-      style={styles.pageContainer}>
-      <View style={styles.imgContainer}>
-        <Image
-          source={imageArray[selectedMeditation.id].image}
-          style={styles.img}
-        />
-      </View>
-      <View style={styles.contentContainer}>
-        <Text style={styles.title}>{selectedMeditation.title}</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam magna
-          orci, pretium eget porta convallis, viverra in enim.
-        </Text>
-        <Text style={styles.paragraph}>
-          Mauris id massa at magna fermentum luctus. Sed vehicula nisi vel dui
-          tempor, nec pulvinar dui ultrices. Fusce velit nulla, scelerisque
-          vitae urna sed, cursus finibus odio.
-        </Text>
-        <Text style={styles.paragraph}>
-          Sed at tincidunt ligula. Aenean facilisis aliquam tortor, at pretium
-          elit aliquet eget. Proin quam justo, viverra pretium tincidunt id,
-          dignissim a velit.
-        </Text>
-        <Text style={styles.paragraph}>
-          Sed at tincidunt ligula. Aenean facilisis aliquam tortor, at pretium
-          elit aliquet eget. Proin quam justo, viverra pretium tincidunt id,
-          dignissim a velit.
-        </Text>
-        <Text style={styles.paragraph}>
-          Sed at tincidunt ligula. Aenean facilisis aliquam tortor, at pretium
-          elit aliquet eget. Proin quam justo, viverra pretium tincidunt id,
-          dignissim a velit.
-        </Text>
-      </View>
+  useEffect(() => {
+    analytics().logEvent('Meditation_Selected_Event', {
+      Meditation_Number: selectedMeditation.id + 1,
+    });
 
-      <View style={styles.timeBtnsContainer}>
+    crashlytics().log('HomeScreen mounted');
+  }, []);
+
+  return (
+    <ScrollView>
+      <LinearGradient
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 1}}
+        colors={['#271C7E', '#1F1663', '#171049']}
+        style={styles.pageContainer}>
+        <View style={styles.imgContainer}>
+          <Image
+            source={imageArray[selectedMeditation.id].image}
+            style={styles.img}
+          />
+        </View>
+        <View style={styles.contentContainer}>
+          <Text style={styles.title}>{selectedMeditation.title}</Text>
+          <Text style={styles.paragraph}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+            magna orci, pretium eget porta convallis, viverra in enim.
+          </Text>
+          <Text style={styles.paragraph}>
+            Mauris id massa at magna fermentum luctus. Sed vehicula nisi vel dui
+            tempor, nec pulvinar dui ultrices. Fusce velit nulla, scelerisque
+            vitae urna sed, cursus finibus odio.
+          </Text>
+          <Text style={styles.paragraph}>
+            Sed at tincidunt ligula. Aenean facilisis aliquam tortor, at pretium
+            elit aliquet eget. Proin quam justo, viverra pretium tincidunt id,
+            dignissim a velit.
+          </Text>
+          <Text style={styles.paragraph}>
+            Sed at tincidunt ligula. Aenean facilisis aliquam tortor, at pretium
+            elit aliquet eget. Proin quam justo, viverra pretium tincidunt id,
+            dignissim a velit.
+          </Text>
+          <Text style={styles.paragraph}>
+            Sed at tincidunt ligula. Aenean facilisis aliquam tortor, at pretium
+            elit aliquet eget. Proin quam justo, viverra pretium tincidunt id,
+            dignissim a velit.
+          </Text>
+        </View>
+
+        <View style={styles.timeBtnsContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              setSelectedTime(15);
+              crashlytics().log('15 mins pressed');
+            }}
+            style={{
+              ...styles.timeBtn,
+              backgroundColor: selectedTime == 15 ? '#8ABCE5' : '#4192D5',
+              borderTopLeftRadius: 7,
+              borderBottomLeftRadius: 7,
+            }}>
+            <Text style={styles.timeText}>15</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setSelectedTime(30);
+              crashlytics().log('30 mins pressed');
+            }}
+            style={{
+              ...styles.timeBtn,
+              backgroundColor: selectedTime == 30 ? '#8ABCE5' : '#4192D5',
+            }}>
+            <Text style={styles.timeText}>30</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setSelectedTime(45);
+              crashlytics().log('45 mins pressed');
+            }}
+            style={{
+              ...styles.timeBtn,
+              backgroundColor: selectedTime == 45 ? '#8ABCE5' : '#4192D5',
+            }}>
+            <Text style={styles.timeText}>45</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setSelectedTime(60);
+              crashlytics().log('60 mins pressed');
+            }}
+            style={{
+              ...styles.timeBtn,
+              backgroundColor: selectedTime == 60 ? '#8ABCE5' : '#4192D5',
+              borderTopRightRadius: 7,
+              borderBottomRightRadius: 7,
+            }}>
+            <Text style={styles.timeText}>60</Text>
+          </TouchableOpacity>
+        </View>
+
         <TouchableOpacity
-          onPress={() => setSelectedTime(15)}
-          style={{
-            ...styles.timeBtn,
-            backgroundColor: selectedTime == 15 ? '#8ABCE5' : '#4192D5',
-            borderTopLeftRadius: 7,
-            borderBottomLeftRadius: 7,
+          onPress={() => {
+            analytics().logEvent('Begin_Meditation_Event', {
+              selected_Time: selectedTime,
+            });
+            crashlytics().log('Begin pressed');
+            navigation.navigate('Timer');
           }}>
-          <Text style={styles.timeText}>15</Text>
+          <LinearGradient
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 0}}
+            colors={['#8ABCE5', '#7BB4E2', '#8ABCE5']}
+            style={styles.beginBtn}>
+            <Text style={styles.begin}>BEGIN</Text>
+          </LinearGradient>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => setSelectedTime(30)}
-          style={{
-            ...styles.timeBtn,
-            backgroundColor: selectedTime == 30 ? '#8ABCE5' : '#4192D5',
-          }}>
-          <Text style={styles.timeText}>30</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => setSelectedTime(45)}
-          style={{
-            ...styles.timeBtn,
-            backgroundColor: selectedTime == 45 ? '#8ABCE5' : '#4192D5',
-          }}>
-          <Text style={styles.timeText}>45</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => setSelectedTime(60)}
-          style={{
-            ...styles.timeBtn,
-            backgroundColor: selectedTime == 60 ? '#8ABCE5' : '#4192D5',
-            borderTopRightRadius: 7,
-            borderBottomRightRadius: 7,
-          }}>
-          <Text style={styles.timeText}>60</Text>
-        </TouchableOpacity>
-      </View>
-      <TouchableOpacity onPress={() => navigation.navigate('Timer')}>
-        <LinearGradient
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}
-          colors={['#8ABCE5', '#7BB4E2', '#8ABCE5']}
-          style={styles.beginBtn}>
-          <Text style={styles.begin}>BEGIN</Text>
-        </LinearGradient>
-      </TouchableOpacity>
       </LinearGradient>
     </ScrollView>
   );

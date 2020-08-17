@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {getData} from '../functionsAndQuotes/asyncStorageFunctions';
 import {imageArray} from '../imageArray';
 import LinearGradient from 'react-native-linear-gradient';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 function HomeScreen({
   navigation,
@@ -25,7 +26,11 @@ function HomeScreen({
 }) {
   // True if we're on this screen, false if not (I'm using this to re-render homescreen)
   const isFocused = useIsFocused();
+  useEffect(() => {
+    crashlytics().log('HomeScreen mounted');
+  }, []);
 
+  // Brackets second arg so only runs once.
   useEffect(() => {
     getData(`@meditations_completed`).then((data) =>
       data != null ? unlockMeditation(JSON.parse(data)) : null,
@@ -90,6 +95,7 @@ function HomeScreen({
             onPress={() => {
               updateSelectedMeditation(item);
               item.locked ? null : navigation.navigate('Meditation');
+              crashlytics().log(`Meditation ${item.id + 1} was selected`);
             }}>
             {!item.locked ? (
               <LinearGradient
@@ -139,7 +145,12 @@ function HomeScreen({
       />
 
       <View style={styles.optionBtnsContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Guide')} style={styles.optionBtn}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Guide');
+            crashlytics().log('Guide button pressed');
+          }}
+          style={styles.optionBtn}>
           <LinearGradient
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
@@ -148,7 +159,11 @@ function HomeScreen({
             <Text style={styles.optionBtnText}>GUIDE</Text>
           </LinearGradient>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Settings');
+            crashlytics().log('Settings button pressed');
+          }}>
           <LinearGradient
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
@@ -157,7 +172,11 @@ function HomeScreen({
             <Text style={styles.optionBtnText}>SETTINGS</Text>
           </LinearGradient>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Stats')}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Stats');
+            crashlytics().log('Stats button pressed');
+          }}>
           <LinearGradient
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
@@ -172,7 +191,7 @@ function HomeScreen({
 }
 
 const darkPurple = '#0e0a2e';
-const purpleGrad = ['#271C7E', '#1F1663', '#171049']
+const purpleGrad = ['#271C7E', '#1F1663', '#171049'];
 
 // const lessDarkPurple = '#271C7E'
 // const lighterPurpleGrad = ['#412ED1', '#3A29BC', '#3425A7']
@@ -181,7 +200,6 @@ const purpleGrad = ['#271C7E', '#1F1663', '#171049']
 // const greenGrad = ['#A6ECA8','#ADEEAF', '#B3EFB5' ]
 
 // const lightBlueGrad = ['#C6EDFF', '#C1ECFF','#BBEAFF']
-
 
 const styles = StyleSheet.create({
   screenContainer: {

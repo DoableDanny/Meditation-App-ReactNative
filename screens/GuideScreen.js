@@ -1,48 +1,16 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {Button, ScrollView, Text, StyleSheet} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
-import analytics from '@react-native-firebase/analytics';
-
-// Get yesterday's date
-let today = new Date();
-let yesterday = new Date(today);
-yesterday.setDate(yesterday.getDate() - 1);
-yesterday = yesterday.toDateString();
+import crashlytics from '@react-native-firebase/crashlytics';
 
 function GuideScreen() {
-  const [dateLastCompleted, setDateLastCompleted] = useState('');
-
-  // Get data stored in asyncStorage
-  const getData = async (storageKey) => {
-    try {
-      const jsonValue = await AsyncStorage.getItem(storageKey);
-      // alert(jsonValue);
-      return jsonValue != null ? jsonValue : null;
-    } catch (e) {
-      console.log('Failed when getting data from AsyncStorage :(');
-    }
-  };
-
-  getData(`@date_last_completed`).then((data) => {
-    if (data != null) {
-      setDateLastCompleted(data.slice(1, -1));
-    }
-  });
+  useEffect(() => {
+    crashlytics().log('GuideScreen mounted');
+  }, []);
 
   return (
     <ScrollView style={styles.screenContainer}>
-      <Button
-        title="Add To Basket"
-        onPress={() =>
-          analytics().logEvent('basket', {
-            id: 3745092,
-            item: 'mens grey t-shirt',
-            description: ['round neck', 'long sleeved'],
-            size: 'L',
-          })
-        }
-      />
+      <Button title="Crash" onPress={() => crashlytics().crash()} />
       <LinearGradient
         start={{x: 0, y: 0}}
         end={{x: 1, y: 1}}

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -15,6 +15,8 @@ import {removeValue} from '../functionsAndQuotes/asyncStorageFunctions';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
+import analytics from '@react-native-firebase/analytics';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 function SettingsScreen({
   meditations,
@@ -28,6 +30,10 @@ function SettingsScreen({
   const [dateLastCompleted, setDateLastCompleted] = useState('-');
   const [averageSessionTime, setAverageSessionTime] = useState(0);
 
+  useEffect(() => {
+    crashlytics().log('SettingsScreen mounted');
+  }, []);
+
   const warningAlert = (messageObject) => {
     Alert.alert(
       'You Absolutely Sure?',
@@ -36,14 +42,16 @@ function SettingsScreen({
         {
           text: 'Yes',
           onPress: () => {
+            crashlytics().log(`Yes pressed to delete ${messageObject}`);
+            analytics().logEvent(`Deleted_${messageObject}`);
             switch (messageObject) {
-              case `meditation progress`:
+              case `meditation_progress`:
                 deleteMeditationsProgress(messageObject);
                 break;
               case `stars`:
                 removeStarsFromMeditations();
                 break;
-              case `stats data`:
+              case `stats_data`:
                 resetStats(messageObject);
                 break;
             }
@@ -92,6 +100,7 @@ function SettingsScreen({
       setDateLastCompleted('-');
     } catch (error) {
       console.error(error);
+      crashlytics().recordError(error);
     }
   };
 
@@ -100,7 +109,6 @@ function SettingsScreen({
     meditationsCopy.forEach((med) => {
       med.completionTime = 0;
     });
-    console.log(meditationsCopy);
     setTotalStars(0);
     unlockMeditation(meditationsCopy);
     storeData('@meditations_completed', meditationsCopy);
@@ -126,7 +134,10 @@ function SettingsScreen({
       style={styles.screenContainer}>
       <View style={styles.textAndButtonWrapper}>
         <TouchableOpacity
-          onPress={() => warningAlert('stars')}
+          onPress={() => {
+            crashlytics().log('Delete stars button pressed');
+            warningAlert('stars');
+          }}
           style={styles.deleteButton}>
           <Text style={styles.buttonText}>DELETE STARS</Text>
         </TouchableOpacity>
@@ -137,7 +148,10 @@ function SettingsScreen({
 
       <View style={styles.textAndButtonWrapper}>
         <TouchableOpacity
-          onPress={() => warningAlert('stats data')}
+          onPress={() => {
+            warningAlert('stats_data');
+            crashlytics().log('Reset stats button pressed');
+          }}
           style={styles.deleteButton}>
           <Text style={styles.buttonText}>RESET STATS</Text>
         </TouchableOpacity>
@@ -148,7 +162,10 @@ function SettingsScreen({
 
       <View style={styles.textAndButtonWrapper}>
         <TouchableOpacity
-          onPress={() => warningAlert('meditation progress')}
+          onPress={() => {
+            warningAlert('meditation_progress');
+            crashlytics().log('Re-lock meditations button pressed');
+          }}
           style={styles.deleteButton}>
           <Text style={styles.buttonText}>RE-LOCK MEDITATIONS</Text>
         </TouchableOpacity>
