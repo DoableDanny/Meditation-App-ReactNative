@@ -10,7 +10,6 @@ function GuideScreen() {
 
   return (
     <ScrollView style={styles.screenContainer}>
-      <Button title="Crash" onPress={() => crashlytics().crash()} />
       <LinearGradient
         start={{x: 0, y: 0}}
         end={{x: 1, y: 1}}
