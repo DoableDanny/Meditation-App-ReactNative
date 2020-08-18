@@ -34,7 +34,7 @@ function SingleMeditationScreen({
       <LinearGradient
         start={{x: 0, y: 0}}
         end={{x: 1, y: 1}}
-        colors={['#271C7E', '#1F1663', '#171049']}
+        colors={purpleGrad}
         style={styles.pageContainer}>
         <View style={styles.imgContainer}>
           <Image
@@ -141,6 +141,8 @@ function SingleMeditationScreen({
     </ScrollView>
   );
 }
+
+const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
 
 const styles = StyleSheet.create({
   pageContainer: {

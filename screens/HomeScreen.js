@@ -46,25 +46,25 @@ function HomeScreen({
       case 15:
         return (
           <View style={{flexDirection: 'row'}}>
-            <Icon name="star-outline" size={25} style={{color: 'gold'}} />
-            <Icon name="star-outline" size={25} style={{color: 'gold'}} />
-            <Icon name="star-outline" size={25} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={21} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={21} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={21} style={{color: 'gold'}} />
           </View>
         );
       case 30:
         return (
           <View style={{flexDirection: 'row'}}>
-            <Icon name="star" size={25} style={{color: 'gold'}} />
-            <Icon name="star-outline" size={25} style={{color: 'gold'}} />
-            <Icon name="star-outline" size={25} style={{color: 'gold'}} />
+            <Icon name="star" size={21} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={21} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={21} style={{color: 'gold'}} />
           </View>
         );
       case 45:
         return (
           <View style={{flexDirection: 'row'}}>
-            <Icon name="star" size={25} style={{color: 'gold'}} />
-            <Icon name="star" size={25} style={{color: 'gold'}} />
-            <Icon name="star-outline" size={25} style={{color: 'gold'}} />
+            <Icon name="star" size={21} style={{color: 'gold'}} />
+            <Icon name="star" size={21} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={21} style={{color: 'gold'}} />
           </View>
         );
       case 60:
@@ -72,13 +72,13 @@ function HomeScreen({
           <View style={{flexDirection: 'row'}}>
             <Icon
               name="star"
-              size={25}
+              size={21}
               style={{
                 color: 'gold',
               }}
             />
-            <Icon name="star" size={25} style={{color: 'gold'}} />
-            <Icon name="star" size={25} style={{color: 'gold'}} />
+            <Icon name="star" size={21} style={{color: 'gold'}} />
+            <Icon name="star" size={21} style={{color: 'gold'}} />
           </View>
         );
     }
@@ -105,7 +105,7 @@ function HomeScreen({
                 style={{
                   ...styles.listItem,
                   borderBottomWidth: index === meditations.length - 1 ? 0 : 1,
-                  borderTopWidth: index === 0 ? 18 : 12,
+                  borderTopWidth: index === 0 ? 18 : 10,
                   marginBottom: index === meditations.length - 1 ? 60 : 0,
                 }}>
                 <View style={styles.imageAndNumberWrapper}>
@@ -130,7 +130,7 @@ function HomeScreen({
               <LinearGradient
                 start={{x: 0, y: 0}}
                 end={{x: 1, y: 0}}
-                colors={['#271C7E', '#1F1663', '#171049']}
+                colors={purpleGrad}
                 style={{
                   ...styles.listItem,
                   borderBottomWidth: index === meditations.length - 1 ? 0 : 1,
@@ -190,16 +190,8 @@ function HomeScreen({
   );
 }
 
-const darkPurple = '#0e0a2e';
-const purpleGrad = ['#271C7E', '#1F1663', '#171049'];
-
-// const lessDarkPurple = '#271C7E'
-// const lighterPurpleGrad = ['#412ED1', '#3A29BC', '#3425A7']
-
-// const backGreen = '#77DD76'
-// const greenGrad = ['#A6ECA8','#ADEEAF', '#B3EFB5' ]
-
-// const lightBlueGrad = ['#C6EDFF', '#C1ECFF','#BBEAFF']
+const darkPurple = '#171049';
+const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
 
 const styles = StyleSheet.create({
   screenContainer: {
@@ -210,7 +202,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 15,
     borderColor: darkPurple,
-    borderWidth: 12,
+    borderWidth: 10,
     borderRadius: 25,
     minHeight: 120,
     alignItems: 'center',
@@ -221,7 +213,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     color: '#D3E6F5',
   },
   lockIcon: {
@@ -262,7 +254,6 @@ const styles = StyleSheet.create({
   optionBtn: {
     height: 45,
     width: 0.33333333 * Dimensions.get('window').width,
-    borderWidth: 0.5,
     justifyContent: 'center',
     alignItems: 'center',
     // backgroundColor: lightBlue

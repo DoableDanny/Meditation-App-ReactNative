@@ -1,5 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, StatusBar, Platform, Alert} from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  StatusBar,
+  Platform,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FA5Icon from 'react-native-vector-icons/FontAwesome5';
 import BackgroundTimer from 'react-native-background-timer';
@@ -7,17 +14,12 @@ import {navalQuotes} from '../functionsAndQuotes/quotes';
 import {
   getData,
   storeData,
-  multiSet,
 } from '../functionsAndQuotes/asyncStorageFunctions.js';
 import TrackPlayer from 'react-native-track-player';
 import tracks from '../sounds/tracks';
 import LinearGradient from 'react-native-linear-gradient';
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
-
-// Select a random track
-const randomNum = Math.floor(Math.random() * tracks.length);
-const track = tracks[randomNum];
 
 function TimerScreen({
   selectedMeditation,
@@ -37,6 +39,11 @@ function TimerScreen({
   const [minutes, setMinutes] = useState(`00`); //CHANGE THIS!!
   const [timerOn, setTimerOn] = useState(true);
   const [completionText, setCompletionText] = useState('');
+  const [stopSound, setStopSound] = useState(false);
+
+  // Select a random track
+  const randomNum = Math.floor(Math.random() * tracks.length);
+  const track = tracks[randomNum];
 
   // Function that sets up the track player
   const trackPlayerInit = async () => {
@@ -57,6 +64,15 @@ function TimerScreen({
     });
     await TrackPlayer.add(track);
   };
+
+  useEffect(() => {
+    // Initialise TrackPlayer on component mount
+    trackPlayerInit();
+    // Stop playing sound on unmount
+    return () => {
+      TrackPlayer.stop();
+    };
+  }, []);
 
   useEffect(() => {
     crashlytics().log('TimerScreen mounted');
@@ -261,39 +277,53 @@ function TimerScreen({
     };
   });
 
-  useEffect(() => {
-    // Initialise TrackPlayer on component mount
-    trackPlayerInit();
-    // Stop playing sound on unmount
-    return () => {
-      TrackPlayer.stop();
-    };
-  }, []);
-
-  if (minutes == `00` && seconds == `00`) {
-    var timeUp = true;
-  }
-
   return (
     <LinearGradient
       start={{x: 0, y: 0}}
       end={{x: 1, y: 1}}
-      colors={['#271C7E', '#1F1663', '#171049']}
+      colors={purpleGrad}
       style={styles.timerContainer}>
       <StatusBar hidden={true} />
+
+      {timerOn ? null : (
+        <TouchableOpacity
+          style={styles.stopIconAndTextWrapper}
+          onPress={() => {
+            TrackPlayer.stop();
+            setStopSound(true);
+          }}>
+          <FA5Icon
+            name="stop"
+            size={80}
+            style={{
+              ...styles.stopSoundIcon,
+              display: stopSound ? 'none' : 'flex',
+            }}
+          />
+          <Text
+            style={{
+              ...styles.stopSoundText,
+              display: stopSound ? 'none' : 'flex',
+            }}>
+            Stop Sound
+          </Text>
+        </TouchableOpacity>
+      )}
 
       <Text style={styles.time}>
         {minutes}:{seconds}
       </Text>
       <Text style={styles.completionText}>{completionText}</Text>
-      {timeUp ? (
-        <FA5Icon name="smile-beam" size={90} style={styles.meditationIcon} />
-      ) : (
+      {timerOn ? (
         <Icon name="meditation" size={90} style={styles.meditationIcon} />
+      ) : (
+        <FA5Icon name="smile-beam" size={90} style={styles.meditationIcon} />
       )}
     </LinearGradient>
   );
 }
+
+const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
 
 const styles = StyleSheet.create({
   timerContainer: {
@@ -302,10 +332,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#0e0a2e',
   },
-
+  stopIconAndTextWrapper: {
+    position: 'absolute',
+    top: 30,
+    alignItems: 'center',
+  },
+  stopSoundIcon: {
+    color: '#5e4ed8',
+  },
+  stopSoundText: {
+    fontSize: 20,
+    color: '#5e4ed8',
+    textAlign: 'center',
+    marginTop: 2,
+  },
   time: {
     fontSize: 40,
-    color: '#412ED1',
+    color: '#5e4ed8',
   },
   completionText: {
     fontSize: 23,

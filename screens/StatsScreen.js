@@ -84,7 +84,7 @@ function StatsScreen({
     <LinearGradient
       start={{x: 0, y: 0}}
       end={{x: 1, y: 0}}
-      colors={['#271C7E', '#1F1663', '#171049']}
+      colors={purpleGrad}
       style={styles.screenContainer}>
       <Text style={{...styles.key, color: 'gold'}}>
         <Icon name="star" size={25} style={{color: 'gold'}} />
@@ -146,6 +146,8 @@ function StatsScreen({
     </LinearGradient>
   );
 }
+
+const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
 
 const styles = StyleSheet.create({
   screenContainer: {

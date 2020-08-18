@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Button, ScrollView, Text, StyleSheet} from 'react-native';
+import {ScrollView, Text, StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import crashlytics from '@react-native-firebase/crashlytics';
 
@@ -9,11 +9,11 @@ function GuideScreen() {
   }, []);
 
   return (
-    <ScrollView style={styles.screenContainer}>
+    <ScrollView>
       <LinearGradient
         start={{x: 0, y: 0}}
         end={{x: 1, y: 1}}
-        colors={['#271C7E', '#1F1663', '#171049']}>
+        colors={purpleGrad}>
         <Text style={styles.heading}>A Quest for Self-Understanding</Text>
         <Text style={styles.text}>
           This app does not do the meditating for you, there are no voiceovers
@@ -64,24 +64,22 @@ function GuideScreen() {
         <Text style={styles.text}>
           Eckhart Tolle, The Power of Now. A great book for beginners. Explains
           topics such as the ego, enlightenment, mindfulness, and the problems
-          that thinking of the past on future cause.
+          that thinking of the past and future cause.
         </Text>
         <Text style={{...styles.text, marginBottom: 25}}>
           Philisophical fiction: Siddhartha by Herman Hesse. A beautiful story
           showing us that there is no right path. Nobody can give us the
           answers. Follow your own path. Illusions by Richard Bach and The
-          Alchemist by Paulo Cohelo.
+          Alchemist by Paulo Cohelo are also great teachers.
         </Text>
       </LinearGradient>
     </ScrollView>
   );
 }
 
+const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
+
 const styles = StyleSheet.create({
-  screenContainer: {
-    backgroundColor: '#0e0a2e',
-    padding: 7,
-  },
   heading: {
     color: '#8ABCE5',
     fontSize: 30,

@@ -130,7 +130,7 @@ function SettingsScreen({
     <LinearGradient
       start={{x: 0, y: 0}}
       end={{x: 1, y: 0}}
-      colors={['#271C7E', '#1F1663', '#171049']}
+      colors={purpleGrad}
       style={styles.screenContainer}>
       <View style={styles.textAndButtonWrapper}>
         <TouchableOpacity
@@ -188,6 +188,8 @@ function SettingsScreen({
   );
 }
 
+const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
+
 const styles = StyleSheet.create({
   screenContainer: {
     backgroundColor: '#0e0a2e',
@@ -199,7 +201,7 @@ const styles = StyleSheet.create({
   },
 
   deleteButton: {
-    padding: 8,
+    padding: 10,
     borderRadius: 10,
     backgroundColor: '#FF5353',
   },
