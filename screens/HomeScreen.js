@@ -21,7 +21,6 @@ function HomeScreen({
   meditations,
   unlockMeditation,
   updateSelectedMeditation,
-  taoSeries,
   setTaoSeries,
 }) {
   // True if we're on this screen, false if not (I'm using this to re-render homescreen)
@@ -121,9 +120,8 @@ function HomeScreen({
                   </View>
                 </View>
                 <View style={styles.starsAndTitleWrapper}>
-                  {renderStars(item)}
-
                   <Text style={styles.title}>{item.title} </Text>
+                  {renderStars(item)}
                 </View>
               </LinearGradient>
             ) : (
@@ -146,11 +144,11 @@ function HomeScreen({
 
       <View style={styles.optionBtnsContainer}>
         <TouchableOpacity
+          style={styles.optionButtonTouchableOp}
           onPress={() => {
             navigation.navigate('Guide');
             crashlytics().log('Guide button pressed');
-          }}
-          style={styles.optionBtn}>
+          }}>
           <LinearGradient
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
@@ -160,6 +158,7 @@ function HomeScreen({
           </LinearGradient>
         </TouchableOpacity>
         <TouchableOpacity
+          style={styles.optionButtonTouchableOp}
           onPress={() => {
             navigation.navigate('Settings');
             crashlytics().log('Settings button pressed');
@@ -173,6 +172,7 @@ function HomeScreen({
           </LinearGradient>
         </TouchableOpacity>
         <TouchableOpacity
+          style={styles.optionButtonTouchableOp}
           onPress={() => {
             navigation.navigate('Stats');
             crashlytics().log('Stats button pressed');
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
   },
   starsAndTitleWrapper: {
     flex: 1,
-    marginLeft: 40,
+    marginLeft: 30,
     justifyContent: 'center',
   },
   title: {
@@ -244,19 +244,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   number: {color: 'white', fontSize: 40},
+
   optionBtnsContainer: {
+    backgroundColor: '#22277a',
     position: 'absolute',
     bottom: 0,
-    backgroundColor: '#22277a',
-    width: Dimensions.get('window').width,
+    left: 0,
+    right: 0,
     flexDirection: 'row',
+  },
+  optionButtonTouchableOp: {
+    flex: 1,
   },
   optionBtn: {
     height: 45,
-    width: 0.33333333 * Dimensions.get('window').width,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: lightBlue
   },
   optionBtnText: {
     color: 'white',

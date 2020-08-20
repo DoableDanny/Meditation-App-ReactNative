@@ -5,6 +5,7 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import {getData, storeData} from '../functionsAndQuotes/asyncStorageFunctions';
 import LinearGradient from 'react-native-linear-gradient';
 import crashlytics from '@react-native-firebase/crashlytics';
+import {ScrollView} from 'react-native-gesture-handler';
 
 function StatsScreen({
   meditations,
@@ -86,63 +87,65 @@ function StatsScreen({
       end={{x: 1, y: 0}}
       colors={purpleGrad}
       style={styles.screenContainer}>
-      <Text style={{...styles.key, color: 'gold'}}>
-        <Icon name="star" size={25} style={{color: 'gold'}} />
-        Stars: <Text style={styles.value}>{totalStars} / 195</Text>
-      </Text>
+      <ScrollView>
+        <Text style={{...styles.key, color: 'gold', marginTop: 32}}>
+          <Icon name="star" size={25} style={{color: 'gold'}} />
+          Stars: <Text style={styles.value}>{totalStars} / 195</Text>
+        </Text>
 
-      <View style={{margin: 25}}>
+        <View style={{margin: 25}}>
+          <Text style={styles.key}>
+            Hours Meditated:{' '}
+            <Text style={styles.value}>
+              {totalMeditationTime / 60}{' '}
+              {totalMeditationTime == 1 ? 'hour' : 'hours'}
+            </Text>
+          </Text>
+          <Text style={styles.key}>
+            Sessions:{' '}
+            <Text style={styles.value}>{totalMeditationsCompleted} </Text>
+          </Text>
+          <Text style={styles.key}>
+            Average Session:{' '}
+            <Text style={styles.value}>
+              {averageSessionTime ? averageSessionTime : 0} mins
+            </Text>
+          </Text>
+        </View>
         <Text style={styles.key}>
-          Hours Meditated:{' '}
+          Streak:{' '}
           <Text style={styles.value}>
-            {totalMeditationTime / 60}{' '}
-            {totalMeditationTime == 1 ? 'hour' : 'hours'}
+            {streak} {streak == 1 ? 'day' : 'days'}
           </Text>
         </Text>
         <Text style={styles.key}>
-          Sessions:{' '}
-          <Text style={styles.value}>{totalMeditationsCompleted} </Text>
-        </Text>
-        <Text style={styles.key}>
-          Average Session:{' '}
+          Longest Streak:{' '}
           <Text style={styles.value}>
-            {averageSessionTime ? averageSessionTime : 0} mins
+            {' '}
+            {longestStreak} {longestStreak == 1 ? 'day' : 'days'}
           </Text>
         </Text>
-      </View>
-      <Text style={styles.key}>
-        Streak:{' '}
-        <Text style={styles.value}>
-          {streak} {streak == 1 ? 'day' : 'days'}
+        <Text style={styles.key}>
+          Last Meditation: <Text style={styles.value}>{dateLastCompleted}</Text>
         </Text>
-      </Text>
-      <Text style={styles.key}>
-        Longest Streak:{' '}
-        <Text style={styles.value}>
-          {' '}
-          {longestStreak} {longestStreak == 1 ? 'day' : 'days'}
-        </Text>
-      </Text>
-      <Text style={styles.key}>
-        Last Meditation: <Text style={styles.value}>{dateLastCompleted}</Text>
-      </Text>
 
-      <View style={{alignItems: 'center', marginTop: 20}}>
-        <IonIcon name="md-trophy-sharp" size={30} style={{color: 'gold'}} />
-        {totalStars == 195 ? (
-          <Text style={styles.award}>ZEN MASTER</Text>
-        ) : null}
-        {meditations[59].completionTime > 0 ? (
-          <Text style={styles.award}>NAVAL PEACE PRIZE</Text>
-        ) : null}
-      </View>
-      <View style={styles.iconWrapper}>
-        <IonIcon
-          name="stats-chart-outline"
-          size={70}
-          style={styles.meditationIcon}
-        />
-      </View>
+        <View style={{alignItems: 'center', marginTop: 20}}>
+          <IonIcon name="md-trophy-sharp" size={30} style={{color: 'gold'}} />
+          {totalStars == 195 ? (
+            <Text style={styles.award}>ZEN MASTER</Text>
+          ) : null}
+          {meditations[59].completionTime > 0 ? (
+            <Text style={styles.award}>NAVAL PEACE PRIZE</Text>
+          ) : null}
+        </View>
+        <View style={styles.iconWrapper}>
+          <IonIcon
+            name="stats-chart-outline"
+            size={70}
+            style={styles.meditationIcon}
+          />
+        </View>
+      </ScrollView>
     </LinearGradient>
   );
 }
@@ -152,7 +155,6 @@ const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
 const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
-    paddingTop: 35,
   },
   key: {
     color: '#BBD8F0',
@@ -170,13 +172,10 @@ const styles = StyleSheet.create({
   },
   iconWrapper: {
     alignItems: 'center',
-    position: 'relative',
-    flex: 1,
+    marginTop: 48,
+    marginBottom: 16,
   },
   meditationIcon: {
-    position: 'absolute',
-    bottom: 20,
-    // left: 0.43 * Dimensions.get('window').width,
     color: '#2775B4',
   },
 });

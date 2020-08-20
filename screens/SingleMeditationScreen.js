@@ -13,29 +13,45 @@ import LinearGradient from 'react-native-linear-gradient';
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
 
-// ADD SELECTED MED EVENT
-
 function SingleMeditationScreen({
   selectedMeditation,
   navigation,
   selectedTime,
   setSelectedTime,
 }) {
+  const meditationNumber = selectedMeditation.id + 1;
+
   useEffect(() => {
     analytics().logEvent('Meditation_Selected_Event', {
-      Meditation_Number: selectedMeditation.id + 1,
+      Meditation_Number: meditationNumber,
     });
 
-    crashlytics().log('HomeScreen mounted');
+    crashlytics().log('SingleMeditationScreen mounted');
   }, []);
 
+  const medEssays = [
+    require('../meditations/1'),
+    require('../meditations/2'),
+    require('../meditations/3'),
+    require('../meditations/4'),
+    require('../meditations/5'),
+    require('../meditations/6'),
+    require('../meditations/7'),
+    require('../meditations/8'),
+    require('../meditations/9'),
+    require('../meditations/10'),
+    require('../meditations/11'),
+    require('../meditations/12'),
+  ];
+  const selectedMedEssay = medEssays[selectedMeditation.id].default;
+
   return (
-    <ScrollView>
-      <LinearGradient
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 1}}
-        colors={purpleGrad}
-        style={styles.pageContainer}>
+    <LinearGradient
+      start={{x: 0, y: 0}}
+      end={{x: 1, y: 1}}
+      colors={purpleGrad}
+      style={styles.pageContainer}>
+      <ScrollView>
         <View style={styles.imgContainer}>
           <Image
             source={imageArray[selectedMeditation.id].image}
@@ -44,30 +60,19 @@ function SingleMeditationScreen({
         </View>
         <View style={styles.contentContainer}>
           <Text style={styles.title}>{selectedMeditation.title}</Text>
-          <Text style={styles.paragraph}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-            magna orci, pretium eget porta convallis, viverra in enim.
+          <Text style={styles.quoteText}>{selectedMedEssay.quote.text}</Text>
+          <Text style={styles.quoteAuthor}>
+            - {selectedMedEssay.quote.author}
           </Text>
-          <Text style={styles.paragraph}>
-            Mauris id massa at magna fermentum luctus. Sed vehicula nisi vel dui
-            tempor, nec pulvinar dui ultrices. Fusce velit nulla, scelerisque
-            vitae urna sed, cursus finibus odio.
-          </Text>
-          <Text style={styles.paragraph}>
-            Sed at tincidunt ligula. Aenean facilisis aliquam tortor, at pretium
-            elit aliquet eget. Proin quam justo, viverra pretium tincidunt id,
-            dignissim a velit.
-          </Text>
-          <Text style={styles.paragraph}>
-            Sed at tincidunt ligula. Aenean facilisis aliquam tortor, at pretium
-            elit aliquet eget. Proin quam justo, viverra pretium tincidunt id,
-            dignissim a velit.
-          </Text>
-          <Text style={styles.paragraph}>
-            Sed at tincidunt ligula. Aenean facilisis aliquam tortor, at pretium
-            elit aliquet eget. Proin quam justo, viverra pretium tincidunt id,
-            dignissim a velit.
-          </Text>
+
+          {console.log(selectedMedEssay.paragraphs.length)}
+          {selectedMedEssay.paragraphs.map((p) => {
+            return (
+              <Text style={styles.paragraph} key={Math.random()}>
+                {p}
+              </Text>
+            );
+          })}
         </View>
 
         <View style={styles.timeBtnsContainer}>
@@ -124,7 +129,8 @@ function SingleMeditationScreen({
         <TouchableOpacity
           onPress={() => {
             analytics().logEvent('Begin_Meditation_Event', {
-              selected_Time: selectedTime,
+              Selected_Time: selectedTime,
+              Meditation_Number: selectedMeditation.id + 1,
             });
             crashlytics().log('Begin pressed');
             navigation.navigate('Timer');
@@ -137,8 +143,8 @@ function SingleMeditationScreen({
             <Text style={styles.begin}>BEGIN</Text>
           </LinearGradient>
         </TouchableOpacity>
-      </LinearGradient>
-    </ScrollView>
+      </ScrollView>
+    </LinearGradient>
   );
 }
 
@@ -146,19 +152,16 @@ const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
 
 const styles = StyleSheet.create({
   pageContainer: {
-    backgroundColor: '#0e0a2e',
     flexDirection: 'column',
+    flex: 1,
   },
   imgContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 15,
-    height: 200,
-    position: 'relative',
+    alignItems: 'center',
+    backgroundColor: '#8ABCE5',
   },
   img: {
-    height: 210,
     width: Dimensions.get('window').width,
+    height: 210,
   },
   contentContainer: {
     marginLeft: 12,
@@ -167,14 +170,27 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 35,
     color: '#8ABCE5',
-    margin: 10,
-    marginTop: 16,
+    marginTop: 24,
+    marginBottom: 24,
+  },
+  quoteText: {
+    fontSize: 21,
+    color: '#D0F6ED',
+    lineHeight: 25,
+    marginBottom: 4,
+  },
+  quoteAuthor: {
+    fontSize: 21,
+    color: '#D0F6ED',
+    lineHeight: 25,
+    marginBottom: 24,
+    alignSelf: 'flex-end',
   },
   paragraph: {
-    fontSize: 20,
+    fontSize: 21,
     color: '#F0F7FC',
-    margin: 8,
     lineHeight: 25,
+    marginBottom: 16,
   },
   timeBtnsContainer: {
     flexDirection: 'row',

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {
   View,
+  ScrollView,
   Text,
   StyleSheet,
   TouchableOpacity,
@@ -132,58 +133,65 @@ function SettingsScreen({
       end={{x: 1, y: 0}}
       colors={purpleGrad}
       style={styles.screenContainer}>
-      <View style={styles.textAndButtonWrapper}>
-        <TouchableOpacity
-          onPress={() => {
-            crashlytics().log('Delete stars button pressed');
-            warningAlert('stars');
-          }}
-          style={styles.deleteButton}>
-          <Text style={styles.buttonText}>DELETE STARS</Text>
-        </TouchableOpacity>
-        <Text style={styles.description}>
-          Resets all stars to 0. All unlocked meditations will remain.
-        </Text>
-      </View>
+      <ScrollView>
+        <View style={{...styles.textAndButtonWrapper, marginTop: 32}}>
+          <TouchableOpacity
+            onPress={() => {
+              crashlytics().log('Delete stars button pressed');
+              warningAlert('stars');
+            }}
+            style={styles.deleteButton}>
+            <Text style={styles.buttonText}>DELETE STARS</Text>
+          </TouchableOpacity>
+          <Text style={styles.description}>
+            Resets all stars to 0. All unlocked meditations will remain.
+          </Text>
+        </View>
 
-      <View style={styles.textAndButtonWrapper}>
-        <TouchableOpacity
-          onPress={() => {
-            warningAlert('stats_data');
-            crashlytics().log('Reset stats button pressed');
-          }}
-          style={styles.deleteButton}>
-          <Text style={styles.buttonText}>RESET STATS</Text>
-        </TouchableOpacity>
-        <Text style={styles.description}>
-          Resets all stats to 0. Stars and unlocked meditations will remain.
-        </Text>
-      </View>
+        <View style={styles.textAndButtonWrapper}>
+          <TouchableOpacity
+            onPress={() => {
+              warningAlert('stats_data');
+              crashlytics().log('Reset stats button pressed');
+            }}
+            style={styles.deleteButton}>
+            <Text style={styles.buttonText}>RESET STATS</Text>
+          </TouchableOpacity>
+          <Text style={styles.description}>
+            Resets all stats to 0. Stars and unlocked meditations will remain.
+          </Text>
+        </View>
 
-      <View style={styles.textAndButtonWrapper}>
-        <TouchableOpacity
-          onPress={() => {
-            warningAlert('meditation_progress');
-            crashlytics().log('Re-lock meditations button pressed');
-          }}
-          style={styles.deleteButton}>
-          <Text style={styles.buttonText}>RE-LOCK MEDITATIONS</Text>
-        </TouchableOpacity>
-        <Text style={styles.description}>
-          All meditations but day one will be locked. Your stars will also be
-          deleted.
-        </Text>
-      </View>
+        <View style={styles.textAndButtonWrapper}>
+          <TouchableOpacity
+            onPress={() => {
+              warningAlert('meditation_progress');
+              crashlytics().log('Re-lock meditations button pressed');
+            }}
+            style={styles.deleteButton}>
+            <Text style={styles.buttonText}>RE-LOCK MEDITATIONS</Text>
+          </TouchableOpacity>
+          <Text style={styles.description}>
+            All meditations but day one will be locked. Your stars will also be
+            deleted.
+          </Text>
+        </View>
 
-      {/* <View style={styles.textAndButtonWrapper}>
+        {/* <View style={styles.textAndButtonWrapper}>
         <TouchableOpacity
           style={styles.deleteButton}
           onPress={() => unlock59And64()}>
           <Text style={styles.buttonText}>Unlock 59 and 64</Text>
         </TouchableOpacity>
       </View> */}
-
-      <Icon name="settings-outline" size={90} style={styles.meditationIcon} />
+        <View style={{alignItems: 'center'}}>
+          <Icon
+            name="settings-outline"
+            size={90}
+            style={styles.meditationIcon}
+          />
+        </View>
+      </ScrollView>
     </LinearGradient>
   );
 }
@@ -192,14 +200,11 @@ const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
 
 const styles = StyleSheet.create({
   screenContainer: {
-    backgroundColor: '#0e0a2e',
     flex: 1,
-    padding: 10,
   },
   textAndButtonWrapper: {
-    margin: 20,
+    margin: 16,
   },
-
   deleteButton: {
     padding: 10,
     borderRadius: 10,
@@ -218,10 +223,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   meditationIcon: {
-    position: 'absolute',
-    bottom: 20,
-    left: 0.4 * Dimensions.get('window').width,
     color: '#2775B4',
+    marginTop: 48,
   },
 });
 

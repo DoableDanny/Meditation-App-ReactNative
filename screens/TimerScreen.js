@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {
+  View,
   Text,
   StyleSheet,
   StatusBar,
@@ -285,35 +286,40 @@ function TimerScreen({
       style={styles.timerContainer}>
       <StatusBar hidden={true} />
 
-      {timerOn ? null : (
-        <TouchableOpacity
-          style={styles.stopIconAndTextWrapper}
-          onPress={() => {
-            TrackPlayer.stop();
-            setStopSound(true);
-          }}>
-          <FA5Icon
-            name="stop"
-            size={80}
-            style={{
-              ...styles.stopSoundIcon,
-              display: stopSound ? 'none' : 'flex',
-            }}
-          />
-          <Text
-            style={{
-              ...styles.stopSoundText,
-              display: stopSound ? 'none' : 'flex',
+      <View style={styles.stopIconAndTextPlaceholder}>
+        {timerOn ? null : (
+          <TouchableOpacity
+            style={styles.stopIconAndTextWrapper}
+            onPress={() => {
+              TrackPlayer.stop();
+              setStopSound(true);
             }}>
-            Stop Sound
-          </Text>
-        </TouchableOpacity>
-      )}
+            <FA5Icon
+              name="stop"
+              size={80}
+              style={{
+                ...styles.stopSoundIcon,
+                display: stopSound ? 'none' : 'flex',
+              }}
+            />
+            <Text
+              style={{
+                ...styles.stopSoundText,
+                display: stopSound ? 'none' : 'flex',
+              }}>
+              Stop Sound
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
 
-      <Text style={styles.time}>
-        {minutes}:{seconds}
-      </Text>
-      <Text style={styles.completionText}>{completionText}</Text>
+      <View style={styles.timeAndCompletionTextWrapper}>
+        <Text style={styles.time}>
+          {minutes}:{seconds}
+        </Text>
+        <Text style={styles.completionText}>{completionText}</Text>
+      </View>
+
       {timerOn ? (
         <Icon name="meditation" size={90} style={styles.meditationIcon} />
       ) : (
@@ -328,14 +334,19 @@ const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
 const styles = StyleSheet.create({
   timerContainer: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: '#0e0a2e',
   },
-  stopIconAndTextWrapper: {
-    position: 'absolute',
-    top: 30,
+  stopIconAndTextPlaceholder: {
     alignItems: 'center',
+    justifyContent: 'center',
+    height: 100,
+    width: 300,
+  },
+  stopIconAndTextWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   stopSoundIcon: {
     color: '#5e4ed8',
@@ -345,6 +356,9 @@ const styles = StyleSheet.create({
     color: '#5e4ed8',
     textAlign: 'center',
     marginTop: 2,
+  },
+  timeAndCompletionTextWrapper: {
+    alignItems: 'center',
   },
   time: {
     fontSize: 40,
@@ -359,8 +373,6 @@ const styles = StyleSheet.create({
     marginLeft: 3,
   },
   meditationIcon: {
-    position: 'absolute',
-    bottom: 18,
     color: '#8ABCE5',
   },
 });
