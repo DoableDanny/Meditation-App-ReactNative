@@ -21,7 +21,6 @@ function HomeScreen({
   meditations,
   unlockMeditation,
   updateSelectedMeditation,
-  setTaoSeries,
 }) {
   // True if we're on this screen, false if not (I'm using this to re-render homescreen)
   const isFocused = useIsFocused();
@@ -33,9 +32,6 @@ function HomeScreen({
   useEffect(() => {
     getData(`@meditations_completed`).then((data) =>
       data != null ? unlockMeditation(JSON.parse(data)) : null,
-    );
-    getData(`@tao_series`).then((data) =>
-      data != null ? setTaoSeries(data) : null,
     );
   }, []);
 
@@ -215,6 +211,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     color: '#D3E6F5',
+    fontFamily: 'Merienda-Regular',
   },
   lockIcon: {
     color: '#000',
@@ -243,7 +240,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  number: {color: 'white', fontSize: 40},
+  number: {color: 'white', fontSize: 35, fontFamily: 'Merienda-Regular'},
 
   optionBtnsContainer: {
     backgroundColor: '#22277a',

@@ -32,6 +32,8 @@
 		A5D6C37960F842EE8D2B97CA /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B26941233C644595A1B2135D /* Octicons.ttf */; };
 		89221F91F759458FBAD4CAC3 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F88C126F02B44D18BBAE1F4 /* SimpleLineIcons.ttf */; };
 		CE685D4E8CB04E628C270981 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0BD9C1802A424A97A2F46B68 /* Zocial.ttf */; };
+		5522E5B785F64453A1A0A279 /* Merienda-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C353447E3A144EC080E473D7 /* Merienda-Bold.ttf */; };
+		387EED867F4F42C7B1851024 /* Merienda-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AECD72C84F5E48DC8DB15F44 /* Merienda-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +85,8 @@
 		B26941233C644595A1B2135D /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		8F88C126F02B44D18BBAE1F4 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		0BD9C1802A424A97A2F46B68 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C353447E3A144EC080E473D7 /* Merienda-Bold.ttf */ = {isa = PBXFileReference; name = "Merienda-Bold.ttf"; path = "../assets/fonts/Merienda-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AECD72C84F5E48DC8DB15F44 /* Merienda-Regular.ttf */ = {isa = PBXFileReference; name = "Merienda-Regular.ttf"; path = "../assets/fonts/Merienda-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +213,8 @@
 				B26941233C644595A1B2135D /* Octicons.ttf */,
 				8F88C126F02B44D18BBAE1F4 /* SimpleLineIcons.ttf */,
 				0BD9C1802A424A97A2F46B68 /* Zocial.ttf */,
+				C353447E3A144EC080E473D7 /* Merienda-Bold.ttf */,
+				AECD72C84F5E48DC8DB15F44 /* Merienda-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -368,6 +374,8 @@
 				A5D6C37960F842EE8D2B97CA /* Octicons.ttf in Resources */,
 				89221F91F759458FBAD4CAC3 /* SimpleLineIcons.ttf in Resources */,
 				CE685D4E8CB04E628C270981 /* Zocial.ttf in Resources */,
+				5522E5B785F64453A1A0A279 /* Merienda-Bold.ttf in Resources */,
+				387EED867F4F42C7B1851024 /* Merienda-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

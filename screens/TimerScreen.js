@@ -36,8 +36,8 @@ function TimerScreen({
   setTotalStars,
   setTaoSeries,
 }) {
-  const [seconds, setSeconds] = useState(`03`);
-  const [minutes, setMinutes] = useState(`00`); //CHANGE THIS!!
+  const [seconds, setSeconds] = useState(`00`);
+  const [minutes, setMinutes] = useState(`${selectedTime}`); //CHANGE THIS!!
   const [timerOn, setTimerOn] = useState(true);
   const [completionText, setCompletionText] = useState('');
   const [stopSound, setStopSound] = useState(false);
@@ -66,10 +66,8 @@ function TimerScreen({
     await TrackPlayer.add(track);
   };
 
+  // Stop playing sound on component unmount
   useEffect(() => {
-    // Initialise TrackPlayer on component mount
-    trackPlayerInit();
-    // Stop playing sound on unmount
     return () => {
       TrackPlayer.stop();
     };
@@ -105,9 +103,6 @@ function TimerScreen({
         if (minutes === `00` && seconds === `01`) {
           crashlytics().log('Time up');
 
-          // Play zen completion sound
-          TrackPlayer.play();
-
           setMinutes(`00`);
           setSeconds(`00`);
           setTimerOn(false);
@@ -115,6 +110,9 @@ function TimerScreen({
           setCompletionText(
             navalQuotes[Math.floor(Math.random() * navalQuotes.length)],
           );
+
+          // Initialise track player then play zen completion sound
+          trackPlayerInit().then(() => TrackPlayer.play());
 
           // Make copy of meditaitons, check if not last meditation or 61st, and unlock next one.
           let nextMeditationId = selectedMeditation.id + 1;
@@ -170,7 +168,7 @@ function TimerScreen({
                 setTotalStars(stars + starsObj.starGain);
                 console.log('stars', stars, starsObj.starGain);
 
-                // If users total stars >= 180 => Bonus series!S
+                // If users total stars >= 180 => Bonus series!
                 if (stars + starsObj.starGain >= 180) {
                   getData(`@tao_series`).then((data) => {
                     if (data == null) {
@@ -284,7 +282,7 @@ function TimerScreen({
       end={{x: 1, y: 1}}
       colors={purpleGrad}
       style={styles.timerContainer}>
-      <StatusBar hidden={true} />
+      {/* <StatusBar hidden={true} /> */}
 
       <View style={styles.stopIconAndTextPlaceholder}>
         {timerOn ? null : (

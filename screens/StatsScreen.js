@@ -130,7 +130,10 @@ function StatsScreen({
         </Text>
 
         <View style={{alignItems: 'center', marginTop: 20}}>
-          <IonIcon name="md-trophy-sharp" size={30} style={{color: 'gold'}} />
+          <View style={{flexDirection: 'row'}}>
+            <IonIcon name="md-trophy-sharp" size={30} style={{color: 'gold'}} />
+            <Text style={{...styles.key, color: 'gold'}}>Awards:</Text>
+          </View>
           {totalStars == 195 ? (
             <Text style={styles.award}>ZEN MASTER</Text>
           ) : null}

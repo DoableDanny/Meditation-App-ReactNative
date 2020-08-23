@@ -2,6 +2,21 @@
   "name": "60-days-of-meditation",
   "version": "0.0.1",
   "author": "Danny Adams",
+  "description": "A meditation app inspired by Naval Ravikant. Gamifies meditation to help you develop it into a habit over 60 days.",
+  "keywords": [
+    "meditation",
+    "zen",
+    "mindfulness",
+    "Naval",
+    "stoic",
+    "stoicism",
+    "tao",
+    "taoism",
+    "jiddu",
+    "krishnamurti",
+    "osho"
+  ],
+  "license": "MIT",
   "private": true,
   "scripts": {
     "android": "react-native run-android",

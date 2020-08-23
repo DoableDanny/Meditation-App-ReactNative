@@ -341,8 +341,6 @@ const App = () => {
               unlockMeditation={unlockMeditation}
               selectedMeditation={selectedMeditation}
               updateSelectedMeditation={updateSelectedMeditation}
-              taoSeries={taoSeries}
-              setTaoSeries={setTotalStars}
             />
           )}
         </Stack.Screen>

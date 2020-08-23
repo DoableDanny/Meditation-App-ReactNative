@@ -5,11 +5,9 @@ const medEssay = {
     author: 'Jiddu Krishnamurti',
   },
   paragraphs: [
-    `“Meditation is to be aware of every thought and of every feeling, never to say it is right or wrong but just to watch it and move with it.” - Jiddu Krishnamurti`,
-
     'We judge and condemn every emotion and thought that we have and this analysis never gets us anywhere. We live inside our own heads with our silly beliefs and when the world doesn’t conform to our beliefs, it hurts us.',
 
-    'We get angry at someone for cutting in front of us on the freeway, but we justify it and say it was acceptable anger. They were in the wrong. But then we think how dumb it was getting angry over something not in our control. Now you’re angry at yourself.',
+    'We get angry at someone for cutting in front of us on the freeway, but we justify it and say it was acceptable anger. They were in the wrong. But then we think how dumb it was getting angry over something not in our control. Now you’re angry at yourself!',
 
     'Someone gets more than you think they deserve, and you become jealous. A past event didn’t go your way, and you feel depressed. You have an exam in two days and you’ve studied hard. You think you deserve to do well, but the future is uncertain, so you become anxious. All this trouble caused from having ideals and beliefs in our minds.',
 
