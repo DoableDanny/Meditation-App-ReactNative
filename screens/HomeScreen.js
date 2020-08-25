@@ -6,33 +6,20 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  Dimensions,
 } from 'react-native';
 
 import {useIsFocused} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {getData} from '../functionsAndQuotes/asyncStorageFunctions';
 import {imageArray} from '../imageArray';
 import LinearGradient from 'react-native-linear-gradient';
 import crashlytics from '@react-native-firebase/crashlytics';
 
-function HomeScreen({
-  navigation,
-  meditations,
-  unlockMeditation,
-  updateSelectedMeditation,
-}) {
+function HomeScreen({navigation, meditations, updateSelectedMeditation}) {
   // True if we're on this screen, false if not (I'm using this to re-render homescreen)
   const isFocused = useIsFocused();
+
   useEffect(() => {
     crashlytics().log('HomeScreen mounted');
-  }, []);
-
-  // Brackets second arg so only runs once.
-  useEffect(() => {
-    getData(`@meditations_completed`).then((data) =>
-      data != null ? unlockMeditation(JSON.parse(data)) : null,
-    );
   }, []);
 
   // Check the users completionTime for each meditation and award corresponding stars
@@ -41,25 +28,25 @@ function HomeScreen({
       case 15:
         return (
           <View style={{flexDirection: 'row'}}>
-            <Icon name="star-outline" size={21} style={{color: 'gold'}} />
-            <Icon name="star-outline" size={21} style={{color: 'gold'}} />
-            <Icon name="star-outline" size={21} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={23} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={23} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={23} style={{color: 'gold'}} />
           </View>
         );
       case 30:
         return (
           <View style={{flexDirection: 'row'}}>
-            <Icon name="star" size={21} style={{color: 'gold'}} />
-            <Icon name="star-outline" size={21} style={{color: 'gold'}} />
-            <Icon name="star-outline" size={21} style={{color: 'gold'}} />
+            <Icon name="star" size={23} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={23} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={23} style={{color: 'gold'}} />
           </View>
         );
       case 45:
         return (
           <View style={{flexDirection: 'row'}}>
-            <Icon name="star" size={21} style={{color: 'gold'}} />
-            <Icon name="star" size={21} style={{color: 'gold'}} />
-            <Icon name="star-outline" size={21} style={{color: 'gold'}} />
+            <Icon name="star" size={23} style={{color: 'gold'}} />
+            <Icon name="star" size={23} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={23} style={{color: 'gold'}} />
           </View>
         );
       case 60:
@@ -67,13 +54,13 @@ function HomeScreen({
           <View style={{flexDirection: 'row'}}>
             <Icon
               name="star"
-              size={21}
+              size={23}
               style={{
                 color: 'gold',
               }}
             />
-            <Icon name="star" size={21} style={{color: 'gold'}} />
-            <Icon name="star" size={21} style={{color: 'gold'}} />
+            <Icon name="star" size={23} style={{color: 'gold'}} />
+            <Icon name="star" size={23} style={{color: 'gold'}} />
           </View>
         );
     }
@@ -131,7 +118,7 @@ function HomeScreen({
                   marginBottom: index === meditations.length - 1 ? 60 : 0,
                   justifyContent: 'center',
                 }}>
-                <Icon name="lock" size={60} style={styles.lockIcon} />
+                <Icon name="lock" size={45} style={styles.lockIcon} />
               </LinearGradient>
             )}
           </TouchableOpacity>
@@ -209,12 +196,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 18,
+    fontSize: 20,
     color: '#D3E6F5',
     fontFamily: 'Merienda-Regular',
   },
   lockIcon: {
-    color: '#000',
+    color: 'rgba(0,0,0,0.85)',
   },
   imageAndNumberWrapper: {
     position: 'relative',

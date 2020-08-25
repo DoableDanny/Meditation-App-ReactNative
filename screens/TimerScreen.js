@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {
   View,
+  ScrollView,
   Text,
   StyleSheet,
   StatusBar,
   Platform,
   Alert,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FA5Icon from 'react-native-vector-icons/FontAwesome5';
@@ -34,10 +36,10 @@ function TimerScreen({
   totalMeditationsCompleted,
   setTotalMeditationsCompleted,
   setTotalStars,
-  setTaoSeries,
+  navigation,
 }) {
   const [seconds, setSeconds] = useState(`00`);
-  const [minutes, setMinutes] = useState(`${selectedTime}`); //CHANGE THIS!!
+  const [minutes, setMinutes] = useState(selectedTime); //CHANGE THIS!!
   const [timerOn, setTimerOn] = useState(true);
   const [completionText, setCompletionText] = useState('');
   const [stopSound, setStopSound] = useState(false);
@@ -179,7 +181,6 @@ function TimerScreen({
                       storeData(`@tao_series`, true);
                       meditationsCopy.forEach((med) => (med.locked = false));
                       storeData(`@meditations_completed`, meditationsCopy);
-                      setTaoSeries(true);
                     }
                   });
                 }
@@ -223,23 +224,57 @@ function TimerScreen({
 
             getData(`@streak_key`).then((data) => {
               // If your last meditation was yesterday, then +1 to daily streak
+              let streak;
               if (dateLastCompleted == yesterday) {
-                var streak = data != null ? parseInt(data) + 1 : 1;
+                streak = data != null ? parseInt(data) + 1 : 1;
                 setStreak(streak);
                 // Save new streak
                 storeData('@streak_key', streak);
               } else if (data === null) {
-                let streak = 1;
+                streak = 1;
                 setStreak(streak);
                 storeData('@streak_key', streak);
               }
               // Get longest streak data and check if needs updating
               getData(`@longest_streak_key`).then((data) => {
                 let longestStreak;
+
+                //// For testing awards////
+                // data = '2';
+                // streak = 3;
+
                 if (data && parseInt(data) < streak) {
                   longestStreak = streak;
                   storeData(`@longest_streak_key`, longestStreak);
                   setLongestStreak(longestStreak);
+
+                  // Streak Awards
+                  switch (longestStreak) {
+                    case 3:
+                      Alert.alert(
+                        'Three in a Row!',
+                        'You have been given The Turkey award. Keep rolling!',
+                      );
+                      break;
+                    case 7:
+                      Alert.alert(
+                        'Seven Days in a Row!',
+                        'You have been awarded The Se7ev Award.',
+                      );
+                      break;
+                    case 14:
+                      Alert.alert(
+                        'Two Weeks Straight!',
+                        'You have been awarded The Fortnight Award. Keep going!',
+                      );
+                      break;
+                    case 30:
+                      Alert.alert(
+                        'Wow, Thirty Days straight!',
+                        `You have been awarded The Stoic Mind. You are developing a life changing habit!`,
+                      );
+                      break;
+                  }
                 } else if (data === null) {
                   longestStreak = 1;
                   storeData(`@longest_streak_key`, longestStreak);
@@ -281,8 +316,8 @@ function TimerScreen({
       start={{x: 0, y: 0}}
       end={{x: 1, y: 1}}
       colors={purpleGrad}
-      style={styles.timerContainer}>
-      {/* <StatusBar hidden={true} /> */}
+      style={styles.screenContainer}>
+      <StatusBar hidden={true} />
 
       <View style={styles.stopIconAndTextPlaceholder}>
         {timerOn ? null : (
@@ -319,9 +354,20 @@ function TimerScreen({
       </View>
 
       {timerOn ? (
-        <Icon name="meditation" size={90} style={styles.meditationIcon} />
+        <Icon name="meditation" size={115} style={styles.meditationIcon} />
       ) : (
-        <FA5Icon name="smile-beam" size={90} style={styles.meditationIcon} />
+        <View style={{alignItems: 'center'}}>
+          <TouchableOpacity
+            style={styles.doneBtn}
+            onPress={() => {
+              analytics().logEvent(`Done_Btn_Pressed`, {});
+              crashlytics().log(`Done Btn`);
+              navigation.navigate('Home');
+            }}>
+            <Text style={styles.doneText}>Done</Text>
+          </TouchableOpacity>
+          {/* <FA5Icon name="smile-beam" size={90} style={styles.meditationIcon} /> */}
+        </View>
       )}
     </LinearGradient>
   );
@@ -330,11 +376,10 @@ function TimerScreen({
 const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
 
 const styles = StyleSheet.create({
-  timerContainer: {
+  screenContainer: {
     flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#0e0a2e',
   },
   stopIconAndTextPlaceholder: {
     alignItems: 'center',
@@ -348,10 +393,13 @@ const styles = StyleSheet.create({
   },
   stopSoundIcon: {
     color: '#5e4ed8',
+    // color: '#8ABCE5',
   },
   stopSoundText: {
-    fontSize: 20,
+    fontSize: 22,
     color: '#5e4ed8',
+    // color: '#8ABCE5',
+
     textAlign: 'center',
     marginTop: 2,
   },
@@ -359,7 +407,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   time: {
-    fontSize: 40,
+    fontSize: 60,
     color: '#5e4ed8',
   },
   completionText: {
@@ -369,6 +417,23 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginRight: 3,
     marginLeft: 3,
+    fontStyle: 'italic',
+  },
+  doneBtn: {
+    paddingTop: 13,
+    paddingBottom: 13,
+    paddingLeft: 30,
+    paddingRight: 30,
+    marginBottom: 24,
+    borderRadius: 10,
+    backgroundColor: '#8ABCE5',
+  },
+  doneText: {
+    // color: 'rgba(0,0,0,0.9)',
+    color: '#fff',
+    fontSize: 24,
+    textAlign: 'center',
+    fontFamily: 'Merienda-Bold',
   },
   meditationIcon: {
     color: '#8ABCE5',

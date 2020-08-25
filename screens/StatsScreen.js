@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import FA5Icon from 'react-native-vector-icons/FontAwesome5';
 import {getData, storeData} from '../functionsAndQuotes/asyncStorageFunctions';
 import LinearGradient from 'react-native-linear-gradient';
 import crashlytics from '@react-native-firebase/crashlytics';
@@ -9,7 +10,6 @@ import {ScrollView} from 'react-native-gesture-handler';
 
 function StatsScreen({
   meditations,
-  unlockMeditation,
   streak,
   setStreak,
   longestStreak,
@@ -37,9 +37,6 @@ function StatsScreen({
 
   // Get all the AsyncStor data and update the UI upon component mount
   useEffect(() => {
-    getData(`@meditations_completed`).then((data) =>
-      data != null ? unlockMeditation(JSON.parse(data)) : null,
-    );
     getData(`@streak_key`).then((data) => {
       data != null ? setStreak(parseInt(data)) : setStreak(0);
     });
@@ -88,12 +85,18 @@ function StatsScreen({
       colors={purpleGrad}
       style={styles.screenContainer}>
       <ScrollView>
-        <Text style={{...styles.key, color: 'gold', marginTop: 32}}>
-          <Icon name="star" size={25} style={{color: 'gold'}} />
+        <Text
+          style={{
+            ...styles.key,
+            color: 'gold',
+            marginTop: 32,
+            marginBottom: 25,
+          }}>
+          <Icon name="star" size={28} style={{color: 'gold'}} />
           Stars: <Text style={styles.value}>{totalStars} / 195</Text>
         </Text>
 
-        <View style={{margin: 25}}>
+        <View style={styles.allStatsWrapper}>
           <Text style={styles.key}>
             Hours Meditated:{' '}
             <Text style={styles.value}>
@@ -105,47 +108,78 @@ function StatsScreen({
             Sessions:{' '}
             <Text style={styles.value}>{totalMeditationsCompleted} </Text>
           </Text>
-          <Text style={styles.key}>
+          <Text style={{...styles.key, marginBottom: 28}}>
             Average Session:{' '}
             <Text style={styles.value}>
               {averageSessionTime ? averageSessionTime : 0} mins
             </Text>
           </Text>
-        </View>
-        <Text style={styles.key}>
-          Streak:{' '}
-          <Text style={styles.value}>
-            {streak} {streak == 1 ? 'day' : 'days'}
-          </Text>
-        </Text>
-        <Text style={styles.key}>
-          Longest Streak:{' '}
-          <Text style={styles.value}>
-            {' '}
-            {longestStreak} {longestStreak == 1 ? 'day' : 'days'}
-          </Text>
-        </Text>
-        <Text style={styles.key}>
-          Last Meditation: <Text style={styles.value}>{dateLastCompleted}</Text>
-        </Text>
 
-        <View style={{alignItems: 'center', marginTop: 20}}>
-          <View style={{flexDirection: 'row'}}>
-            <IonIcon name="md-trophy-sharp" size={30} style={{color: 'gold'}} />
+          <Text style={styles.key}>
+            Streak:{' '}
+            <Text style={styles.value}>
+              {streak} {streak == 1 ? 'day' : 'days'}
+            </Text>
+          </Text>
+          <Text style={styles.key}>
+            Longest Streak:{' '}
+            <Text style={styles.value}>
+              {' '}
+              {longestStreak} {longestStreak == 1 ? 'day' : 'days'}
+            </Text>
+          </Text>
+          <Text style={styles.key}>
+            Last Meditation:{' '}
+            <Text style={styles.value}>{dateLastCompleted}</Text>
+          </Text>
+        </View>
+
+        <View style={styles.awardsWrapper}>
+          <View style={styles.rowAndCenter}>
+            <IonIcon name="md-trophy-sharp" size={28} style={{color: 'gold'}} />
             <Text style={{...styles.key, color: 'gold'}}>Awards:</Text>
           </View>
-          {totalStars == 195 ? (
-            <Text style={styles.award}>ZEN MASTER</Text>
+          {longestStreak >= 3 ? (
+            <View style={styles.rowAndCenter}>
+              <Icon name="bowling" size={25} style={styles.awardIcon} />
+              <Text style={styles.value}>Turkey</Text>
+            </View>
           ) : null}
+          {longestStreak >= 7 ? (
+            <View style={styles.rowAndCenter}>
+              <Icon
+                name="numeric-7-box-multiple"
+                size={25}
+                style={styles.awardIcon}
+              />
+              <Text style={styles.value}>Se7en</Text>
+            </View>
+          ) : null}
+          {longestStreak >= 14 ? (
+            <View style={styles.rowAndCenter}>
+              <Icon name="shield-sun" size={25} style={styles.awardIcon} />
+              <Text style={styles.value}>Fortnight</Text>
+            </View>
+          ) : null}
+          {longestStreak >= 30 ? (
+            <View style={styles.rowAndCenter}>
+              <FA5Icon name="brain" size={25} style={styles.awardIcon} />
+              <Text style={styles.value}>The Stoic Mind</Text>
+            </View>
+          ) : null}
+
           {meditations[59].completionTime > 0 ? (
             <Text style={styles.award}>NAVAL PEACE PRIZE</Text>
+          ) : null}
+          {totalStars == 195 ? (
+            <Text style={styles.award}>ZEN MASTER</Text>
           ) : null}
         </View>
         <View style={styles.iconWrapper}>
           <IonIcon
             name="stats-chart-outline"
             size={70}
-            style={styles.meditationIcon}
+            style={styles.bottomIcon}
           />
         </View>
       </ScrollView>
@@ -159,6 +193,11 @@ const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
   },
+  allStatsWrapper: {
+    // backgroundColor: 'pink',
+    alignSelf: 'center',
+    alignItems: 'flex-start',
+  },
   key: {
     color: '#BBD8F0',
     fontSize: 22,
@@ -167,6 +206,11 @@ const styles = StyleSheet.create({
   },
   value: {
     color: '#fff',
+    fontSize: 22,
+  },
+  awardsWrapper: {
+    marginTop: 24,
+    alignSelf: 'center',
   },
   award: {
     color: 'gold',
@@ -178,7 +222,16 @@ const styles = StyleSheet.create({
     marginTop: 48,
     marginBottom: 16,
   },
-  meditationIcon: {
+  rowAndCenter: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  awardIcon: {
+    color: 'rgba(255,255,255,0.9)',
+    marginRight: 2,
+  },
+  bottomIcon: {
     color: '#2775B4',
   },
 });

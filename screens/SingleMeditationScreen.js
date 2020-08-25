@@ -241,11 +241,10 @@ const styles = StyleSheet.create({
     lineHeight: 25,
     marginBottom: 24,
     alignSelf: 'flex-end',
-    fontStyle: 'italic',
   },
   paragraph: {
     fontSize: 21,
-    color: '#F0F7FC',
+    color: 'rgba(255,255,255,0.9)',
     lineHeight: 25,
     marginBottom: 16,
   },

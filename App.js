@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import useMeditations from './customHooks/useMeditations';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import analytics from '@react-native-firebase/analytics';
@@ -10,6 +11,7 @@ import SettingsScreen from './screens/SettingsScreen';
 import StatsScreen from './screens/StatsScreen';
 import SingleMeditationScreen from './screens/SingleMeditationScreen';
 import TimerScreen from './screens/TimerScreen';
+import {getData} from './functionsAndQuotes/asyncStorageFunctions';
 
 const Stack = createStackNavigator();
 
@@ -17,6 +19,7 @@ const App = () => {
   const [streak, setStreak] = useState(0);
   const [longestStreak, setLongestStreak] = useState(0);
   const [totalStars, setTotalStars] = useState(0);
+
   const [meditations, unlockMeditation] = useState([
     {
       id: 0,
@@ -291,11 +294,16 @@ const App = () => {
     },
   ]);
 
+  useEffect(() => {
+    getData('@meditations_completed').then((data) =>
+      data != null ? unlockMeditation(JSON.parse(data)) : null,
+    );
+  }, []);
+
   const [selectedMeditation, updateSelectedMeditation] = useState('');
   const [selectedTime, setSelectedTime] = useState(60);
   const [totalMeditationTime, setTotalMeditationTime] = useState(0);
   const [totalMeditationsCompleted, setTotalMeditationsCompleted] = useState(0);
-  const [taoSeries, setTaoSeries] = useState(null);
 
   // Firebase session timeout is 1 hr, 15 mins
   analytics().setSessionTimeoutDuration(4500000);
@@ -367,7 +375,6 @@ const App = () => {
             <StatsScreen
               {...props}
               meditations={meditations}
-              unlockMeditation={unlockMeditation}
               streak={streak}
               setStreak={setStreak}
               longestStreak={longestStreak}
@@ -408,7 +415,6 @@ const App = () => {
               totalMeditationsCompleted={totalMeditationsCompleted}
               setTotalMeditationsCompleted={setTotalMeditationsCompleted}
               setTotalStars={setTotalStars}
-              setTaoSeries={setTotalStars}
             />
           )}
         </Stack.Screen>
