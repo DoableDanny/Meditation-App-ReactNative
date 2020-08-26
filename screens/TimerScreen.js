@@ -1,14 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {
   View,
-  ScrollView,
   Text,
   StyleSheet,
   StatusBar,
   Platform,
   Alert,
   TouchableOpacity,
-  Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FA5Icon from 'react-native-vector-icons/FontAwesome5';
@@ -48,7 +46,7 @@ function TimerScreen({
   const randomNum = Math.floor(Math.random() * tracks.length);
   const track = tracks[randomNum];
 
-  // Function that sets up the track player
+  // Function that sets up the track player when called (time up)
   const trackPlayerInit = async () => {
     // Takes under 1 sec
     await TrackPlayer.setupPlayer();
@@ -56,13 +54,14 @@ function TimerScreen({
     TrackPlayer.updateOptions({
       stopWithApp: false,
       capabilities: [
-        TrackPlayer.CAPABILITY_PLAY,
-        TrackPlayer.CAPABILITY_PAUSE,
+        // TrackPlayer.CAPABILITY_PLAY,
+        // TrackPlayer.CAPABILITY_PAUSE,
         TrackPlayer.CAPABILITY_STOP,
       ],
       compactCapabilities: [
-        TrackPlayer.CAPABILITY_PLAY,
-        TrackPlayer.CAPABILITY_PAUSE,
+        TrackPlayer.CAPABILITY_STOP,
+        // TrackPlayer.CAPABILITY_PLAY,
+        // TrackPlayer.CAPABILITY_PAUSE,
       ],
     });
     await TrackPlayer.add(track);
@@ -71,7 +70,13 @@ function TimerScreen({
   // Stop playing sound on component unmount
   useEffect(() => {
     return () => {
-      TrackPlayer.stop();
+      try {
+        TrackPlayer.destroy();
+        console.log('Trackplayer destroyed successfully');
+      } catch (error) {
+        console.log('Trackplayer Destroy Error:', error);
+        crashlytics().recordError(error);
+      }
     };
   }, []);
 
@@ -114,7 +119,12 @@ function TimerScreen({
           );
 
           // Initialise track player then play zen completion sound
-          trackPlayerInit().then(() => TrackPlayer.play());
+          try {
+            trackPlayerInit().then(() => TrackPlayer.play());
+          } catch (error) {
+            console.log('Trackplayer init/play Error:', error);
+            crashlytics().recordError(error);
+          }
 
           // Make copy of meditaitons, check if not last meditation or 61st, and unlock next one.
           let nextMeditationId = selectedMeditation.id + 1;
@@ -190,7 +200,6 @@ function TimerScreen({
             updateCompletionTime();
           }
 
-          console.log('Analytics line b4');
           analytics().logEvent('Meditation_Completion_Event', {
             Session_Time: selectedTime,
             Total_Hours: totalMeditationTime / 60 + selectedTime / 60,
@@ -324,7 +333,12 @@ function TimerScreen({
           <TouchableOpacity
             style={styles.stopIconAndTextWrapper}
             onPress={() => {
-              TrackPlayer.stop();
+              try {
+                TrackPlayer.stop();
+              } catch (error) {
+                console.log(error);
+                crashlytics().recordError(error);
+              }
               setStopSound(true);
             }}>
             <FA5Icon
@@ -366,7 +380,6 @@ function TimerScreen({
             }}>
             <Text style={styles.doneText}>Done</Text>
           </TouchableOpacity>
-          {/* <FA5Icon name="smile-beam" size={90} style={styles.meditationIcon} /> */}
         </View>
       )}
     </LinearGradient>
@@ -407,7 +420,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   time: {
-    fontSize: 60,
+    fontSize: 58,
     color: '#5e4ed8',
   },
   completionText: {
@@ -431,7 +444,7 @@ const styles = StyleSheet.create({
   doneText: {
     // color: 'rgba(0,0,0,0.9)',
     color: '#fff',
-    fontSize: 24,
+    fontSize: 26,
     textAlign: 'center',
     fontFamily: 'Merienda-Bold',
   },
