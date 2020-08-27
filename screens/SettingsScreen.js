@@ -6,7 +6,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
-  Dimensions,
 } from 'react-native';
 import {
   storeData,
@@ -21,6 +20,8 @@ import crashlytics from '@react-native-firebase/crashlytics';
 
 function SettingsScreen({
   meditations,
+  resetFully,
+  resetCompletionTimes,
   unlockMeditation,
   setStreak,
   setLongestStreak,
@@ -75,12 +76,15 @@ function SettingsScreen({
       Alert.alert('Success', `Your ${messageObject} was deleted successfully`),
     );
 
-    let meditationsCopy = [...meditations];
-    meditationsCopy.forEach((med) => {
-      med.id == 0 ? (med.locked = false) : (med.locked = true);
-      med.completionTime = 0;
-    });
-    unlockMeditation(meditationsCopy);
+    // reset times and re lock all but one. So reset fully.
+    // let meditationsCopy = [...meditations];
+    // meditationsCopy.forEach((med) => {
+    //   med.id == 0 ? (med.locked = false) : (med.locked = true);
+    //   med.completionTime = 0;
+    // });
+    // unlockMeditation(meditationsCopy);
+    // Reset meditations to initial state.
+    resetFully();
     setTotalStars(0);
   };
 
@@ -105,27 +109,32 @@ function SettingsScreen({
     }
   };
 
-  const removeStarsFromMeditations = (messageObject) => {
-    let meditationsCopy = [...meditations];
-    meditationsCopy.forEach((med) => {
-      med.completionTime = 0;
-    });
+  const removeStarsFromMeditations = () => {
+    // let meditationsCopy = [...meditations];
+    // meditationsCopy.forEach((med) => {
+    //   med.completionTime = 0;
+    // });
+    // Resetting completion times to 0 removes all stars
+    resetCompletionTimes();
     setTotalStars(0);
-    unlockMeditation(meditationsCopy);
-    storeData('@meditations_completed', meditationsCopy);
+    // unlockMeditation(meditationsCopy);
+    // storeData('@meditations_completed', meditationsCopy);
     removeValue(`@total_stars`, 'stars record');
   };
 
-  const unlock59And64 = () => {
-    let medCopy = [...meditations];
-    medCopy[0].locked = false;
-    medCopy[0].id = 0;
-    medCopy[58].locked = false;
-    medCopy[63].locked = false;
-    console.log(medCopy[1]);
-    storeData('@meditations_completed', medCopy);
-    unlockMeditation(medCopy);
-  };
+  {
+    /* For Testing */
+  }
+  // const unlock59And64 = () => {
+  //   let medCopy = [...meditations];
+  //   medCopy[0].locked = false;
+  //   medCopy[0].id = 0;
+  //   medCopy[58].locked = false;
+  //   medCopy[63].locked = false;
+  //   console.log(medCopy[1]);
+  //   storeData('@meditations_completed', medCopy);
+  //   unlockMeditation(medCopy);
+  // };
 
   return (
     <LinearGradient
@@ -176,7 +185,7 @@ function SettingsScreen({
             deleted.
           </Text>
         </View>
-
+        {/* For Testing */}
         {/* <View style={styles.textAndButtonWrapper}>
         <TouchableOpacity
           style={styles.deleteButton}

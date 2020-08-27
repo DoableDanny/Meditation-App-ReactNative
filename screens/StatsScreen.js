@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import FA5Icon from 'react-native-vector-icons/FontAwesome5';
@@ -85,18 +85,18 @@ function StatsScreen({
       colors={purpleGrad}
       style={styles.screenContainer}>
       <ScrollView>
-        <Text
-          style={{
-            ...styles.key,
-            color: 'gold',
-            marginTop: 32,
-            marginBottom: 25,
-          }}>
-          <Icon name="star" size={28} style={{color: 'gold'}} />
-          Stars: <Text style={styles.value}>{totalStars} / 195</Text>
-        </Text>
-
         <View style={styles.allStatsWrapper}>
+          <Text
+            style={{
+              ...styles.key,
+              color: 'gold',
+              marginTop: 32,
+              marginBottom: 25,
+            }}>
+            <Icon name="star" size={28} style={{color: 'gold'}} />
+            Stars: <Text style={styles.value}>{totalStars} / 195</Text>
+          </Text>
+
           <Text style={styles.key}>
             Hours Meditated:{' '}
             <Text style={styles.value}>
@@ -132,49 +132,54 @@ function StatsScreen({
             Last Meditation:{' '}
             <Text style={styles.value}>{dateLastCompleted}</Text>
           </Text>
-        </View>
 
-        <View style={styles.awardsWrapper}>
-          <View style={styles.rowAndCenter}>
-            <IonIcon name="md-trophy-sharp" size={28} style={{color: 'gold'}} />
-            <Text style={{...styles.key, color: 'gold'}}>Awards:</Text>
-          </View>
-          {longestStreak >= 3 ? (
+          <View style={styles.awardsWrapper}>
             <View style={styles.rowAndCenter}>
-              <Icon name="bowling" size={25} style={styles.awardIcon} />
-              <Text style={styles.value}>Turkey</Text>
-            </View>
-          ) : null}
-          {longestStreak >= 7 ? (
-            <View style={styles.rowAndCenter}>
-              <Icon
-                name="numeric-7-box-multiple"
-                size={25}
-                style={styles.awardIcon}
+              <IonIcon
+                name="md-trophy-sharp"
+                size={28}
+                style={{color: 'gold'}}
               />
-              <Text style={styles.value}>Se7en</Text>
+              <Text style={{...styles.key, color: 'gold'}}>Awards:</Text>
             </View>
-          ) : null}
-          {longestStreak >= 14 ? (
-            <View style={styles.rowAndCenter}>
-              <Icon name="shield-sun" size={25} style={styles.awardIcon} />
-              <Text style={styles.value}>Fortnight</Text>
-            </View>
-          ) : null}
-          {longestStreak >= 30 ? (
-            <View style={styles.rowAndCenter}>
-              <FA5Icon name="brain" size={25} style={styles.awardIcon} />
-              <Text style={styles.value}>The Stoic Mind</Text>
-            </View>
-          ) : null}
+            {longestStreak >= 3 ? (
+              <View style={styles.rowAndCenter}>
+                <Icon name="bowling" size={25} style={styles.awardIcon} />
+                <Text style={styles.value}>Turkey</Text>
+              </View>
+            ) : null}
+            {longestStreak >= 7 ? (
+              <View style={styles.rowAndCenter}>
+                <Icon
+                  name="numeric-7-box-multiple"
+                  size={25}
+                  style={styles.awardIcon}
+                />
+                <Text style={styles.value}>Se7en</Text>
+              </View>
+            ) : null}
+            {longestStreak >= 14 ? (
+              <View style={styles.rowAndCenter}>
+                <Icon name="shield-sun" size={25} style={styles.awardIcon} />
+                <Text style={styles.value}>Fortnight</Text>
+              </View>
+            ) : null}
+            {longestStreak >= 30 ? (
+              <View style={styles.rowAndCenter}>
+                <FA5Icon name="brain" size={25} style={styles.awardIcon} />
+                <Text style={styles.value}>The Stoic Mind</Text>
+              </View>
+            ) : null}
 
-          {meditations[59].completionTime > 0 ? (
-            <Text style={styles.award}>NAVAL PEACE PRIZE</Text>
-          ) : null}
-          {totalStars == 195 ? (
-            <Text style={styles.award}>ZEN MASTER</Text>
-          ) : null}
+            {meditations[59].completionTime > 0 ? (
+              <Text style={styles.award}>NAVAL PEACE PRIZE</Text>
+            ) : null}
+            {totalStars == 195 ? (
+              <Text style={styles.award}>ZEN MASTER</Text>
+            ) : null}
+          </View>
         </View>
+
         <View style={styles.iconWrapper}>
           <IonIcon
             name="stats-chart-outline"
@@ -194,7 +199,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   allStatsWrapper: {
-    // backgroundColor: 'pink',
     alignSelf: 'center',
     alignItems: 'flex-start',
   },

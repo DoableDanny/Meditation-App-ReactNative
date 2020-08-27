@@ -294,29 +294,33 @@ export default function useMeditations() {
   // Unlock next meditation (id is the next meds id)
   function unlockMeditation(id) {
     const updatedMeditations = [...meditations];
-    updatedMeditations[id] = {...updatedMeditations[id], locked: false};
+    updatedMeditations[id].locked = false;
     setAndStoreMeditations(updatedMeditations);
   }
 
+  // id is for current meditation
   function updateCompletionTime(id, newTime) {
-    const meditation = meditation.find((m) => m.id === id);
+    const meditation = meditations.find((m) => m.id === id);
     if (meditation && newTime > meditation.completionTime) {
       const updatedMeditations = [...meditations];
-      updatedMeditations[id] = {
-        ...updatedMeditations,
-        completionTime: newTime,
-      };
+      updatedMeditations[id].completionTime = newTime;
       setAndStoreMeditations(updatedMeditations);
     }
   }
 
   // Use this to reset the stars to 0
   function resetCompletionTimes() {
-    const updatedMeditations = meditations.map((m) => (m.completionTime = 0));
+    const updatedMeditations = meditations;
+    updatedMeditations.forEach((m) => (m.completionTime = 0));
     setAndStoreMeditations(updatedMeditations);
   }
 
   function resetFully() {
+    const updatedMeditations = meditations;
+    updatedMeditations.forEach((m) => {
+      m.completionTime = 0;
+      m.locked = m.id == 0 ? false : true;
+    });
     setAndStoreMeditations(initialState);
   }
 

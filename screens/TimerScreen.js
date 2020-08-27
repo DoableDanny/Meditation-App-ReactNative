@@ -26,6 +26,7 @@ function TimerScreen({
   selectedMeditation,
   meditations,
   unlockMeditation,
+  updateCompletionTime,
   setStreak,
   setLongestStreak,
   selectedTime,
@@ -36,8 +37,8 @@ function TimerScreen({
   setTotalStars,
   navigation,
 }) {
-  const [seconds, setSeconds] = useState(`00`);
-  const [minutes, setMinutes] = useState(selectedTime); //CHANGE THIS!!
+  const [seconds, setSeconds] = useState(`01`);
+  const [minutes, setMinutes] = useState(`00`); //CHANGE THIS!!
   const [timerOn, setTimerOn] = useState(true);
   const [completionText, setCompletionText] = useState('');
   const [stopSound, setStopSound] = useState(false);
@@ -124,16 +125,22 @@ function TimerScreen({
           } catch (error) {
             console.log('Trackplayer init/play Error:', error);
             crashlytics().recordError(error);
+            Alert.alert(
+              'Whoops',
+              'The time up sound failed to play. Check your settings to makesure that this app can run in the background.',
+            );
           }
 
           // Make copy of meditaitons, check if not last meditation or 61st, and unlock next one.
           let nextMeditationId = selectedMeditation.id + 1;
+
           let meditationsCopy = [...meditations];
           let currentMeditation = {...meditationsCopy[selectedMeditation.id]};
           let nextMeditation = {...meditationsCopy[nextMeditationId]};
 
           if (nextMeditationId != 60 && currentMeditation.id != 64) {
-            nextMeditation.locked = false;
+            // nextMeditation.locked = false;
+            unlockMeditation(nextMeditationId);
             meditationsCopy[nextMeditationId] = nextMeditation;
           } else if (currentMeditation.id == 59) {
             setCompletionText(
@@ -195,9 +202,11 @@ function TimerScreen({
                   });
                 }
               })
-              .then(() => updateCompletionTime());
+              .then(() =>
+                updateCompletionTime(selectedMeditation.id, selectedTime),
+              );
           } else {
-            updateCompletionTime();
+            updateCompletionTime(selectedMeditation.id, selectedTime);
           }
 
           analytics().logEvent('Meditation_Completion_Event', {
@@ -207,16 +216,14 @@ function TimerScreen({
             Meditation_Number: selectedMeditation.id + 1,
           });
 
-          function updateCompletionTime() {
-            console.log('updateCompletionTime');
-            if (selectedTime > currentMeditation.completionTime) {
-              currentMeditation.completionTime = selectedTime;
-              meditationsCopy[selectedMeditation.id] = currentMeditation;
-              console.log('IF RAN updateCompletionTime');
-            }
-            storeData('@meditations_completed', meditationsCopy);
-            unlockMeditation([...meditationsCopy]);
-          }
+          // function updateCompletionTime() {
+          //   if (selectedTime > currentMeditation.completionTime) {
+          //     currentMeditation.completionTime = selectedTime;
+          //     meditationsCopy[selectedMeditation.id] = currentMeditation;
+          //   }
+          //   storeData('@meditations_completed', meditationsCopy);
+          //   unlockMeditation([...meditationsCopy]);
+          // }
 
           // Define today's and yesterday's date
           let today = new Date();
