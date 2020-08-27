@@ -14,10 +14,10 @@ import {
 import {removeValue} from '../functionsAndQuotes/asyncStorageFunctions';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
-import LinearGradient from 'react-native-linear-gradient';
+import HorizPurpleGrad from '../components/HorizPurpleGrad';
+import DeleteBtn from '../components/DeleteBtn';
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
-import HorizPurpleGrad from '../components/HorizPurpleGrad';
 
 function SettingsScreen({
   resetFully,
@@ -129,42 +129,42 @@ function SettingsScreen({
     <HorizPurpleGrad colors={purpleGrad}>
       <ScrollView>
         <View style={{...styles.textAndButtonWrapper, marginTop: 32}}>
-          <TouchableOpacity
+          <DeleteBtn
+            title="DELETE STARS"
             onPress={() => {
               crashlytics().log('Delete stars button pressed');
               warningAlert('stars');
             }}
-            style={styles.deleteButton}>
-            <Text style={styles.buttonText}>DELETE STARS</Text>
-          </TouchableOpacity>
+          />
+
           <Text style={styles.description}>
             Resets all stars to 0. All unlocked meditations will remain.
           </Text>
         </View>
 
         <View style={styles.textAndButtonWrapper}>
-          <TouchableOpacity
+          <DeleteBtn
+            title="RESET STATS"
             onPress={() => {
-              warningAlert('stats_data');
               crashlytics().log('Reset stats button pressed');
+              warningAlert('stats_data');
             }}
-            style={styles.deleteButton}>
-            <Text style={styles.buttonText}>RESET STATS</Text>
-          </TouchableOpacity>
+          />
+
           <Text style={styles.description}>
             Resets all stats to 0. Stars and unlocked meditations will remain.
           </Text>
         </View>
 
         <View style={styles.textAndButtonWrapper}>
-          <TouchableOpacity
+          <DeleteBtn
+            title="RE-LOCK MEDITATIONS"
             onPress={() => {
-              warningAlert('meditation_progress');
               crashlytics().log('Re-lock meditations button pressed');
+              warningAlert('meditation_progress');
             }}
-            style={styles.deleteButton}>
-            <Text style={styles.buttonText}>RE-LOCK MEDITATIONS</Text>
-          </TouchableOpacity>
+          />
+
           <Text style={styles.description}>
             All meditations but day one will be locked. Your stars will also be
             deleted.
@@ -179,11 +179,7 @@ function SettingsScreen({
         </TouchableOpacity>
       </View> */}
         <View style={{alignItems: 'center'}}>
-          <Icon
-            name="settings-outline"
-            size={90}
-            style={styles.meditationIcon}
-          />
+          <Icon name="settings-outline" size={90} style={styles.settingsIcon} />
         </View>
       </ScrollView>
     </HorizPurpleGrad>
@@ -194,24 +190,13 @@ const styles = StyleSheet.create({
   textAndButtonWrapper: {
     margin: 16,
   },
-  deleteButton: {
-    padding: 10,
-    borderRadius: 10,
-    backgroundColor: '#FF5353',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 20,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
   description: {
     color: 'white',
     marginTop: 8,
     fontSize: 18,
     textAlign: 'center',
   },
-  meditationIcon: {
+  settingsIcon: {
     color: '#2775B4',
     marginTop: 48,
   },

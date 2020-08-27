@@ -13,6 +13,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import VerticalPurpleGradBackground from '../components/VerticalPurpleGradBackground';
 import H from '../components/H';
 import P from '../components/P';
+import TimeSelectBtn from '../components/TimeSelectBtn';
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
 
@@ -125,54 +126,46 @@ function SingleMeditationScreen({
         </View>
 
         <View style={styles.timeBtnsContainer}>
-          <TouchableOpacity
+          <TimeSelectBtn
+            title="15"
             onPress={() => {
               setSelectedTime(15);
               crashlytics().log('15 mins pressed');
             }}
-            style={{
-              ...styles.timeBtn,
-              backgroundColor: selectedTime == 15 ? '#8ABCE5' : '#4192D5',
+            selectedTime={selectedTime}
+            extraStyles={{
               borderTopLeftRadius: 7,
               borderBottomLeftRadius: 7,
-            }}>
-            <Text style={styles.timeText}>15</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+            }}
+          />
+          <TimeSelectBtn
+            title="30"
             onPress={() => {
               setSelectedTime(30);
               crashlytics().log('30 mins pressed');
             }}
-            style={{
-              ...styles.timeBtn,
-              backgroundColor: selectedTime == 30 ? '#8ABCE5' : '#4192D5',
-            }}>
-            <Text style={styles.timeText}>30</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+            selectedTime={selectedTime}
+          />
+          <TimeSelectBtn
+            title="45"
             onPress={() => {
               setSelectedTime(45);
               crashlytics().log('45 mins pressed');
             }}
-            style={{
-              ...styles.timeBtn,
-              backgroundColor: selectedTime == 45 ? '#8ABCE5' : '#4192D5',
-            }}>
-            <Text style={styles.timeText}>45</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+            selectedTime={selectedTime}
+          />
+          <TimeSelectBtn
+            title="60"
             onPress={() => {
               setSelectedTime(60);
               crashlytics().log('60 mins pressed');
             }}
-            style={{
-              ...styles.timeBtn,
-              backgroundColor: selectedTime == 60 ? '#8ABCE5' : '#4192D5',
+            selectedTime={selectedTime}
+            extraStyles={{
               borderTopRightRadius: 7,
               borderBottomRightRadius: 7,
-            }}>
-            <Text style={styles.timeText}>60</Text>
-          </TouchableOpacity>
+            }}
+          />
         </View>
 
         <TouchableOpacity

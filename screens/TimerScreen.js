@@ -429,8 +429,8 @@ const styles = StyleSheet.create({
   doneBtn: {
     paddingTop: 13,
     paddingBottom: 13,
-    paddingLeft: 110,
-    paddingRight: 110,
+    paddingLeft: 80,
+    paddingRight: 80,
     marginBottom: 24,
     borderRadius: 10,
     backgroundColor: '#8ABCE5',
