@@ -10,6 +10,9 @@ import {
 } from 'react-native';
 import {imageArray} from '../imageArray';
 import LinearGradient from 'react-native-linear-gradient';
+import VerticalPurpleGradBackground from '../components/VerticalPurpleGradBackground';
+import H from '../components/H';
+import P from '../components/P';
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
 
@@ -100,11 +103,7 @@ function SingleMeditationScreen({
   const selectedMedEssay = medEssays[selectedMeditation.id].default;
 
   return (
-    <LinearGradient
-      start={{x: 0, y: 0}}
-      end={{x: 1, y: 1}}
-      colors={purpleGrad}
-      style={styles.pageContainer}>
+    <VerticalPurpleGradBackground style={{flex: 1}}>
       <ScrollView>
         <View style={styles.imgContainer}>
           <Image
@@ -113,19 +112,15 @@ function SingleMeditationScreen({
           />
         </View>
         <View style={styles.contentContainer}>
-          <Text style={styles.title}>{selectedMeditation.title}</Text>
+          <H>{selectedMeditation.title}</H>
           <Text style={styles.quoteText}>{selectedMedEssay.quote.text}</Text>
           <Text style={styles.quoteAuthor}>
             - {selectedMedEssay.quote.author}
           </Text>
 
           {console.log(selectedMedEssay.paragraphs.length)}
-          {selectedMedEssay.paragraphs.map((p) => {
-            return (
-              <Text style={styles.paragraph} key={Math.random()}>
-                {p}
-              </Text>
-            );
+          {selectedMedEssay.paragraphs.map((par) => {
+            return <P key={Math.random()}>{par}</P>;
           })}
         </View>
 
@@ -198,17 +193,11 @@ function SingleMeditationScreen({
           </LinearGradient>
         </TouchableOpacity>
       </ScrollView>
-    </LinearGradient>
+    </VerticalPurpleGradBackground>
   );
 }
 
-const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
-
 const styles = StyleSheet.create({
-  pageContainer: {
-    flexDirection: 'column',
-    flex: 1,
-  },
   imgContainer: {
     alignItems: 'center',
     backgroundColor: '#8ABCE5',
@@ -220,13 +209,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     marginLeft: 12,
     marginRight: 12,
-  },
-  title: {
-    fontSize: 30,
-    color: '#8ABCE5',
-    marginTop: 24,
-    marginBottom: 24,
-    fontFamily: 'Merienda-Bold',
   },
   quoteText: {
     fontSize: 21,
@@ -241,12 +223,6 @@ const styles = StyleSheet.create({
     lineHeight: 25,
     marginBottom: 24,
     alignSelf: 'flex-end',
-  },
-  paragraph: {
-    fontSize: 21,
-    color: 'rgba(255,255,255,0.9)',
-    lineHeight: 25,
-    marginBottom: 16,
   },
   timeBtnsContainer: {
     flexDirection: 'row',

@@ -18,7 +18,7 @@ import {
 } from '../functionsAndQuotes/asyncStorageFunctions.js';
 import TrackPlayer from 'react-native-track-player';
 import tracks from '../sounds/tracks';
-import LinearGradient from 'react-native-linear-gradient';
+import VerticalPurpleGradBackground from '../components/VerticalPurpleGradBackground';
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
 
@@ -216,15 +216,6 @@ function TimerScreen({
             Meditation_Number: selectedMeditation.id + 1,
           });
 
-          // function updateCompletionTime() {
-          //   if (selectedTime > currentMeditation.completionTime) {
-          //     currentMeditation.completionTime = selectedTime;
-          //     meditationsCopy[selectedMeditation.id] = currentMeditation;
-          //   }
-          //   storeData('@meditations_completed', meditationsCopy);
-          //   unlockMeditation([...meditationsCopy]);
-          // }
-
           // Define today's and yesterday's date
           let today = new Date();
           let yesterday = new Date(today);
@@ -328,11 +319,7 @@ function TimerScreen({
   });
 
   return (
-    <LinearGradient
-      start={{x: 0, y: 0}}
-      end={{x: 1, y: 1}}
-      colors={purpleGrad}
-      style={styles.screenContainer}>
+    <VerticalPurpleGradBackground style={styles.screenContainer}>
       <StatusBar hidden={true} />
 
       <View style={styles.stopIconAndTextPlaceholder}>
@@ -389,7 +376,7 @@ function TimerScreen({
           </TouchableOpacity>
         </View>
       )}
-    </LinearGradient>
+    </VerticalPurpleGradBackground>
   );
 }
 
@@ -442,8 +429,8 @@ const styles = StyleSheet.create({
   doneBtn: {
     paddingTop: 13,
     paddingBottom: 13,
-    paddingLeft: 30,
-    paddingRight: 30,
+    paddingLeft: 110,
+    paddingRight: 110,
     marginBottom: 24,
     borderRadius: 10,
     backgroundColor: '#8ABCE5',
