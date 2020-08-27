@@ -11,6 +11,7 @@ import {
 import {useIsFocused} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {imageArray} from '../imageArray';
+import HomeNavBtn from '../components/HomeNavBtn';
 import LinearGradient from 'react-native-linear-gradient';
 import crashlytics from '@react-native-firebase/crashlytics';
 
@@ -126,48 +127,27 @@ function HomeScreen({navigation, meditations, updateSelectedMeditation}) {
       />
 
       <View style={styles.optionBtnsContainer}>
-        <TouchableOpacity
-          style={styles.optionButtonTouchableOp}
+        <HomeNavBtn
+          label="GUIDE"
           onPress={() => {
             navigation.navigate('Guide');
             crashlytics().log('Guide button pressed');
-          }}>
-          <LinearGradient
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}
-            colors={['#6DABDF', '#5EA3DC', '#4F9BD8']}
-            style={styles.optionBtn}>
-            <Text style={styles.optionBtnText}>GUIDE</Text>
-          </LinearGradient>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.optionButtonTouchableOp}
+          }}
+        />
+        <HomeNavBtn
+          label="SETTINGS"
           onPress={() => {
             navigation.navigate('Settings');
             crashlytics().log('Settings button pressed');
-          }}>
-          <LinearGradient
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}
-            colors={['#6DABDF', '#5EA3DC', '#4F9BD8']}
-            style={styles.optionBtn}>
-            <Text style={styles.optionBtnText}>SETTINGS</Text>
-          </LinearGradient>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.optionButtonTouchableOp}
+          }}
+        />
+        <HomeNavBtn
+          label="STATS"
           onPress={() => {
             navigation.navigate('Stats');
             crashlytics().log('Stats button pressed');
-          }}>
-          <LinearGradient
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}
-            colors={['#6DABDF', '#5EA3DC', '#4F9BD8']}
-            style={styles.optionBtn}>
-            <Text style={styles.optionBtnText}>STATS</Text>
-          </LinearGradient>
-        </TouchableOpacity>
+          }}
+        />
       </View>
     </View>
   );
@@ -236,18 +216,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     flexDirection: 'row',
-  },
-  optionButtonTouchableOp: {
-    flex: 1,
-  },
-  optionBtn: {
-    height: 45,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  optionBtnText: {
-    color: 'white',
-    fontSize: 15,
   },
 });
 

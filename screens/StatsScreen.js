@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import FA5Icon from 'react-native-vector-icons/FontAwesome5';
 import {getData, storeData} from '../functionsAndQuotes/asyncStorageFunctions';
-import LinearGradient from 'react-native-linear-gradient';
+import HorizPurpleGrad from '../components/HorizPurpleGrad';
 import crashlytics from '@react-native-firebase/crashlytics';
 import {ScrollView} from 'react-native-gesture-handler';
 
@@ -78,12 +78,10 @@ function StatsScreen({
     });
   }, []);
 
+  const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
+
   return (
-    <LinearGradient
-      start={{x: 0, y: 0}}
-      end={{x: 1, y: 0}}
-      colors={purpleGrad}
-      style={styles.screenContainer}>
+    <HorizPurpleGrad colors={purpleGrad}>
       <ScrollView>
         <View style={styles.allStatsWrapper}>
           <Text
@@ -188,11 +186,9 @@ function StatsScreen({
           />
         </View>
       </ScrollView>
-    </LinearGradient>
+    </HorizPurpleGrad>
   );
 }
-
-const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
 
 const styles = StyleSheet.create({
   screenContainer: {

@@ -17,12 +17,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
+import HorizPurpleGrad from '../components/HorizPurpleGrad';
 
 function SettingsScreen({
-  meditations,
   resetFully,
   resetCompletionTimes,
-  unlockMeditation,
   setStreak,
   setLongestStreak,
   setTotalMeditationTime,
@@ -76,13 +75,6 @@ function SettingsScreen({
       Alert.alert('Success', `Your ${messageObject} was deleted successfully`),
     );
 
-    // reset times and re lock all but one. So reset fully.
-    // let meditationsCopy = [...meditations];
-    // meditationsCopy.forEach((med) => {
-    //   med.id == 0 ? (med.locked = false) : (med.locked = true);
-    //   med.completionTime = 0;
-    // });
-    // unlockMeditation(meditationsCopy);
     // Reset meditations to initial state.
     resetFully();
     setTotalStars(0);
@@ -110,15 +102,10 @@ function SettingsScreen({
   };
 
   const removeStarsFromMeditations = () => {
-    // let meditationsCopy = [...meditations];
-    // meditationsCopy.forEach((med) => {
-    //   med.completionTime = 0;
-    // });
     // Resetting completion times to 0 removes all stars
     resetCompletionTimes();
     setTotalStars(0);
-    // unlockMeditation(meditationsCopy);
-    // storeData('@meditations_completed', meditationsCopy);
+
     removeValue(`@total_stars`, 'stars record');
   };
 
@@ -136,12 +123,10 @@ function SettingsScreen({
   //   unlockMeditation(medCopy);
   // };
 
+  const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
+
   return (
-    <LinearGradient
-      start={{x: 0, y: 0}}
-      end={{x: 1, y: 0}}
-      colors={purpleGrad}
-      style={styles.screenContainer}>
+    <HorizPurpleGrad colors={purpleGrad}>
       <ScrollView>
         <View style={{...styles.textAndButtonWrapper, marginTop: 32}}>
           <TouchableOpacity
@@ -201,16 +186,11 @@ function SettingsScreen({
           />
         </View>
       </ScrollView>
-    </LinearGradient>
+    </HorizPurpleGrad>
   );
 }
 
-const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
-
 const styles = StyleSheet.create({
-  screenContainer: {
-    flex: 1,
-  },
   textAndButtonWrapper: {
     margin: 16,
   },
