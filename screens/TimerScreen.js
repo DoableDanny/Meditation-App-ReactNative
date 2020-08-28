@@ -138,7 +138,7 @@ function TimerScreen({
           let currentMeditation = {...meditationsCopy[selectedMeditation.id]};
           let nextMeditation = {...meditationsCopy[nextMeditationId]};
 
-          if (nextMeditationId != 60 && currentMeditation.id != 64) {
+          if (nextMeditationId < 60) {
             // nextMeditation.locked = false;
             unlockMeditation(nextMeditationId);
             meditationsCopy[nextMeditationId] = nextMeditation;
@@ -180,6 +180,10 @@ function TimerScreen({
                     storeData(`@total_stars`, stars + starsObj.starGain);
                     break;
                   case 60:
+                  case 75:
+                  case 90:
+                  case 105:
+                  case 120:
                     starsObj.starGain = 3;
                     storeData(`@total_stars`, stars + starsObj.starGain);
                     break;
@@ -187,17 +191,35 @@ function TimerScreen({
                 setTotalStars(stars + starsObj.starGain);
                 console.log('stars', stars, starsObj.starGain);
 
-                // If users total stars >= 180 => Bonus series!
-                if (stars + starsObj.starGain >= 180) {
+                // If >= 100 stars, unlock Tao med 4
+                if (
+                  stars + starsObj.starGain >= 100 &&
+                  stars + starsObj.starGain < 103
+                ) {
                   getData(`@tao_series`).then((data) => {
                     if (data == null) {
                       Alert.alert(
                         `CONGRATULATIONS!`,
-                        `Your outstanding efforts deserve a reward: The Tao Bonus Meditation Series!`,
+                        `Your outstanding efforts deserve a reward: The fourth Tao Bonus Meditation!`,
                       );
-                      storeData(`@tao_series`, true);
-                      meditationsCopy.forEach((med) => (med.locked = false));
-                      storeData(`@meditations_completed`, meditationsCopy);
+                      storeData(`@tao_series`, 100);
+                      unlockMeditation(63);
+                    }
+                  });
+                }
+                // If >= 180 stars, unlock Tao med 5
+                if (
+                  stars + starsObj.starGain >= 180 &&
+                  stars + starsObj.starGain < 183
+                ) {
+                  getData(`@tao_series`).then((data) => {
+                    if (data == 100) {
+                      Alert.alert(
+                        `CONGRATULATIONS!`,
+                        `Your outstanding efforts deserve a reward: The final Tao Bonus Meditation!`,
+                      );
+                      storeData(`@tao_series`, 180);
+                      unlockMeditation(64);
                     }
                   });
                 }
@@ -225,6 +247,7 @@ function TimerScreen({
 
           // Update the daily streak
           let dateLastCompleted;
+
           // Get date last completed meditation
           getData(`@date_last_completed`).then((data) => {
             dateLastCompleted = data != null ? data.slice(1, -1) : null;
@@ -246,9 +269,9 @@ function TimerScreen({
               getData(`@longest_streak_key`).then((data) => {
                 let longestStreak;
 
-                //// For testing awards////
+                //// For testing awards/////////////
                 // data = '2';
-                // streak = 3;
+                // streak = 30;
 
                 if (data && parseInt(data) < streak) {
                   longestStreak = streak;
@@ -259,27 +282,32 @@ function TimerScreen({
                   switch (longestStreak) {
                     case 3:
                       Alert.alert(
-                        'Three in a Row!',
-                        'You have been given The Turkey award. Keep rolling!',
+                        'Three in a Row',
+                        'Keep it up. You are developing a great habit!',
                       );
                       break;
                     case 7:
                       Alert.alert(
                         'Seven Days in a Row!',
-                        'You have been awarded The Se7ev Award.',
+                        `You have unlocked Tao Meditation I. You're doing awesome!`,
                       );
+                      unlockMeditation(60);
+
                       break;
                     case 14:
                       Alert.alert(
                         'Two Weeks Straight!',
-                        'You have been awarded The Fortnight Award. Keep going!',
+                        `You have unlocked Tao Meditation II. Let's keep this going!`,
                       );
+                      unlockMeditation(61);
+
                       break;
                     case 30:
                       Alert.alert(
                         'Wow, Thirty Days straight!',
-                        `You have been awarded The Stoic Mind. You are developing a life changing habit!`,
+                        `You have been awarded Tao Meditation III. You are developing a life changing habit!`,
                       );
+                      unlockMeditation(62);
                       break;
                   }
                 } else if (data === null) {

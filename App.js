@@ -308,7 +308,7 @@ const App = () => {
   //   );
   // }, []);
 
-  const [selectedMeditation, updateSelectedMeditation] = useState('');
+  const [selectedMeditation, setSelectedMeditation] = useState('');
   const [selectedTime, setSelectedTime] = useState(60);
   const [totalMeditationTime, setTotalMeditationTime] = useState(0);
   const [totalMeditationsCompleted, setTotalMeditationsCompleted] = useState(0);
@@ -354,8 +354,7 @@ const App = () => {
             <HomeScreen
               {...props}
               meditations={meditations}
-              selectedMeditation={selectedMeditation}
-              updateSelectedMeditation={updateSelectedMeditation}
+              setSelectedMeditation={setSelectedMeditation}
             />
           )}
         </Stack.Screen>
@@ -394,6 +393,8 @@ const App = () => {
               setTotalMeditationsCompleted={setTotalMeditationsCompleted}
               totalStars={totalStars}
               setTotalStars={setTotalStars}
+              setSelectedMeditation={setSelectedMeditation}
+              setSelectedTime={setSelectedTime}
             />
           )}
         </Stack.Screen>

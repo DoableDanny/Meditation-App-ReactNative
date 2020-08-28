@@ -1,6 +1,6 @@
 const medEssay = {
   quote: {
-    text: '""',
+    text: '"This is the 61st meditaion for Tao"',
     author: '',
   },
   paragraphs: [],

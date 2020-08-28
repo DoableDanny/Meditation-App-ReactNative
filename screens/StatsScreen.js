@@ -2,11 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import FA5Icon from 'react-native-vector-icons/FontAwesome5';
 import {getData, storeData} from '../functionsAndQuotes/asyncStorageFunctions';
 import HorizPurpleGrad from '../components/HorizPurpleGrad';
+import TaoBonusBtn from '../components/TaoBonusBtn';
+import LockedTaoMed from '../components/LockedTaoMed';
 import crashlytics from '@react-native-firebase/crashlytics';
-import {ScrollView} from 'react-native-gesture-handler';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 
 function StatsScreen({
   meditations,
@@ -20,6 +21,9 @@ function StatsScreen({
   setTotalMeditationsCompleted,
   totalStars,
   setTotalStars,
+  setSelectedMeditation,
+  setSelectedTime,
+  navigation,
 }) {
   const [dateLastCompleted, setDateLastCompleted] = useState('-');
   const [averageSessionTime, setAverageSessionTime] = useState(0);
@@ -80,6 +84,8 @@ function StatsScreen({
 
   const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
 
+  console.log(meditations[60]);
+
   return (
     <HorizPurpleGrad colors={purpleGrad}>
       <ScrollView>
@@ -102,10 +108,12 @@ function StatsScreen({
               {totalMeditationTime == 1 ? 'hour' : 'hours'}
             </Text>
           </Text>
+
           <Text style={styles.key}>
             Sessions:{' '}
             <Text style={styles.value}>{totalMeditationsCompleted} </Text>
           </Text>
+
           <Text style={{...styles.key, marginBottom: 28}}>
             Average Session:{' '}
             <Text style={styles.value}>
@@ -113,12 +121,14 @@ function StatsScreen({
             </Text>
           </Text>
 
-          <Text style={styles.key}>
+          <Text style={{...styles.key, color: 'gold'}}>
+            <Icon name="fire" size={30} style={styles.goldIcon} />
             Streak:{' '}
             <Text style={styles.value}>
               {streak} {streak == 1 ? 'day' : 'days'}
             </Text>
           </Text>
+
           <Text style={styles.key}>
             Longest Streak:{' '}
             <Text style={styles.value}>
@@ -130,52 +140,97 @@ function StatsScreen({
             Last Meditation:{' '}
             <Text style={styles.value}>{dateLastCompleted}</Text>
           </Text>
+        </View>
 
-          <View style={styles.awardsWrapper}>
-            <View style={styles.rowAndCenter}>
-              <IonIcon
-                name="md-trophy-sharp"
-                size={28}
-                style={{color: 'gold'}}
-              />
-              <Text style={{...styles.key, color: 'gold'}}>Awards:</Text>
-            </View>
-            {longestStreak >= 3 ? (
-              <View style={styles.rowAndCenter}>
-                <Icon name="bowling" size={25} style={styles.awardIcon} />
-                <Text style={styles.value}>Turkey</Text>
-              </View>
-            ) : null}
-            {longestStreak >= 7 ? (
-              <View style={styles.rowAndCenter}>
-                <Icon
-                  name="numeric-7-box-multiple"
-                  size={25}
-                  style={styles.awardIcon}
-                />
-                <Text style={styles.value}>Se7en</Text>
-              </View>
-            ) : null}
-            {longestStreak >= 14 ? (
-              <View style={styles.rowAndCenter}>
-                <Icon name="shield-sun" size={25} style={styles.awardIcon} />
-                <Text style={styles.value}>Fortnight</Text>
-              </View>
-            ) : null}
-            {longestStreak >= 30 ? (
-              <View style={styles.rowAndCenter}>
-                <FA5Icon name="brain" size={25} style={styles.awardIcon} />
-                <Text style={styles.value}>The Stoic Mind</Text>
-              </View>
-            ) : null}
-
-            {meditations[59].completionTime > 0 ? (
-              <Text style={styles.award}>NAVAL PEACE PRIZE</Text>
-            ) : null}
-            {totalStars == 195 ? (
-              <Text style={styles.award}>ZEN MASTER</Text>
-            ) : null}
+        <View style={styles.bonusTaoWrapper}>
+          <View style={styles.bonusTaoTitleWrapper}>
+            <Text style={{...styles.key, color: 'gold'}}>
+              Bonus Tao Meditations{' '}
+              <Icon name="yin-yang" size={28} style={{color: 'gold'}} /> :
+            </Text>
           </View>
+
+          {meditations[60].locked == false ? (
+            <TaoBonusBtn
+              title="Contentment"
+              taoMeditation={meditations[60]}
+              onPress={() => {
+                crashlytics().log('Tao 1 pressed');
+                setSelectedTime(60);
+                setSelectedMeditation(meditations[60]);
+                navigation.navigate('Meditation');
+              }}
+            />
+          ) : (
+            <LockedTaoMed icon="fire" num="7" />
+          )}
+
+          {meditations[61].locked == false ? (
+            <TaoBonusBtn
+              title="Tao II"
+              taoMeditation={meditations[61]}
+              onPress={() => {
+                crashlytics().log('Tao 2 pressed');
+                setSelectedTime(75);
+                setSelectedMeditation(meditations[61]);
+                navigation.navigate('Meditation');
+              }}
+            />
+          ) : (
+            <LockedTaoMed icon="fire" num="14" />
+          )}
+
+          {meditations[62].locked == false ? (
+            <TaoBonusBtn
+              title="Tao III"
+              taoMeditation={meditations[62]}
+              onPress={() => {
+                crashlytics().log('Tao 3 pressed');
+                setSelectedTime(90);
+                setSelectedMeditation(meditations[62]);
+                navigation.navigate('Meditation');
+              }}
+            />
+          ) : (
+            <LockedTaoMed icon="fire" num="30" />
+          )}
+
+          {meditations[63].locked == false ? (
+            <TaoBonusBtn
+              title="IV"
+              taoMeditation={meditations[63]}
+              onPress={() => {
+                crashlytics().log('Tao 4 pressed');
+                setSelectedTime(105);
+                setSelectedMeditation(meditations[63]);
+                navigation.navigate('Meditation');
+              }}
+            />
+          ) : (
+            <LockedTaoMed icon="star" num="100" />
+          )}
+
+          {meditations[64].locked == false ? (
+            <TaoBonusBtn
+              title="V"
+              taoMeditation={meditations[64]}
+              onPress={() => {
+                crashlytics().log('Tao 5 pressed');
+                setSelectedTime(120);
+                setSelectedMeditation(meditations[64]);
+                navigation.navigate('Meditation');
+              }}
+            />
+          ) : (
+            <LockedTaoMed icon="star" num="180" />
+          )}
+
+          {/* {meditations[59].completionTime > 0 ? (
+            <Text style={styles.award}>NAVAL PEACE PRIZE</Text>
+          ) : null}
+          {totalStars == 195 ? (
+            <Text style={styles.award}>ZEN MASTER</Text>
+          ) : null} */}
         </View>
 
         <View style={styles.iconWrapper}>
@@ -197,6 +252,7 @@ const styles = StyleSheet.create({
   allStatsWrapper: {
     alignSelf: 'center',
     alignItems: 'flex-start',
+    marginBottom: 8,
   },
   key: {
     color: '#BBD8F0',
@@ -205,31 +261,45 @@ const styles = StyleSheet.create({
     margin: 7,
   },
   value: {
-    color: '#fff',
+    color: 'rgba(255,255,255,0.95)',
+
     fontSize: 22,
   },
-  awardsWrapper: {
+  bonusTaoWrapper: {
     marginTop: 24,
+    // backgroundColor: '#171049',
+    justifyContent: 'center',
+  },
+  bonusTaoTitleWrapper: {
     alignSelf: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
+    // borderTopWidth: 2,
   },
-  award: {
-    color: 'gold',
-    fontSize: 22,
-    zIndex: 1,
+  lockedTaoWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
+  lockIcon: {},
   iconWrapper: {
     alignItems: 'center',
     marginTop: 48,
     marginBottom: 16,
+  },
+  lockedRequirement: {
+    color: 'rgba(255,255,255,0.5)',
+    fontSize: 20,
   },
   rowAndCenter: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  awardIcon: {
-    color: 'rgba(255,255,255,0.9)',
-    marginRight: 2,
+  goldIcon: {
+    color: 'gold',
   },
   bottomIcon: {
     color: '#2775B4',

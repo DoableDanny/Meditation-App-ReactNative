@@ -11,61 +11,18 @@ import {
 import {useIsFocused} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {imageArray} from '../imageArray';
+import renderStars from '../functionsAndQuotes/renderStars';
 import HomeNavBtn from '../components/HomeNavBtn';
 import LinearGradient from 'react-native-linear-gradient';
 import crashlytics from '@react-native-firebase/crashlytics';
 
-function HomeScreen({navigation, meditations, updateSelectedMeditation}) {
+function HomeScreen({navigation, meditations, setSelectedMeditation}) {
   // True if we're on this screen, false if not (I'm using this to re-render homescreen)
   const isFocused = useIsFocused();
 
   useEffect(() => {
     crashlytics().log('HomeScreen mounted');
   }, []);
-
-  // Check the users completionTime for each meditation and award corresponding stars
-  const renderStars = (item) => {
-    switch (item.completionTime) {
-      case 15:
-        return (
-          <View style={{flexDirection: 'row'}}>
-            <Icon name="star-outline" size={24} style={{color: 'gold'}} />
-            <Icon name="star-outline" size={24} style={{color: 'gold'}} />
-            <Icon name="star-outline" size={24} style={{color: 'gold'}} />
-          </View>
-        );
-      case 30:
-        return (
-          <View style={{flexDirection: 'row'}}>
-            <Icon name="star" size={24} style={{color: 'gold'}} />
-            <Icon name="star-outline" size={24} style={{color: 'gold'}} />
-            <Icon name="star-outline" size={24} style={{color: 'gold'}} />
-          </View>
-        );
-      case 45:
-        return (
-          <View style={{flexDirection: 'row'}}>
-            <Icon name="star" size={24} style={{color: 'gold'}} />
-            <Icon name="star" size={24} style={{color: 'gold'}} />
-            <Icon name="star-outline" size={24} style={{color: 'gold'}} />
-          </View>
-        );
-      case 60:
-        return (
-          <View style={{flexDirection: 'row'}}>
-            <Icon
-              name="star"
-              size={24}
-              style={{
-                color: 'gold',
-              }}
-            />
-            <Icon name="star" size={24} style={{color: 'gold'}} />
-            <Icon name="star" size={24} style={{color: 'gold'}} />
-          </View>
-        );
-    }
-  };
 
   return (
     <View style={styles.screenContainer}>
@@ -76,52 +33,54 @@ function HomeScreen({navigation, meditations, updateSelectedMeditation}) {
         renderItem={({item, index}) => (
           <TouchableOpacity
             onPress={() => {
-              updateSelectedMeditation(item);
+              setSelectedMeditation(item);
               item.locked ? null : navigation.navigate('Meditation');
               crashlytics().log(`Meditation ${item.id + 1} was selected`);
             }}>
-            {!item.locked ? (
-              <LinearGradient
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 1}}
-                colors={purpleGrad}
-                style={{
-                  ...styles.listItem,
-                  borderBottomWidth: index === meditations.length - 1 ? 0 : 1,
-                  borderTopWidth: index === 0 ? 18 : 10,
-                  marginBottom: index === meditations.length - 1 ? 60 : 0,
-                }}>
-                <View style={styles.imageAndNumberWrapper}>
-                  <View style={styles.imageOverlay}>
-                    <Image
-                      source={imageArray[index].image}
-                      style={styles.image}
-                    />
-                  </View>
+            {item.id < 60 ? (
+              !item.locked ? (
+                <LinearGradient
+                  start={{x: 0, y: 0}}
+                  end={{x: 1, y: 1}}
+                  colors={purpleGrad}
+                  style={{
+                    ...styles.listItem,
+                    borderBottomWidth: index === meditations.length - 1 ? 0 : 1,
+                    borderTopWidth: index === 0 ? 18 : 10,
+                    marginBottom: index == 59 ? 60 : 0,
+                  }}>
+                  <View style={styles.imageAndNumberWrapper}>
+                    <View style={styles.imageOverlay}>
+                      <Image
+                        source={imageArray[index].image}
+                        style={styles.image}
+                      />
+                    </View>
 
-                  <View style={styles.numberWrapper}>
-                    <Text style={styles.number}>{index + 1}</Text>
+                    <View style={styles.numberWrapper}>
+                      <Text style={styles.number}>{index + 1}</Text>
+                    </View>
                   </View>
-                </View>
-                <View style={styles.starsAndTitleWrapper}>
-                  <Text style={styles.title}>{item.title} </Text>
-                  {renderStars(item)}
-                </View>
-              </LinearGradient>
-            ) : (
-              <LinearGradient
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}
-                colors={purpleGrad}
-                style={{
-                  ...styles.listItem,
-                  borderBottomWidth: index === meditations.length - 1 ? 0 : 1,
-                  marginBottom: index === meditations.length - 1 ? 60 : 0,
-                  justifyContent: 'center',
-                }}>
-                <Icon name="lock" size={45} style={styles.lockIcon} />
-              </LinearGradient>
-            )}
+                  <View style={styles.starsAndTitleWrapper}>
+                    <Text style={styles.title}>{item.title} </Text>
+                    {renderStars(item)}
+                  </View>
+                </LinearGradient>
+              ) : (
+                <LinearGradient
+                  start={{x: 0, y: 0}}
+                  end={{x: 1, y: 0}}
+                  colors={purpleGrad}
+                  style={{
+                    ...styles.listItem,
+                    borderBottomWidth: index === meditations.length - 1 ? 0 : 1,
+                    marginBottom: index == 59 ? 60 : 0,
+                    justifyContent: 'center',
+                  }}>
+                  <Icon name="lock" size={45} style={styles.lockIcon} />
+                </LinearGradient>
+              )
+            ) : null}
           </TouchableOpacity>
         )}
       />

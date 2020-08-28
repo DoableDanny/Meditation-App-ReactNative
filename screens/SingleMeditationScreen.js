@@ -125,48 +125,53 @@ function SingleMeditationScreen({
           })}
         </View>
 
-        <View style={styles.timeBtnsContainer}>
-          <TimeSelectBtn
-            title="15"
-            onPress={() => {
-              setSelectedTime(15);
-              crashlytics().log('15 mins pressed');
-            }}
-            selectedTime={selectedTime}
-            extraStyles={{
-              borderTopLeftRadius: 7,
-              borderBottomLeftRadius: 7,
-            }}
-          />
-          <TimeSelectBtn
-            title="30"
-            onPress={() => {
-              setSelectedTime(30);
-              crashlytics().log('30 mins pressed');
-            }}
-            selectedTime={selectedTime}
-          />
-          <TimeSelectBtn
-            title="45"
-            onPress={() => {
-              setSelectedTime(45);
-              crashlytics().log('45 mins pressed');
-            }}
-            selectedTime={selectedTime}
-          />
-          <TimeSelectBtn
-            title="60"
-            onPress={() => {
-              setSelectedTime(60);
-              crashlytics().log('60 mins pressed');
-            }}
-            selectedTime={selectedTime}
-            extraStyles={{
-              borderTopRightRadius: 7,
-              borderBottomRightRadius: 7,
-            }}
-          />
-        </View>
+        {console.log('SlectedID', selectedMeditation.id)}
+        {selectedMeditation.id < 60 ? (
+          <View style={styles.timeBtnsContainer}>
+            <TimeSelectBtn
+              title="15"
+              onPress={() => {
+                setSelectedTime(15);
+                crashlytics().log('15 mins pressed');
+              }}
+              selectedTime={selectedTime}
+              extraStyles={{
+                borderTopLeftRadius: 7,
+                borderBottomLeftRadius: 7,
+              }}
+            />
+            <TimeSelectBtn
+              title="30"
+              onPress={() => {
+                setSelectedTime(30);
+                crashlytics().log('30 mins pressed');
+              }}
+              selectedTime={selectedTime}
+            />
+            <TimeSelectBtn
+              title="45"
+              onPress={() => {
+                setSelectedTime(45);
+                crashlytics().log('45 mins pressed');
+              }}
+              selectedTime={selectedTime}
+            />
+            <TimeSelectBtn
+              title="60"
+              onPress={() => {
+                setSelectedTime(60);
+                crashlytics().log('60 mins pressed');
+              }}
+              selectedTime={selectedTime}
+              extraStyles={{
+                borderTopRightRadius: 7,
+                borderBottomRightRadius: 7,
+              }}
+            />
+          </View>
+        ) : (
+          <Text style={styles.taoTime}>{selectedTime} mins...</Text>
+        )}
 
         <TouchableOpacity
           onPress={() => {
@@ -232,6 +237,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 20,
     fontFamily: 'Merienda-Regular',
+  },
+  taoTime: {
+    textAlign: 'center',
+    color: '#fff',
+    fontFamily: 'Merienda-Regular',
+    fontSize: 22,
   },
   beginBtn: {
     height: 55,
