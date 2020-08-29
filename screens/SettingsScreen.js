@@ -109,20 +109,6 @@ function SettingsScreen({
     removeValue(`@total_stars`, 'stars record');
   };
 
-  {
-    /* For Testing */
-  }
-  // const unlock59And64 = () => {
-  //   let medCopy = [...meditations];
-  //   medCopy[0].locked = false;
-  //   medCopy[0].id = 0;
-  //   medCopy[58].locked = false;
-  //   medCopy[63].locked = false;
-  //   console.log(medCopy[1]);
-  //   storeData('@meditations_completed', medCopy);
-  //   unlockMeditation(medCopy);
-  // };
-
   const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
 
   return (
@@ -170,14 +156,7 @@ function SettingsScreen({
             deleted.
           </Text>
         </View>
-        {/* For Testing */}
-        {/* <View style={styles.textAndButtonWrapper}>
-        <TouchableOpacity
-          style={styles.deleteButton}
-          onPress={() => unlock59And64()}>
-          <Text style={styles.buttonText}>Unlock 59 and 64</Text>
-        </TouchableOpacity>
-      </View> */}
+
         <View style={{alignItems: 'center'}}>
           <Icon name="settings-outline" size={90} style={styles.settingsIcon} />
         </View>

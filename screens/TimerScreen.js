@@ -138,8 +138,7 @@ function TimerScreen({
           let currentMeditation = {...meditationsCopy[selectedMeditation.id]};
           let nextMeditation = {...meditationsCopy[nextMeditationId]};
 
-          if (nextMeditationId < 60) {
-            // nextMeditation.locked = false;
+          if (nextMeditationId < 59) {
             unlockMeditation(nextMeditationId);
             meditationsCopy[nextMeditationId] = nextMeditation;
           } else if (currentMeditation.id == 59) {

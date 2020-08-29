@@ -154,6 +154,8 @@ function StatsScreen({
             <TaoBonusBtn
               title="Contentment"
               taoMeditation={meditations[60]}
+              icon="fire"
+              num="7"
               onPress={() => {
                 crashlytics().log('Tao 1 pressed');
                 setSelectedTime(60);
@@ -169,6 +171,8 @@ function StatsScreen({
             <TaoBonusBtn
               title="Tao II"
               taoMeditation={meditations[61]}
+              icon="fire"
+              num="14"
               onPress={() => {
                 crashlytics().log('Tao 2 pressed');
                 setSelectedTime(75);
@@ -184,6 +188,8 @@ function StatsScreen({
             <TaoBonusBtn
               title="Tao III"
               taoMeditation={meditations[62]}
+              icon="fire"
+              num="30"
               onPress={() => {
                 crashlytics().log('Tao 3 pressed');
                 setSelectedTime(90);
@@ -199,6 +205,8 @@ function StatsScreen({
             <TaoBonusBtn
               title="IV"
               taoMeditation={meditations[63]}
+              icon="star"
+              num="100"
               onPress={() => {
                 crashlytics().log('Tao 4 pressed');
                 setSelectedTime(105);
@@ -214,6 +222,8 @@ function StatsScreen({
             <TaoBonusBtn
               title="V"
               taoMeditation={meditations[64]}
+              icon="star"
+              num="180"
               onPress={() => {
                 crashlytics().log('Tao 5 pressed');
                 setSelectedTime(120);
