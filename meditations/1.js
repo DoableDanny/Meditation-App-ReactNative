@@ -5,7 +5,7 @@ const medEssay = {
     author: 'Jiddu Krishnamurti',
   },
   paragraphs: [
-    'We judge and condemn every emotion and thought that we have and this analysis never gets us anywhere. We live inside our own heads with our silly beliefs and when the world doesn’t conform to our beliefs, it hurts us.',
+    'We judge and condemn every emotion and thought that we have, and this analysis never gets us anywhere. We live inside our own heads with our silly beliefs and when the world doesn’t conform to our beliefs, it hurts us.',
 
     'We get angry at someone for cutting in front of us on the freeway, but we justify it and say it was acceptable anger. They were in the wrong. But then we think how dumb it was getting angry over something not in our control. Now you’re angry at yourself!',
 

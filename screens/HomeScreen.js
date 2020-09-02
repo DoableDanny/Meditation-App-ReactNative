@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 20,
+    fontSize: 19,
     color: '#D3E6F5',
     fontFamily: 'Merienda-Regular',
   },

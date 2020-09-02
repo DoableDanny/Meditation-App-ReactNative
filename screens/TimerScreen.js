@@ -11,13 +11,14 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FA5Icon from 'react-native-vector-icons/FontAwesome5';
 import BackgroundTimer from 'react-native-background-timer';
+import KeepAwake from 'react-native-keep-awake';
 import {navalQuotes} from '../functionsAndQuotes/quotes';
 import {
   getData,
   storeData,
 } from '../functionsAndQuotes/asyncStorageFunctions.js';
 import TrackPlayer from 'react-native-track-player';
-import tracks from '../sounds/tracks';
+import trackPlayerInit from '../functionsAndQuotes/trackPlayerInit';
 import VerticalPurpleGradBackground from '../components/VerticalPurpleGradBackground';
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
@@ -38,35 +39,10 @@ function TimerScreen({
   navigation,
 }) {
   const [seconds, setSeconds] = useState(`01`);
-  const [minutes, setMinutes] = useState(`00`); //CHANGE THIS!!
+  const [minutes, setMinutes] = useState('00'); //CHANGE THIS!!
   const [timerOn, setTimerOn] = useState(true);
   const [completionText, setCompletionText] = useState('');
   const [stopSound, setStopSound] = useState(false);
-
-  // Select a random track
-  const randomNum = Math.floor(Math.random() * tracks.length);
-  const track = tracks[randomNum];
-
-  // Function that sets up the track player when called (time up)
-  const trackPlayerInit = async () => {
-    // Takes under 1 sec
-    await TrackPlayer.setupPlayer();
-    // Adding background controls. stopWithApp kills sound if app closes. These remote controls have eventListeners in service.js file.
-    TrackPlayer.updateOptions({
-      stopWithApp: false,
-      capabilities: [
-        // TrackPlayer.CAPABILITY_PLAY,
-        // TrackPlayer.CAPABILITY_PAUSE,
-        TrackPlayer.CAPABILITY_STOP,
-      ],
-      compactCapabilities: [
-        TrackPlayer.CAPABILITY_STOP,
-        // TrackPlayer.CAPABILITY_PLAY,
-        // TrackPlayer.CAPABILITY_PAUSE,
-      ],
-    });
-    await TrackPlayer.add(track);
-  };
 
   // Stop playing sound on component unmount
   useEffect(() => {
@@ -82,14 +58,26 @@ function TimerScreen({
   }, []);
 
   useEffect(() => {
+    try {
+      KeepAwake.activate();
+    } catch (error) {
+      crashlytics().recordError(error);
+    }
     crashlytics().log('TimerScreen mounted');
+    return () => {
+      try {
+        KeepAwake.deactivate();
+      } catch (error) {
+        crashlytics().recordError(error);
+      }
+    };
   }, []);
 
   // Takes f(n) as arg - runs like componentDidMount
   useEffect(() => {
-    if (Platform.OS == 'ios') {
-      BackgroundTimer.start();
-    }
+    // if (Platform.OS == 'ios') {
+    //   BackgroundTimer.start();
+    // }
     let interval = BackgroundTimer.setInterval(() => {
       // Stop the interval from calling itself if timer not on
       if (!timerOn) {
@@ -127,7 +115,7 @@ function TimerScreen({
             crashlytics().recordError(error);
             Alert.alert(
               'Whoops',
-              'The time up sound failed to play. Check your settings to makesure that this app can run in the background.',
+              'The time up sound failed to play. Check your settings to makesure that this app can run in the background. Alternatively, just leave the timer screen on.',
             );
           }
 
@@ -254,12 +242,14 @@ function TimerScreen({
             getData(`@streak_key`).then((data) => {
               // If your last meditation was yesterday, then +1 to daily streak
               let streak;
-              if (dateLastCompleted == yesterday) {
-                streak = data != null ? parseInt(data) + 1 : 1;
+
+              if (dateLastCompleted == today) {
+              } else if (dateLastCompleted == yesterday) {
+                streak = parseInt(data) + 1;
                 setStreak(streak);
                 // Save new streak
                 storeData('@streak_key', streak);
-              } else if (data === null) {
+              } else {
                 streak = 1;
                 setStreak(streak);
                 storeData('@streak_key', streak);
@@ -441,7 +431,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   time: {
-    fontSize: 58,
+    fontSize: 65,
     color: '#5e4ed8',
   },
   completionText: {
