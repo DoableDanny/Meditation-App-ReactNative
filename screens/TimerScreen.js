@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   StatusBar,
-  Platform,
   Alert,
   TouchableOpacity,
 } from 'react-native';
@@ -38,8 +37,8 @@ function TimerScreen({
   setTotalStars,
   navigation,
 }) {
-  const [seconds, setSeconds] = useState(`01`);
-  const [minutes, setMinutes] = useState('00'); //CHANGE THIS!!
+  const [seconds, setSeconds] = useState(`00`);
+  const [minutes, setMinutes] = useState(selectedTime); //CHANGE THIS!!
   const [timerOn, setTimerOn] = useState(true);
   const [completionText, setCompletionText] = useState('');
   const [stopSound, setStopSound] = useState(false);
@@ -49,7 +48,6 @@ function TimerScreen({
     return () => {
       try {
         TrackPlayer.destroy();
-        console.log('Trackplayer destroyed successfully');
       } catch (error) {
         console.log('Trackplayer Destroy Error:', error);
         crashlytics().recordError(error);
@@ -135,7 +133,7 @@ function TimerScreen({
             );
           } else if (currentMeditation.id == 64) {
             setCompletionText(
-              'Congratulations on completing the Tao Series, ZEN MASTER!',
+              `Congratulations on completing the Tao Series, you have developed an extremely useful habit. I give you no more prizes, but you shouldn't have expected any!`,
             );
           }
 
@@ -421,9 +419,8 @@ const styles = StyleSheet.create({
   },
   stopSoundText: {
     fontSize: 22,
-    color: '#5e4ed8',
+    color: '#988EE6',
     // color: '#8ABCE5',
-
     textAlign: 'center',
     marginTop: 2,
   },
@@ -431,8 +428,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   time: {
-    fontSize: 65,
-    color: '#5e4ed8',
+    fontSize: 90,
+    color: '#988EE6',
   },
   completionText: {
     fontSize: 23,
@@ -453,7 +450,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#8ABCE5',
   },
   doneText: {
-    // color: 'rgba(0,0,0,0.9)',
     color: '#fff',
     fontSize: 26,
     textAlign: 'center',

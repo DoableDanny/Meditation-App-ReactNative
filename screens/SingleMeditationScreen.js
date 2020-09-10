@@ -198,7 +198,7 @@ function SingleMeditationScreen({
 const styles = StyleSheet.create({
   imgContainer: {
     alignItems: 'center',
-    backgroundColor: '#8ABCE5',
+    backgroundColor: '#100B33',
   },
   img: {
     width: Dimensions.get('window').width,

@@ -1,3 +1,6 @@
+import React from 'react';
+import {Text} from 'react-native';
+
 const medEssay = {
   quote: {
     text:
@@ -18,6 +21,11 @@ const medEssay = {
     `Grab a chair, or sit on the floor, it doesn’t matter. Sit up alert – this isn’t about falling asleep - but comfortable. Close your eyes and sit with yourself. Just your thoughts and emotions for company. Let whatever happens happen. No censor.`,
 
     `“Meditation is simply the art of doing nothing” – Naval Ravikant.`,
+    <Text style={{fontWeight: 'bold'}}>
+      Note: if the timer does not run whilst your phone is locked, then you can
+      leave the timer screen on. Ensure your volume is turned up for the alarm
+      😊.
+    </Text>,
   ],
 };
 
