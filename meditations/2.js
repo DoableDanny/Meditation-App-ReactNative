@@ -9,7 +9,7 @@ const medEssay = {
 
     'Say you have an encounter with someone and you have a pleasant conversation. An image of that person is now formed in your head – that person is pleasant and polite. The next time you see the person they pretend to not see you, they ignore you and carry on walking. You are hurt, the image that you formed is shaken and it stirs you up inside. You’re little belief wasn’t correct and it affects your whole day.',
     ,
-    'So we can see that the images we build up in memory from past events cause us strife. If we could rid ourselves of these images, which are just memories stored in the brain, would we then not get offended or anxious, fearful? Is it possible to not form these images or to remove them from memory?',
+    'So, we can see that the images we build up in memory from past events cause us strife. If we could rid ourselves of these images, which are just memories stored in the brain, would we then not get offended or anxious, fearful? Is it possible to not form these images or to remove them from memory?',
     ,
     'I think this is actually the whole problem. You see that images and memories are causing you problems, so you now want some system or some meditation guru to tell you how to remove them. You want someone to give you the answers. That is replacing your old beliefs, systems and ideas with new ones. New beliefs that will be shaken in the future and cause you more pain.',
     ,

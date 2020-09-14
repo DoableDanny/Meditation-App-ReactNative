@@ -1,9 +1,10 @@
 const medEssay = {
   quote: {
-    text: '""',
-    author: '',
+    text:
+      '"There is no such thing as a problem without a gift for you in its hands. You seek problems because you need their gifts."',
+    author: 'Richard Bach, Illusions',
   },
-  paragraphs: [],
+  paragraphs: [`The difficult things in life are the things worth doing.`],
 };
 
 export default medEssay;

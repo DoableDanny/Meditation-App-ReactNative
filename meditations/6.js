@@ -1,15 +1,15 @@
 const medEssay = {
   quote: {
     text:
-      '"Meditation is intermittent fasting for the mind. Too much sugar leads to a heavy body, and too many distractions lead to a heavy mind. Time spent undistracted and alone, in self-examination, journaling, meditation, resolves the unresolved and takes us from mentally fat to fit. "',
-    author: 'Naval Ravikant',
+      '"Realize deeply that the present moment is all you have. Make the NOW the primary focus of your life."',
+    author: 'Eckhart Tolle',
   },
   paragraphs: [
-    `2.5 thousand years ago, Buddha told us that every comparison brings us suffering. Whenever we compare ourselves to others, we are collecting suffering. Everybody has their own innate unique personality that should be allowed to flourish without external or internal resistance.`,
-    `Today we sit on our mobile phones, flicking through 100s of Facebook statements and pictures that others have carefully constructed. People smiling with their many friends on great vacations with their amazingly supportive other halves. You finish up depressed because you aren’t as happy or successful as these people.`,
-    `We are bombarded with headlines and advertisements every day, disaster news stories and people outraged on twitter. It distorts our view of the world into something totally inaccurate. All of this isn’t real life. They are just things that people make up to stir up your emotions and get you to use their products.`,
-    `How do you deal with all of this nonsense? See it for what it truly is. Made up ideas and carefully constructed images. Has the girl with the beaming smile partying in the Facebook picture a better life than you, or has she got to be up at 7 am for an 8 hour shift with a hangover?`,
-    `When you see the stupidity of it all, the reality of it, perhaps you will no longer want to use it. It won’t take any effort to quit either. Once you see the truth of something, it becomes effortless.`,
+    `The past and present are illusions. All you have is the present moment, which is changing constantly every second. From present moment to present moment. Nothing is stationary or certain. Embrace this uncertainty because this is called living. Life would be boring if we knew exactly how everything is going to pan out.`,
+    `What does it mean to live in the present moment? It means to be content with what is. To not dwell on the past or to seek for a better future.`,
+    `I think that this way of life comes about through self-understanding, total truth and honesty with yourself. By seeing things for what they truly are, not through a cloud of thoughts, ideals and beliefs which are just made up things.`,
+    `Everybody has their own little beliefs and ideals, it is the source of all conflict. “He shouldn’t have said that, it’s totally unacceptable.” But the person who said it will have their own beliefs made up from their own past experiences. So thoughts are not truth. They are made up by people and are subjective.`,
+    `Truth can only be experienced in the absence of thought. It is a great feeling, peace. When you can just see things for what they are, it is to be meditative. To just look at a pretty face or flower and enjoy it, without thinking of all the science and history behind it all.`,
   ],
 };
 

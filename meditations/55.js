@@ -1,9 +1,9 @@
 const medEssay = {
   quote: {
-    text: '""',
-    author: '',
+    text: '"If you argue for your limitations they are yours"',
+    author: 'Richard Bach, Illusions',
   },
-  paragraphs: [],
+  paragraphs: [`The only limit is your mind.`],
 };
 
 export default medEssay;

@@ -1,15 +1,14 @@
 const medEssay = {
   quote: {
     text:
-      '"It is not because things are difficult that we do not dare; it is because we do not dare that things are difficult."',
-    author: 'Seneca',
+      '"If your eyes are blinded with your worries, you cannot see the beauty of the sunset."',
+    author: 'Jiddu Krishnamurti',
   },
   paragraphs: [
-    `The avoidance of pain will only lead to greater pain down the road. Therefore you must deal with emotions and thoughts as soon as they arise. To do this you have to be highly aware, meditative at all times.`,
-    `It is not possible to do this with a tired or dull mind. A mind that is drugged with alcohol or weighed down by an overweight body. You’ve heard the saying before “a healthy body is a healthy mind”. It is all connected. You can only have an attentive, sharp mind if you take care of both.`,
-    `How do you become highly aware and meditative? You have to take the time to sit with your own thoughts and emotions. To watch them and understand them. To not get caught up with any particular beliefs.`,
-    `But meditation isn’t withdrawal from life. Real life is all about your relationship with people and material goods. Watch your reactions carefully when you’re talking to someone. Are you even listening to the other person or are you thinking about what you’re going to say next?`,
-    `Meditation is total awareness.`,
+    `When you look at a tree, do you really, truly see it as it actually is? Or are you only seeing it through a cloud of thought, things you’ve been taught?`,
+    `Does the word tree pop into your head? Thoughts of scientific ideas such as photosynthesis and the different gasses involved?`,
+    `We are really just second-hand people living off what people have told us. We never discover things by ourselves.`,
+    `So can you not just see it simply, for what it is, right there in front of you?`,
   ],
 };
 

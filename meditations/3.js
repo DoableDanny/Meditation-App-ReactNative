@@ -1,14 +1,15 @@
 const medEssay = {
   quote: {
-    text: '"Ruminating on the past is largely a waste of time. It’s illusory."',
+    text:
+      '"Happiness is that state when nothing is missing. When nothing is missing, your mind shuts down and your mind stops running into the future or running into the past to regret something or to plan something."',
     author: 'Naval Ravikant',
   },
   paragraphs: [
-    `Living in the past causes depression. As you sit reading this, in this present moment, everything is fine. Look around you. Is anything that terrible happening in front of you? The trouble is in your head. This might be difficult to hear for some people, but there is no point in denying the truth.`,
-    `You sit in this present moment with images and movie clips of events that happened in the past playing in your mind. All of it an illusion. None of it real or true.  Just made up stuff in your head. You may argue back and say that it is true because it actually did happen. But really it’s just your perception of what happened, mutated each time it’s recalled by whatever emotions that you feel at the time.`,
-    `So you sit in the present moment with no problems. A thought then comes to mind and reminds you of a time you got drunk and embarrassed yourself in front of your family, or that you failed an exam and it reminds you that you’re a loser. You become sad, you’re energy drops and you want to escape from this pain somehow – TV, video games, alcohol.`,
-    `Try sitting with these thoughts and emotions. Watch them. Watch the thoughts that are judging and condemning your thoughts without saying “no I shouldn’t think like that”. But even if you do think that, watch it. Let it happen`,
-    `You feel bored or anxious, don’t escape it, watch it, learn about it. See the truth of it. The truth being the actual thing as it is, just the feeling of anxiety for example, without trying to escape or correct it. You will find that it dissipates naturally.`,
+    `Focusing on breath Vs letting your thoughts flow.`,
+    `Focusing on your breath can be a good way to quieten the mind by taking attention away from thoughts. But watching TV, listening to music, or drinking alcohol can also do this.`,
+    `I think the problem could be that you never really “resolve” your thoughts so they are always waiting around the corner.`,
+    `Sitting with your thoughts and making no effort to escape. Watching them, going with them and gaining understanding of how they arise and the emotions they induce can be more beneficial.`,
+    `It can make you more aware of the fact that your world view is your world.`,
   ],
 };
 

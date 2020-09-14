@@ -1,15 +1,18 @@
 const medEssay = {
   quote: {
     text:
-      '"Realize deeply that the present moment is all you have. Make the NOW the primary focus of your life."',
-    author: 'Eckhart Tolle',
+      '"All that exists is this moment; it’s all there is. There is no future. That’s a fiction in your head that… nobody can predict the future. There is no past; nobody’s gone back even an inch in their past, not even a second, so that doesn’t exist."',
+    author: 'Naval Ravikant',
   },
   paragraphs: [
-    `The past and present are illusions. All you have is the present moment, which is changing constantly every second. From present moment to present moment. Nothing is stationary or certain. Embrace this uncertainty because this is called living. Life would be boring if we knew exactly how everything is going to pan out.`,
-    `What does it mean to live in the present moment? It means to be content with what is. To not dwell on the past or to seek for a better future.`,
-    `I think that this way of life comes about through self-understanding, total truth and honesty with yourself. By seeing things for what they truly are, not through a cloud of thoughts, ideals and beliefs which are just made up things.`,
-    `Everybody has their own little beliefs and ideals, it is the source of all conflict. “He shouldn’t have said that, it’s totally unacceptable.” But the person who said it will have their own beliefs made up from their own past experiences. So thoughts are not truth. They are made up by people and are subjective.`,
-    `Truth can only be experienced in the absence of thought. It is a great feeling, peace. When you can just see things for what they are, it is to be meditative. To just look at a pretty face or flower and enjoy it, without thinking of all the science and history behind it all.`,
+    `We have discovered that the past is just an illusion. A distraction from the present moment – the only thing that there ever truly is. We found that living in the past is the cause of our depression, sorrow, sadness and zaps away our energy. `,
+    `We also think about the future. But the future is really just the past projected. Our brain is a physical thing that stores memories and “facts” that we have accumulated from past experiences and events. We then use these memories to project and predict what will happen in the future. So if the past is an illusion, and the future is just the past projected, then it is also just an illusion.`,
+    `Thinking about the past causes depression and the future causes anxiety. `,
+    `Why do we think of the future? I think it fundamentally comes down to fear of uncertainty. We have beliefs and physical things that we are attached to and we are scared to lose them.`,
+    `We fear not “becoming” something or someone. Becoming a great engineer or lawyer. We fear never being loved or for the health of our children. We fear being rejected, or ridiculed, of not fitting in. What are your fears?`,
+    `Fear is within us all. It is not something that we can escape from, we have evolved with it for millions of years. So, can you watch that fear, get to know it, become intimate with it?`,
+    `As we discussed, there are many reasons for feeling fear. But can you go past the reasons? Past all your justifications for fear and see the root of the problem: fear itself.`,
+    `Be totally aware of everything going on externally and internally. Mediation is not concentration – focusing on breath or some particular thing. It’s a total awareness.`,
   ],
 };
 
