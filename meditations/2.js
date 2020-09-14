@@ -7,7 +7,7 @@ const medEssay = {
   paragraphs: [
     'Living in the past and clinging on to memories and images tortures us.',
 
-    'Say you have an encounter with someone and you have a pleasant conversation. An image of that person is now formed in your head – that person is pleasant and polite. The next time you see the person they pretend to not see you, they ignore you and carry on walking. You are hurt, the image that you formed is shaken and it stirs you up inside. You’re little belief wasn’t correct and it affects your whole day.',
+    'Say you have an encounter with someone and you have a pleasant conversation. An image of that person is now formed in your head – that person is pleasant and polite. The next time you see the person they pretend to not see you, they ignore you and carry on walking. You are hurt, the image that you formed is shaken and it stirs you up inside. Your little belief wasn’t correct and it affects your whole day.',
     ,
     'So, we can see that the images we build up in memory from past events cause us strife. If we could rid ourselves of these images, which are just memories stored in the brain, would we then not get offended or anxious, fearful? Is it possible to not form these images or to remove them from memory?',
     ,
