@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 function TaoBonusBtn({title, onPress, taoMeditation, icon, num}) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.btnStyle}>
-      <Text style={styles.titleStyle}>{title}</Text>
+      <Text style={styles.titleStyle}>{taoMeditation.title}</Text>
       {renderStars(taoMeditation)}
       <Text style={styles.lockedRequirement}>
         <Icon name={icon} size={30} style={styles.requirmentIcon} /> x {num}
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.4)',
     fontSize: 20,
     position: 'absolute',
-    right: 15,
+    right: 10,
   },
 });
 

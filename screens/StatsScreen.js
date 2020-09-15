@@ -7,7 +7,7 @@ import HorizPurpleGrad from '../components/HorizPurpleGrad';
 import TaoBonusBtn from '../components/TaoBonusBtn';
 import LockedTaoMed from '../components/LockedTaoMed';
 import crashlytics from '@react-native-firebase/crashlytics';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 
 function StatsScreen({
   meditations,
@@ -84,8 +84,6 @@ function StatsScreen({
 
   const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
 
-  console.log(meditations[60]);
-
   return (
     <HorizPurpleGrad colors={purpleGrad}>
       <ScrollView>
@@ -149,10 +147,8 @@ function StatsScreen({
               <Icon name="yin-yang" size={28} style={{color: 'gold'}} /> :
             </Text>
           </View>
-
           {meditations[60].locked == false ? (
             <TaoBonusBtn
-              title="Contentment"
               taoMeditation={meditations[60]}
               icon="fire"
               num="7"
@@ -166,10 +162,8 @@ function StatsScreen({
           ) : (
             <LockedTaoMed icon="fire" num="7" />
           )}
-
           {meditations[61].locked == false ? (
             <TaoBonusBtn
-              title="Tao II"
               taoMeditation={meditations[61]}
               icon="fire"
               num="14"
@@ -183,10 +177,8 @@ function StatsScreen({
           ) : (
             <LockedTaoMed icon="fire" num="14" />
           )}
-
           {meditations[62].locked == false ? (
             <TaoBonusBtn
-              title="Tao III"
               taoMeditation={meditations[62]}
               icon="fire"
               num="30"
@@ -200,10 +192,8 @@ function StatsScreen({
           ) : (
             <LockedTaoMed icon="fire" num="30" />
           )}
-
           {meditations[63].locked == false ? (
             <TaoBonusBtn
-              title="IV"
               taoMeditation={meditations[63]}
               icon="star"
               num="100"
@@ -217,10 +207,8 @@ function StatsScreen({
           ) : (
             <LockedTaoMed icon="star" num="100" />
           )}
-
           {meditations[64].locked == false ? (
             <TaoBonusBtn
-              title="V"
               taoMeditation={meditations[64]}
               icon="star"
               num="180"
@@ -234,7 +222,6 @@ function StatsScreen({
           ) : (
             <LockedTaoMed icon="star" num="180" />
           )}
-
           {/* {meditations[59].completionTime > 0 ? (
             <Text style={styles.award}>NAVAL PEACE PRIZE</Text>
           ) : null}
