@@ -37,8 +37,8 @@ function TimerScreen({
   setTotalStars,
   navigation,
 }) {
-  const [seconds, setSeconds] = useState(`02`);
-  const [minutes, setMinutes] = useState(`00`); //CHANGE THIS!!
+  const [seconds, setSeconds] = useState(`00`);
+  const [minutes, setMinutes] = useState(selectedTime); //CHANGE THIS!!
   const [timerOn, setTimerOn] = useState(true);
   const [completionText, setCompletionText] = useState('');
   const [stopSound, setStopSound] = useState(false);
@@ -322,11 +322,11 @@ function TimerScreen({
 
           dateLastCompleted = today;
 
-          // @meditations_completed is the big 65 item array.
           storeData(`@date_last_completed`, dateLastCompleted);
         }
       }
-    }, 1000);
+      // Calibrated to 981 to get 1000ms as runs slow
+    }, 981);
     // Return a function in useEffect - same as componentWillUnmount
     return () => {
       BackgroundTimer.clearInterval(interval);
@@ -417,7 +417,7 @@ const styles = StyleSheet.create({
     color: '#5e4ed8',
   },
   stopSoundText: {
-    fontSize: 22,
+    fontSize: 20,
     color: '#988EE6',
     textAlign: 'center',
     marginTop: 2,
@@ -430,7 +430,7 @@ const styles = StyleSheet.create({
     color: '#988EE6',
   },
   completionText: {
-    fontSize: 23,
+    fontSize: 22,
     color: '#F0F7FC',
     textAlign: 'center',
     marginTop: 10,

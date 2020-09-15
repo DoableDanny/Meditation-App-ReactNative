@@ -6,10 +6,10 @@ function P({children, extraStyle}) {
 }
 const styles = StyleSheet.create({
   paragraph: {
-    fontSize: 21,
+    fontSize: 20,
     color: 'rgba(255,255,255,0.9)',
-    lineHeight: 25,
-    marginBottom: 16,
+    lineHeight: 28,
+    marginBottom: 20,
   },
 });
 

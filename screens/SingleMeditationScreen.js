@@ -202,11 +202,11 @@ const styles = StyleSheet.create({
   },
   img: {
     width: Dimensions.get('window').width,
-    height: 230,
+    height: 225,
   },
   contentContainer: {
-    marginLeft: 12,
-    marginRight: 12,
+    marginLeft: 16,
+    marginRight: 16,
   },
   quoteText: {
     fontSize: 21,

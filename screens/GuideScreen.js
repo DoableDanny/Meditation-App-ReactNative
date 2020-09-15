@@ -93,8 +93,8 @@ const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
 
 const styles = StyleSheet.create({
   contentContainer: {
-    marginLeft: 12,
-    marginRight: 12,
+    marginLeft: 16,
+    marginRight: 16,
   },
   influences: {
     fontWeight: 'bold',

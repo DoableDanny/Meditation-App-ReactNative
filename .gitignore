@@ -57,3 +57,6 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+
+# MY .GITIGNORES
+/android/gradle.properties

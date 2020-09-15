@@ -8,25 +8,25 @@ const renderStars = (item) => {
     case 15:
       return (
         <View style={{flexDirection: 'row'}}>
-          <Icon name="star-outline" size={24} style={{color: 'gold'}} />
-          <Icon name="star-outline" size={24} style={{color: 'gold'}} />
-          <Icon name="star-outline" size={24} style={{color: 'gold'}} />
+          <Icon name="star-outline" size={22} style={{color: 'gold'}} />
+          <Icon name="star-outline" size={22} style={{color: 'gold'}} />
+          <Icon name="star-outline" size={22} style={{color: 'gold'}} />
         </View>
       );
     case 30:
       return (
         <View style={{flexDirection: 'row'}}>
-          <Icon name="star" size={24} style={{color: 'gold'}} />
-          <Icon name="star-outline" size={24} style={{color: 'gold'}} />
-          <Icon name="star-outline" size={24} style={{color: 'gold'}} />
+          <Icon name="star" size={22} style={{color: 'gold'}} />
+          <Icon name="star-outline" size={22} style={{color: 'gold'}} />
+          <Icon name="star-outline" size={22} style={{color: 'gold'}} />
         </View>
       );
     case 45:
       return (
         <View style={{flexDirection: 'row'}}>
-          <Icon name="star" size={24} style={{color: 'gold'}} />
-          <Icon name="star" size={24} style={{color: 'gold'}} />
-          <Icon name="star-outline" size={24} style={{color: 'gold'}} />
+          <Icon name="star" size={22} style={{color: 'gold'}} />
+          <Icon name="star" size={22} style={{color: 'gold'}} />
+          <Icon name="star-outline" size={22} style={{color: 'gold'}} />
         </View>
       );
     case 60:
@@ -38,13 +38,13 @@ const renderStars = (item) => {
         <View style={{flexDirection: 'row'}}>
           <Icon
             name="star"
-            size={24}
+            size={22}
             style={{
               color: 'gold',
             }}
           />
-          <Icon name="star" size={24} style={{color: 'gold'}} />
-          <Icon name="star" size={24} style={{color: 'gold'}} />
+          <Icon name="star" size={22} style={{color: 'gold'}} />
+          <Icon name="star" size={22} style={{color: 'gold'}} />
         </View>
       );
   }
