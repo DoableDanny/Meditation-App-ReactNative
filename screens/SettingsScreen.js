@@ -4,20 +4,37 @@ import {
   ScrollView,
   Text,
   StyleSheet,
-  TouchableOpacity,
   Alert,
+  Platform,
 } from 'react-native';
-import {
-  storeData,
-  removeMultipleItems,
-} from '../functionsAndQuotes/asyncStorageFunctions';
+import {removeMultipleItems} from '../functionsAndQuotes/asyncStorageFunctions';
 import {removeValue} from '../functionsAndQuotes/asyncStorageFunctions';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HorizPurpleGrad from '../components/HorizPurpleGrad';
 import DeleteBtn from '../components/DeleteBtn';
+
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
+
+import RNIap, {
+  InAppPurchase,
+  PurchaseError,
+  acknowledgePurchaseAndroid,
+  consumePurchaseAndroid,
+  finishTransaction,
+  purchaseErrorListener,
+  purchaseUpdatedListener,
+} from 'react-native-iap';
+
+// Play store item Ids
+const itemSKUs = Platform.select({
+  android: ['full_app_purchase'],
+});
+
+// Variables to check if item purchased or not
+let purchaseUpdateItem;
+let purchaseErrorItem;
 
 function SettingsScreen({
   resetFully,
@@ -30,6 +47,101 @@ function SettingsScreen({
 }) {
   const [dateLastCompleted, setDateLastCompleted] = useState('-');
   const [averageSessionTime, setAverageSessionTime] = useState(0);
+
+  // For play store
+  const [productList, setProductList] = useState([]);
+  const [receipt, setReceipt] = useState('');
+  const [availableItemsMessage, setAvailableItemsMessage] = useState('');
+
+  // Initiate connection to play store and cancel any failed orders still pending on google play cache
+  useEffect(() => {
+    (async function connectAndCancelGooglePlayFailedPurchases() {
+      try {
+        const result = await RNIap.initConnection();
+        await RNIap.flushFailedPurchasesCachedAsPendingAndroid;
+        console.log('result', result);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+
+    // componentWillUnmount
+    return () => {
+      if (purchaseUpdateItem) {
+        purchaseUpdateItem.remove();
+        purchaseUpdateItem = null;
+      }
+      if (purchaseErrorItem) {
+        purchaseErrorItem.remove();
+        purchaseErrorItem = null;
+      }
+      RNIap.endConnection();
+    };
+  }, []);
+
+  // Detects any change in receipt value then displays receipt
+  useEffect(() => {
+    Alert.alert('Receipt', receipt);
+  }, [receipt]);
+
+  // Listen for purchases and perform call back when action taken (purchase always = InAppPurchase for this app)
+  purchaseUpdateItem = purchaseUpdatedListener(async (purchase) => {
+    const receipt = purchase.transactionReceipt;
+    if (receipt) {
+      try {
+        // Purchase must be acknowledged or user gets refunded in few days
+        acknowledgePurchaseAndroid(purchase.purchaseToken);
+        const ackResult = await finishTransaction(purchase);
+        console.log('ackResult: ', ackResult);
+      } catch (ackErr) {
+        console.log('ackErr: ', ackErr);
+      }
+      setReceipt(receipt);
+    }
+  });
+
+  // Listen for purchase errors (error = PurchaseError)
+  purchaseErrorItem = purchaseErrorListener((error) => {
+    console.log('purchaseErrorListener: ', error);
+    Alert.alert('purchase error: ', JSON.stringify(error));
+  });
+
+  // Get products from play store
+  const getItems = async () => {
+    try {
+      const products = await RNIap.getProducts(itemSKUs);
+      console.log('Products: ', products);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // Show available purchases
+  const getAvailablePurchases = async () => {
+    try {
+      console.info(
+        'Get available purchases (non-consumable or unconsumed consumable)',
+      );
+      const purchases = await RNIap.getAvailablePurchases();
+      console.info('Available purchases ::', purchases);
+      if (purchases && purchases.length > 0) {
+        setAvailableItemsMessage(`Got ${purchases.length} items`);
+        setReceipt(purchases[0].transactionReceipt);
+      }
+    } catch (err) {
+      console.log(err);
+      Alert.alert(err.message);
+    }
+  };
+
+  // Purchase an item
+  const requestPurchase = async (sku) => {
+    try {
+      RNIap.requestPurchase(sku);
+    } catch (err) {
+      console.warn(err.code, err.message);
+    }
+  };
 
   useEffect(() => {
     crashlytics().log('SettingsScreen mounted');

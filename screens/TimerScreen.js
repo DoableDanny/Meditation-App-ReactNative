@@ -325,8 +325,8 @@ function TimerScreen({
           storeData(`@date_last_completed`, dateLastCompleted);
         }
       }
-      // Calibrated to 981 to get 1000ms as runs slow
-    }, 981);
+      // Calibrated to 980 to get 1000ms as runs slow
+    }, 980);
     // Return a function in useEffect - same as componentWillUnmount
     return () => {
       BackgroundTimer.clearInterval(interval);
