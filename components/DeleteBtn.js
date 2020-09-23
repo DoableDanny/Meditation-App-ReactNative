@@ -3,7 +3,12 @@ import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 
 function DeleteBtn({onPress, title}) {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.deleteButton}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={{
+        ...styles.deleteButton,
+        backgroundColor: `${title == 'Full App Access' ? 'green' : '#ff5353'}`,
+      }}>
       <Text style={styles.buttonText}>{title}</Text>
     </TouchableOpacity>
   );
