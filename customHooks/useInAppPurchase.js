@@ -86,18 +86,17 @@ export default function useInAppPurchase() {
   });
 
   // Get products from play store
-  async function getItems() {
+  async function getItems(productId) {
     try {
       const products = await RNIap.getProducts(itemSKUs);
       setProductList(products);
-      buyFullAppAlert(products);
-      console.log('Products: ', products);
+      buyFullAppAlert(products, productId);
     } catch (err) {
       Alert.alert('Check your internet connection', err.message);
     }
   }
 
-  function buyFullAppAlert(products) {
+  function buyFullAppAlert(products, productId) {
     Alert.alert(products[0].title, products[0].localizedPrice, [
       {
         text: 'Purchase',
@@ -105,7 +104,8 @@ export default function useInAppPurchase() {
           crashlytics().log(`Purchase btn selected`);
           analytics().logEvent(`Purchase_btn_selected`);
 
-          requestPurchase(products[0].productId);
+          // requestPurchase(products[0].productId);
+          requestPurchase(productId);
         },
       },
       {

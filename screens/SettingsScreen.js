@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HorizPurpleGrad from '../components/HorizPurpleGrad';
 import DeleteBtn from '../components/DeleteBtn';
+import AppPurchaseTest from '../components/appPurchaseTest';
 
 import useInAppPurchase from '../customHooks/useInAppPurchase';
 
@@ -23,6 +24,8 @@ function SettingsScreen({
 }) {
   const [dateLastCompleted, setDateLastCompleted] = useState('-');
   const [averageSessionTime, setAverageSessionTime] = useState(0);
+
+  const [productId, setProductId] = useState('Danny, press somet!');
 
   // InAppPurchase functions from custom hook
   const {getItems} = useInAppPurchase();
@@ -110,12 +113,14 @@ function SettingsScreen({
   return (
     <HorizPurpleGrad colors={purpleGrad}>
       <ScrollView>
+        <AppPurchaseTest productId={productId} setProductId={setProductId} />
+
         <View style={{...styles.textAndButtonWrapper, marginTop: 32}}>
           <DeleteBtn
             title="Full App Access"
             onPress={() => {
               crashlytics().log('Full App Access button pressed');
-              getItems();
+              getItems(productId);
             }}
           />
           <Text style={styles.description}>
