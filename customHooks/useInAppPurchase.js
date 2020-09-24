@@ -11,6 +11,9 @@ import RNIap, {
   purchaseUpdatedListener,
 } from 'react-native-iap';
 
+import analytics from '@react-native-firebase/analytics';
+import crashlytics from '@react-native-firebase/crashlytics';
+
 import {getData, storeData} from '../functionsAndQuotes/asyncStorageFunctions';
 
 // Play store item Ids
@@ -76,11 +79,11 @@ export default function useInAppPurchase() {
     }
   });
 
-  // // Listen for purchase errors (error = PurchaseError)
-  // purchaseErrorItem = purchaseErrorListener((error) => {
-  //   console.log('purchaseErrorListener: ', error);
-  //   Alert.alert('purchase error: ', JSON.stringify(error));
-  // });
+  // Listen for purchase errors (error = PurchaseError)
+  purchaseErrorItem = purchaseErrorListener((error) => {
+    console.log('purchaseErrorListener: ', error);
+    Alert.alert('purchase error: ', JSON.stringify(error));
+  });
 
   // Get products from play store
   async function getItems() {
@@ -100,7 +103,7 @@ export default function useInAppPurchase() {
         text: 'Purchase',
         onPress: () => {
           crashlytics().log(`Purchase btn selected`);
-          analytics().logEvent(`Purchase btn selected`);
+          analytics().logEvent(`Purchase_btn_selected`);
 
           requestPurchase(products[0].productId);
         },
@@ -109,7 +112,7 @@ export default function useInAppPurchase() {
         text: 'No',
         onPress: () => {
           crashlytics().log(`No purchase btn selected`);
-          analytics().logEvent(`No purchase btn selected`);
+          analytics().logEvent(`No_purchase_btn_selected`);
         },
       },
     ]);
