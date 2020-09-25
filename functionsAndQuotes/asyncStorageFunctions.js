@@ -2,10 +2,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {Alert} from 'react-native';
 import crashlytics from '@react-native-firebase/crashlytics';
 
-// Save single item
-export const storeData = async (storageKey, meditationsCopy) => {
+// Save an object
+export const storeData = async (storageKey, obj) => {
   try {
-    const jsonValue = JSON.stringify(meditationsCopy);
+    const jsonValue = JSON.stringify(obj);
     await AsyncStorage.setItem(storageKey, jsonValue);
   } catch (e) {
     console.log(e);

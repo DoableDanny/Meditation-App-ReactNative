@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {View, ScrollView, Text, StyleSheet, Alert} from 'react-native';
-import {removeMultipleItems} from '../functionsAndQuotes/asyncStorageFunctions';
+import {
+  getData,
+  removeMultipleItems,
+} from '../functionsAndQuotes/asyncStorageFunctions';
 import {removeValue} from '../functionsAndQuotes/asyncStorageFunctions';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -30,26 +33,36 @@ function SettingsScreen({
   const [productList, setProductList] = useState([
     {
       title: 'placeholder1',
-      id: 'pid1',
+      productId: 'pid1',
       price: '$$1',
     },
     {
       title: 'placeholder2',
-      id: 'pid2',
+      productId: 'pid2',
       price: '$$2',
     },
     {
       title: 'placeholder3',
-      id: 'pid3',
+      productId: 'pid3',
       price: '$$3',
     },
   ]);
 
   // InAppPurchase functions from custom hook
-  const {getItems, requestPurchase, receipt} = useInAppPurchase();
+  const {getItems, requestPurchase, receipt, setReceipt} = useInAppPurchase();
 
   useEffect(() => {
     crashlytics().log('SettingsScreen mounted');
+  }, []);
+
+  useEffect(() => {
+    const receiptStorageKey = '@full_app_purchase_receipt';
+    getData(receiptStorageKey).then((jsonValue) => {
+      console.log('JSONvalue: ', jsonValue);
+      if (jsonValue) {
+        setReceipt(jsonValue);
+      }
+    });
   }, []);
 
   const warningAlert = (messageObject) => {
@@ -137,10 +150,10 @@ function SettingsScreen({
           <TouchableOpacity
             style={{marginBottom: 30, backgroundColor: 'blue'}}
             onPress={() => {
-              setProductId(product.id);
+              setProductId(product.productId);
             }}>
             <Text style={styles.description}>{product.title}</Text>
-            <Text style={styles.description}>{product.id}</Text>
+            <Text style={styles.description}>{product.productId}</Text>
             <Text style={styles.description}>{product.price}</Text>
           </TouchableOpacity>
         ))}
@@ -168,7 +181,7 @@ function SettingsScreen({
         </View>
 
         <Text style={{...styles.description, marginTop: 20}}>
-          {JSON.stringify(receipt)}
+          ProductId from receipt: {receipt ? JSON.parse(receipt).productId : ''}
         </Text>
 
         <View style={{...styles.textAndButtonWrapper, marginTop: 32}}>

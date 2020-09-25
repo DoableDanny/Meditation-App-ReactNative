@@ -22,9 +22,14 @@ const itemSKUs = Platform.select({
     'full_app_purchase',
     'test_1',
     'test_2',
-    'test_3',
-    'test_4',
-    'test_5',
+    // 'test_3',
+    // 'test_4',
+    // 'test_5',
+    // 'test_6',
+    // 'test_7',
+    // 'test_8',
+    // 'test_9',
+    // 'test_10',
   ],
 });
 
@@ -32,13 +37,10 @@ const itemSKUs = Platform.select({
 let purchaseUpdateItem;
 let purchaseErrorItem;
 
+const receiptStorageKey = '@full_app_purchase_receipt';
+
 export default function useInAppPurchase() {
-  const [receipt, setReceipt] = useState(
-    JSON.stringify({
-      title: 'receiptJSONPlaceholder1',
-      price: '£1',
-    }),
-  );
+  const [receipt, setReceipt] = useState();
   const [availableItemsMessage, setAvailableItemsMessage] = useState('');
 
   // Initiate connection to play store and cancel any failed orders still pending on google play cache
@@ -50,7 +52,7 @@ export default function useInAppPurchase() {
         console.log('result', result);
 
         //DEV ONLY
-        const consumed = await RNIap.consumeAllItems();
+        const consumed = await RNIap.consumeAllItemsAndroid();
         console.log('consumed all items?', consumed);
       } catch (err) {
         console.log('Connection: ', err);
@@ -71,12 +73,12 @@ export default function useInAppPurchase() {
     };
   }, []);
 
-  // Detects any change in receipt value then displays receipt
-  useEffect(() => {
-    if (receipt != '') {
-      Alert.alert('Receipt', receipt);
-    }
-  }, [receipt]);
+  // // Detects any change in receipt value then displays receipt
+  // useEffect(() => {
+  //   if (receipt != undefined) {
+  //     Alert.alert('Receipt', receipt);
+  //   }
+  // }, [receipt]);
 
   // Listens for purchases and perform call back when action taken (purchase always = InAppPurchase for this app)
   purchaseUpdateItem = purchaseUpdatedListener(async (purchase) => {
@@ -84,13 +86,15 @@ export default function useInAppPurchase() {
     if (receipt) {
       try {
         // Purchase must be acknowledged or user gets refunded in few days
-        // acknowledgePurchaseAndroid(purchase.purchaseToken);
         const ackResult = await finishTransaction(purchase);
         console.log('ackResult: ', ackResult);
       } catch (ackErr) {
         console.log('ackErr: ', ackErr);
       }
+
       setReceipt(receipt);
+      let receiptObj = JSON.parse(receipt);
+      storeData(receiptStorageKey, receiptObj);
     }
   });
 
@@ -164,7 +168,7 @@ export default function useInAppPurchase() {
   // Purchase an item
   async function requestPurchase(sku) {
     try {
-      RNIap.requestPurchase(sku).then(() => alert('Purchase Successful'));
+      RNIap.requestPurchase(sku).then(() => console.log('Purchase successful'));
     } catch (err) {
       Alert.alert(err.code, err.message);
     }
@@ -177,5 +181,6 @@ export default function useInAppPurchase() {
     // purchaseUpdateItem,
     // purchaseErrorItem,
     receipt,
+    setReceipt,
   };
 }
