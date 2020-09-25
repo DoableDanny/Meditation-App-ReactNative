@@ -12,6 +12,7 @@ import useInAppPurchase from '../customHooks/useInAppPurchase';
 
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 function SettingsScreen({
   resetFully,
@@ -26,9 +27,26 @@ function SettingsScreen({
   const [averageSessionTime, setAverageSessionTime] = useState(0);
 
   const [productId, setProductId] = useState('Danny, press somet!');
+  const [productList, setProductList] = useState([
+    {
+      title: 'placeholder1',
+      id: 'pid1',
+      price: '$$1',
+    },
+    {
+      title: 'placeholder2',
+      id: 'pid2',
+      price: '$$2',
+    },
+    {
+      title: 'placeholder3',
+      id: 'pid3',
+      price: '$$3',
+    },
+  ]);
 
   // InAppPurchase functions from custom hook
-  const {getItems} = useInAppPurchase();
+  const {getItems, requestPurchase, receipt} = useInAppPurchase();
 
   useEffect(() => {
     crashlytics().log('SettingsScreen mounted');
@@ -113,14 +131,52 @@ function SettingsScreen({
   return (
     <HorizPurpleGrad colors={purpleGrad}>
       <ScrollView>
-        <AppPurchaseTest productId={productId} setProductId={setProductId} />
+        {/* <AppPurchaseTest productId={productId} setProductId={setProductId} /> */}
+
+        {productList.map((product) => (
+          <TouchableOpacity
+            style={{marginBottom: 30, backgroundColor: 'blue'}}
+            onPress={() => {
+              setProductId(product.id);
+            }}>
+            <Text style={styles.description}>{product.title}</Text>
+            <Text style={styles.description}>{product.id}</Text>
+            <Text style={styles.description}>{product.price}</Text>
+          </TouchableOpacity>
+        ))}
+
+        <Text style={{...styles.description, marginBottom: 20}}>
+          {productId}
+        </Text>
+
+        <DeleteBtn
+          title="Get Items"
+          onPress={() => {
+            // crashlytics().log('Full App Access button pressed');
+            getItems(setProductList);
+          }}
+        />
+
+        <View style={{marginTop: 32}}>
+          <DeleteBtn
+            title="Request Purchase"
+            onPress={() => {
+              // crashlytics().log('Full App Access button pressed');
+              requestPurchase(productId);
+            }}
+          />
+        </View>
+
+        <Text style={{...styles.description, marginTop: 20}}>
+          {JSON.stringify(receipt)}
+        </Text>
 
         <View style={{...styles.textAndButtonWrapper, marginTop: 32}}>
           <DeleteBtn
             title="Full App Access"
             onPress={() => {
               crashlytics().log('Full App Access button pressed');
-              getItems(productId);
+              getItems(productId, setProductList);
             }}
           />
           <Text style={styles.description}>

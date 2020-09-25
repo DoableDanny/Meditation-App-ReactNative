@@ -4,22 +4,11 @@ import {Button, View, Text, StyleSheet} from 'react-native';
 export default function AppPurchaseTest({productId, setProductId}) {
   return (
     <View>
-      <Button
-        title="purchased"
-        onPress={() => setProductId('android.test.purchased')}
-      />
-      <Button
-        title="canceled"
-        onPress={() => setProductId('android.test.canceled')}
-      />
-      <Button
-        title="refunded"
-        onPress={() => setProductId('android.test.refunded')}
-      />
-      <Button
-        title="item_unavailable"
-        onPress={() => setProductId('android.test.item_unavailable')}
-      />
+      <Button title="test_1" onPress={() => setProductId('test_1')} />
+      <Button title="test_2" onPress={() => setProductId('test_2')} />
+      <Button title="test_3" onPress={() => setProductId('test_3')} />
+      <Button title="test_4" onPress={() => setProductId('test_4')} />
+      <Button title="test_5" onPress={() => setProductId('test_5')} />
       <Text style={styles.text}>{productId}</Text>
     </View>
   );

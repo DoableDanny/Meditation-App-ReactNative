@@ -18,7 +18,14 @@ import {getData, storeData} from '../functionsAndQuotes/asyncStorageFunctions';
 
 // Play store item Ids
 const itemSKUs = Platform.select({
-  android: ['full_app_purchase'],
+  android: [
+    'full_app_purchase',
+    'test_1',
+    'test_2',
+    'test_3',
+    'test_4',
+    'test_5',
+  ],
 });
 
 // Variables to check if item purchased or not
@@ -26,8 +33,12 @@ let purchaseUpdateItem;
 let purchaseErrorItem;
 
 export default function useInAppPurchase() {
-  const [productList, setProductList] = useState([]);
-  const [receipt, setReceipt] = useState('');
+  const [receipt, setReceipt] = useState(
+    JSON.stringify({
+      title: 'receiptJSONPlaceholder1',
+      price: '£1',
+    }),
+  );
   const [availableItemsMessage, setAvailableItemsMessage] = useState('');
 
   // Initiate connection to play store and cancel any failed orders still pending on google play cache
@@ -37,8 +48,12 @@ export default function useInAppPurchase() {
         const result = await RNIap.initConnection();
         await RNIap.flushFailedPurchasesCachedAsPendingAndroid;
         console.log('result', result);
+
+        //DEV ONLY
+        const consumed = await RNIap.consumeAllItems();
+        console.log('consumed all items?', consumed);
       } catch (err) {
-        console.log(err);
+        console.log('Connection: ', err);
       }
     })();
 
@@ -63,13 +78,13 @@ export default function useInAppPurchase() {
     }
   }, [receipt]);
 
-  // Listen for purchases and perform call back when action taken (purchase always = InAppPurchase for this app)
+  // Listens for purchases and perform call back when action taken (purchase always = InAppPurchase for this app)
   purchaseUpdateItem = purchaseUpdatedListener(async (purchase) => {
     const receipt = purchase.transactionReceipt;
     if (receipt) {
       try {
         // Purchase must be acknowledged or user gets refunded in few days
-        acknowledgePurchaseAndroid(purchase.purchaseToken);
+        // acknowledgePurchaseAndroid(purchase.purchaseToken);
         const ackResult = await finishTransaction(purchase);
         console.log('ackResult: ', ackResult);
       } catch (ackErr) {
@@ -85,38 +100,48 @@ export default function useInAppPurchase() {
     Alert.alert('purchase error: ', JSON.stringify(error));
   });
 
-  // Get products from play store
-  async function getItems(productId) {
+  // Get products from play store (productId is passed in for testing only)
+  // async function getItems(productId, setProductList) {
+  //   try {
+  //     const products = await RNIap.getProducts(itemSKUs);
+  //     setProductList(products);
+  //     buyFullAppAlert(products, productId);
+  //   } catch (err) {
+  //     Alert.alert('Check your internet connection', err.message);
+  //   }
+  // }
+
+  // TEST
+  async function getItems(setProductList) {
     try {
       const products = await RNIap.getProducts(itemSKUs);
       setProductList(products);
-      buyFullAppAlert(products, productId);
     } catch (err) {
       Alert.alert('Check your internet connection', err.message);
     }
   }
 
-  function buyFullAppAlert(products, productId) {
-    Alert.alert(products[0].title, products[0].localizedPrice, [
-      {
-        text: 'Purchase',
-        onPress: () => {
-          crashlytics().log(`Purchase btn selected`);
-          analytics().logEvent(`Purchase_btn_selected`);
+  // function buyFullAppAlert(products, productId) {
+  //   Alert.alert(products[0].title, products[0].localizedPrice, [
+  //     {
+  //       text: 'Purchase',
+  //       onPress: () => {
+  //         crashlytics().log(`Purchase btn selected`);
+  //         analytics().logEvent(`Purchase_btn_selected`);
 
-          // requestPurchase(products[0].productId);
-          requestPurchase(productId);
-        },
-      },
-      {
-        text: 'No',
-        onPress: () => {
-          crashlytics().log(`No purchase btn selected`);
-          analytics().logEvent(`No_purchase_btn_selected`);
-        },
-      },
-    ]);
-  }
+  //         requestPurchase(products[0].productId);
+  //         // requestPurchase(productId);
+  //       },
+  //     },
+  //     {
+  //       text: 'No',
+  //       onPress: () => {
+  //         crashlytics().log(`No purchase btn selected`);
+  //         analytics().logEvent(`No_purchase_btn_selected`);
+  //       },
+  //     },
+  //   ]);
+  // }
 
   //   // Show available purchases
   //   async function getAvailablePurchases() {
@@ -148,8 +173,9 @@ export default function useInAppPurchase() {
   return {
     getItems,
     // getAvailablePurchases,
-    // requestPurchase,
+    requestPurchase,
     // purchaseUpdateItem,
     // purchaseErrorItem,
+    receipt,
   };
 }
