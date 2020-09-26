@@ -36,6 +36,7 @@ function TimerScreen({
   setTotalMeditationsCompleted,
   setTotalStars,
   navigation,
+  // receipt,
 }) {
   const [seconds, setSeconds] = useState(`00`);
   const [minutes, setMinutes] = useState(selectedTime); //CHANGE THIS!!

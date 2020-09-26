@@ -4,6 +4,15 @@ import useMeditations from './customHooks/useMeditations';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import analytics from '@react-native-firebase/analytics';
+import {
+  InAppPurchase,
+  PurchaseError,
+  acknowledgePurchaseAndroid,
+  consumePurchaseAndroid,
+  finishTransaction,
+  purchaseErrorListener,
+  purchaseUpdatedListener,
+} from 'react-native-iap';
 
 import HomeScreen from './screens/HomeScreen';
 import GuideScreen from './screens/GuideScreen';
@@ -11,6 +20,7 @@ import SettingsScreen from './screens/SettingsScreen';
 import StatsScreen from './screens/StatsScreen';
 import SingleMeditationScreen from './screens/SingleMeditationScreen';
 import TimerScreen from './screens/TimerScreen';
+import {getData, storeData} from './functionsAndQuotes/asyncStorageFunctions';
 
 const Stack = createStackNavigator();
 
@@ -31,6 +41,44 @@ const App = () => {
   const [selectedTime, setSelectedTime] = useState(60);
   const [totalMeditationTime, setTotalMeditationTime] = useState(0);
   const [totalMeditationsCompleted, setTotalMeditationsCompleted] = useState(0);
+
+  // For the in app purchase
+  const [receipt, setReceipt] = useState();
+  const receiptStorageKey = '@full_app_purchase_receipt';
+  // Variables to check if item purchased or not
+  let purchaseUpdateItem;
+
+  // Listens for purchases and perform call back when action taken (purchase always = InAppPurchase for this app). Called early in App.js as can pend on play store.
+  purchaseUpdateItem = purchaseUpdatedListener(async (purchase) => {
+    const receipt = purchase.transactionReceipt;
+    if (receipt) {
+      try {
+        // Purchase must be acknowledged or user gets refunded in few days
+        const ackResult = await finishTransaction(purchase);
+        console.log('ackResult: ', ackResult);
+      } catch (ackErr) {
+        console.log('ackErr: ', ackErr);
+      }
+
+      setReceipt(receipt);
+      let receiptObj = JSON.parse(receipt);
+      storeData(receiptStorageKey, receiptObj);
+      console.log('APP.JS, the listener is working', receiptObj);
+    }
+  });
+
+  useEffect(() => {
+    getData(receiptStorageKey).then((data) => {
+      if (data) setReceipt(data);
+    });
+
+    return () => {
+      if (purchaseUpdateItem) {
+        purchaseUpdateItem.remove();
+        purchaseUpdateItem = null;
+      }
+    };
+  }, []);
 
   // Firebase session timeout is 1 hr, 15 mins
   analytics().setSessionTimeoutDuration(4500000);
@@ -74,6 +122,7 @@ const App = () => {
               {...props}
               meditations={meditations}
               setSelectedMeditation={setSelectedMeditation}
+              receipt={receipt}
             />
           )}
         </Stack.Screen>
@@ -94,6 +143,8 @@ const App = () => {
               totalMeditationsCompleted={totalMeditationsCompleted}
               setTotalMeditationsCompleted={setTotalMeditationsCompleted}
               setTotalStars={setTotalStars}
+              receipt={receipt}
+              setReceipt={setReceipt}
             />
           )}
         </Stack.Screen>
@@ -145,6 +196,7 @@ const App = () => {
               totalMeditationsCompleted={totalMeditationsCompleted}
               setTotalMeditationsCompleted={setTotalMeditationsCompleted}
               setTotalStars={setTotalStars}
+              // receipt={receipt}
             />
           )}
         </Stack.Screen>

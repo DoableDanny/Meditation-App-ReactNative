@@ -119,13 +119,11 @@ function SingleMeditationScreen({
             - {selectedMedEssay.quote.author}
           </Text>
 
-          {console.log(selectedMedEssay.paragraphs.length)}
           {selectedMedEssay.paragraphs.map((par) => {
             return <P key={Math.random()}>{par}</P>;
           })}
         </View>
 
-        {console.log('SlectedID', selectedMeditation.id)}
         {selectedMeditation.id < 60 ? (
           <View style={styles.timeBtnsContainer}>
             <TimeSelectBtn

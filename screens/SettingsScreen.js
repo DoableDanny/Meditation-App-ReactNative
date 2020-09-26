@@ -25,6 +25,8 @@ function SettingsScreen({
   setTotalMeditationTime,
   setTotalMeditationsCompleted,
   setTotalStars,
+  receipt,
+  setReceipt,
 }) {
   const [dateLastCompleted, setDateLastCompleted] = useState('-');
   const [averageSessionTime, setAverageSessionTime] = useState(0);
@@ -49,21 +51,21 @@ function SettingsScreen({
   ]);
 
   // InAppPurchase functions from custom hook
-  const {getItems, requestPurchase, receipt, setReceipt} = useInAppPurchase();
+  const {getItems, requestPurchase} = useInAppPurchase(setReceipt);
 
   useEffect(() => {
     crashlytics().log('SettingsScreen mounted');
   }, []);
 
-  useEffect(() => {
-    const receiptStorageKey = '@full_app_purchase_receipt';
-    getData(receiptStorageKey).then((jsonValue) => {
-      console.log('JSONvalue: ', jsonValue);
-      if (jsonValue) {
-        setReceipt(jsonValue);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   const receiptStorageKey = '@full_app_purchase_receipt';
+  //   getData(receiptStorageKey).then((jsonValue) => {
+  //     console.log('JSONvalue: ', jsonValue);
+  //     if (jsonValue) {
+  //       setReceipt(jsonValue);
+  //     }
+  //   });
+  // }, []);
 
   const warningAlert = (messageObject) => {
     Alert.alert(

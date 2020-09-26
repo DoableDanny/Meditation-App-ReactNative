@@ -39,10 +39,7 @@ let purchaseErrorItem;
 
 const receiptStorageKey = '@full_app_purchase_receipt';
 
-export default function useInAppPurchase() {
-  const [receipt, setReceipt] = useState();
-  const [availableItemsMessage, setAvailableItemsMessage] = useState('');
-
+export default function useInAppPurchase(setReceipt) {
   // Initiate connection to play store and cancel any failed orders still pending on google play cache
   useEffect(() => {
     (async function connectAndCancelGooglePlayFailedPurchases() {
@@ -53,7 +50,6 @@ export default function useInAppPurchase() {
 
         //DEV ONLY
         const consumed = await RNIap.consumeAllItemsAndroid();
-        console.log('consumed all items?', consumed);
       } catch (err) {
         console.log('Connection: ', err);
       }
@@ -61,10 +57,10 @@ export default function useInAppPurchase() {
 
     // componentWillUnmount
     return () => {
-      if (purchaseUpdateItem) {
-        purchaseUpdateItem.remove();
-        purchaseUpdateItem = null;
-      }
+      // if (purchaseUpdateItem) {
+      //   purchaseUpdateItem.remove();
+      //   purchaseUpdateItem = null;
+      // }
       if (purchaseErrorItem) {
         purchaseErrorItem.remove();
         purchaseErrorItem = null;
@@ -80,28 +76,29 @@ export default function useInAppPurchase() {
   //   }
   // }, [receipt]);
 
-  // Listens for purchases and perform call back when action taken (purchase always = InAppPurchase for this app)
-  purchaseUpdateItem = purchaseUpdatedListener(async (purchase) => {
-    const receipt = purchase.transactionReceipt;
-    if (receipt) {
-      try {
-        // Purchase must be acknowledged or user gets refunded in few days
-        const ackResult = await finishTransaction(purchase);
-        console.log('ackResult: ', ackResult);
-      } catch (ackErr) {
-        console.log('ackErr: ', ackErr);
-      }
+  // // Listens for purchases and perform call back when action taken (purchase always = InAppPurchase for this app). Called early in App.js as can pend on play store.
+  // purchaseUpdateItem = purchaseUpdatedListener(async (purchase) => {
+  //   const receipt = purchase.transactionReceipt;
+  //   if (receipt) {
+  //     try {
+  //       // Purchase must be acknowledged or user gets refunded in few days
+  //       const ackResult = await finishTransaction(purchase);
+  //       console.log('ackResult: ', ackResult);
+  //     } catch (ackErr) {
+  //       console.log('ackErr: ', ackErr);
+  //     }
 
-      setReceipt(receipt);
-      let receiptObj = JSON.parse(receipt);
-      storeData(receiptStorageKey, receiptObj);
-    }
-  });
+  //     setReceipt(receipt);
+  //     let receiptObj = JSON.parse(receipt);
+  //     storeData(receiptStorageKey, receiptObj);
+  //     console.log('useINNAPPPURCHASE.JS listerner is workign', receiptObj);
+  //   }
+  // });
 
   // Listen for purchase errors (error = PurchaseError)
   purchaseErrorItem = purchaseErrorListener((error) => {
     console.log('purchaseErrorListener: ', error);
-    Alert.alert('purchase error: ', JSON.stringify(error));
+    // Alert.alert('purchase error: ', JSON.stringify(error));
   });
 
   // Get products from play store (productId is passed in for testing only)
@@ -180,7 +177,5 @@ export default function useInAppPurchase() {
     requestPurchase,
     // purchaseUpdateItem,
     // purchaseErrorItem,
-    receipt,
-    setReceipt,
   };
 }

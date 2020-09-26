@@ -16,7 +16,7 @@ import HomeNavBtn from '../components/HomeNavBtn';
 import LinearGradient from 'react-native-linear-gradient';
 import crashlytics from '@react-native-firebase/crashlytics';
 
-function HomeScreen({navigation, meditations, setSelectedMeditation}) {
+function HomeScreen({navigation, meditations, setSelectedMeditation, receipt}) {
   // True if we're on this screen, false if not (I'm using this to re-render homescreen)
   const isFocused = useIsFocused();
 
@@ -34,7 +34,15 @@ function HomeScreen({navigation, meditations, setSelectedMeditation}) {
           <TouchableOpacity
             onPress={() => {
               setSelectedMeditation(item);
-              item.locked ? null : navigation.navigate('Meditation');
+              if (item.id < 7 && !item.locked) {
+                navigation.navigate('Meditation');
+              } else if (
+                !item.locked &&
+                receipt.productId === 'full_app_purchase'
+              ) {
+                navigation.navigate('Meditation');
+              }
+              // item.locked ? null : navigation.navigate('Meditation');
               crashlytics().log(`Meditation ${item.id + 1} was selected`);
             }}>
             {item.id < 60 ? (
