@@ -51,7 +51,7 @@ function SettingsScreen({
   ]);
 
   // InAppPurchase functions from custom hook
-  const {getItems, requestPurchase} = useInAppPurchase(setReceipt);
+  const {getItems, requestPurchase, getAvailablePurchases} = useInAppPurchase();
 
   useEffect(() => {
     crashlytics().log('SettingsScreen mounted');
@@ -148,7 +148,7 @@ function SettingsScreen({
       <ScrollView>
         {/* <AppPurchaseTest productId={productId} setProductId={setProductId} /> */}
 
-        {productList.map((product) => (
+        {/* {productList.map((product) => (
           <TouchableOpacity
             style={{marginBottom: 30, backgroundColor: 'blue'}}
             onPress={() => {
@@ -158,21 +158,21 @@ function SettingsScreen({
             <Text style={styles.description}>{product.productId}</Text>
             <Text style={styles.description}>{product.price}</Text>
           </TouchableOpacity>
-        ))}
-
+        ))} */}
+        {/* 
         <Text style={{...styles.description, marginBottom: 20}}>
           {productId}
-        </Text>
+        </Text> */}
 
-        <DeleteBtn
+        {/* <DeleteBtn
           title="Get Items"
           onPress={() => {
             // crashlytics().log('Full App Access button pressed');
             getItems(setProductList);
           }}
-        />
+        /> */}
 
-        <View style={{marginTop: 32}}>
+        {/* <View style={{marginTop: 32}}>
           <DeleteBtn
             title="Request Purchase"
             onPress={() => {
@@ -180,23 +180,37 @@ function SettingsScreen({
               requestPurchase(productId);
             }}
           />
-        </View>
+        </View> */}
 
-        <Text style={{...styles.description, marginTop: 20}}>
-          ProductId from receipt: {receipt ? JSON.parse(receipt).productId : ''}
-        </Text>
+        {/* <View style={{marginTop: 32}}>
+          <DeleteBtn
+            title="Get available Purchases"
+            onPress={() => {
+              // crashlytics().log('Full App Access button pressed');
+              getAvailablePurchases();
+            }}
+          />
+        </View> */}
+
+        {/* <Text style={{...styles.description, marginTop: 20}}>
+          {receipt ? JSON.parse(receipt).productId : ''}
+        </Text> */}
 
         <View style={{...styles.textAndButtonWrapper, marginTop: 32}}>
           <DeleteBtn
             title="Full App Access"
             onPress={() => {
               crashlytics().log('Full App Access button pressed');
-              getItems(productId, setProductList);
+              getItems(
+                productId,
+                // setProductList
+              );
             }}
           />
           <Text style={styles.description}>
-            The first 7 meditations are free. To gain full access to the rest,
-            please purchase the full app.
+            {receipt
+              ? '**Purchased**'
+              : 'The first 7 meditations are free. To gain full access to the rest, please purchase the full app.'}
           </Text>
         </View>
 

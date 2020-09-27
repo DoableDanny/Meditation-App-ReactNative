@@ -21,6 +21,7 @@ import StatsScreen from './screens/StatsScreen';
 import SingleMeditationScreen from './screens/SingleMeditationScreen';
 import TimerScreen from './screens/TimerScreen';
 import {getData, storeData} from './functionsAndQuotes/asyncStorageFunctions';
+import useInAppPurchase from './customHooks/useInAppPurchase';
 
 const Stack = createStackNavigator();
 
@@ -43,41 +44,42 @@ const App = () => {
   const [totalMeditationsCompleted, setTotalMeditationsCompleted] = useState(0);
 
   // For the in app purchase
-  const [receipt, setReceipt] = useState();
+  // const [receipt, setReceipt] = useState();
   const receiptStorageKey = '@full_app_purchase_receipt';
-  // Variables to check if item purchased or not
-  let purchaseUpdateItem;
+  // // Variables to check if item purchased or not
+  // let purchaseUpdateItem;
+  const {receipt, setReceipt} = useInAppPurchase();
 
-  // Listens for purchases and perform call back when action taken (purchase always = InAppPurchase for this app). Called early in App.js as can pend on play store.
-  purchaseUpdateItem = purchaseUpdatedListener(async (purchase) => {
-    const receipt = purchase.transactionReceipt;
-    if (receipt) {
-      try {
-        // Purchase must be acknowledged or user gets refunded in few days
-        const ackResult = await finishTransaction(purchase);
-        console.log('ackResult: ', ackResult);
-      } catch (ackErr) {
-        console.log('ackErr: ', ackErr);
-      }
+  // // Listens for purchases and perform call back when action taken (purchase always = InAppPurchase for this app). Called early in App.js as can pend on play store.
+  // purchaseUpdateItem = purchaseUpdatedListener(async (purchase) => {
+  //   const receipt = purchase.transactionReceipt;
+  //   if (receipt) {
+  //     try {
+  //       // Purchase must be acknowledged or user gets refunded in few days
+  //       const ackResult = await finishTransaction(purchase);
+  //       console.log('ackResult: ', ackResult);
+  //     } catch (ackErr) {
+  //       console.log('ackErr: ', ackErr);
+  //     }
 
-      setReceipt(receipt);
-      let receiptObj = JSON.parse(receipt);
-      storeData(receiptStorageKey, receiptObj);
-      console.log('APP.JS, the listener is working', receiptObj);
-    }
-  });
+  //     setReceipt(receipt);
+  //     let receiptObj = JSON.parse(receipt);
+  //     storeData(receiptStorageKey, receiptObj);
+  //     console.log('APP.JS, the listener is working', receiptObj);
+  //   }
+  // });
 
   useEffect(() => {
     getData(receiptStorageKey).then((data) => {
       if (data) setReceipt(data);
     });
 
-    return () => {
-      if (purchaseUpdateItem) {
-        purchaseUpdateItem.remove();
-        purchaseUpdateItem = null;
-      }
-    };
+    // return () => {
+    //   if (purchaseUpdateItem) {
+    //     purchaseUpdateItem.remove();
+    //     purchaseUpdateItem = null;
+    //   }
+    // };
   }, []);
 
   // Firebase session timeout is 1 hr, 15 mins

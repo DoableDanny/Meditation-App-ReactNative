@@ -37,9 +37,11 @@ const itemSKUs = Platform.select({
 let purchaseUpdateItem;
 let purchaseErrorItem;
 
-const receiptStorageKey = '@full_app_purchase_receipt';
+const receipt_Storage_Key = '@full_app_purchase_receipt';
 
-export default function useInAppPurchase(setReceipt) {
+export default function useInAppPurchase() {
+  const [receipt, setReceipt] = useState();
+
   // Initiate connection to play store and cancel any failed orders still pending on google play cache
   useEffect(() => {
     (async function connectAndCancelGooglePlayFailedPurchases() {
@@ -48,8 +50,38 @@ export default function useInAppPurchase(setReceipt) {
         await RNIap.flushFailedPurchasesCachedAsPendingAndroid;
         console.log('result', result);
 
+        // Listens for purchases and perform call back when action taken (purchase always = InAppPurchase for this app). Called early in App.js as can pend on play store.
+        purchaseUpdateItem = purchaseUpdatedListener(async (purchase) => {
+          const receipt = purchase.transactionReceipt;
+          if (receipt) {
+            try {
+              // Purchase must be acknowledged or user gets refunded in few days
+              const ackResult = await finishTransaction(purchase);
+              console.log('ackResult: ', ackResult);
+            } catch (ackErr) {
+              console.log('ackErr: ', ackErr);
+            }
+
+            setAndStoreReceipt(receipt);
+            console.log('useINNAPPPURCHASE.JS listerner is working', receipt);
+          }
+        });
+
+        // Listen for purchase errors (error = PurchaseError)
+        purchaseErrorItem = purchaseErrorListener((error) => {
+          console.log('purchaseErrorListener: ', error);
+          Alert.alert('purchase error: ', JSON.stringify(error));
+          if (error.message == 'You already own this item.') {
+            setAndStoreReceipt(
+              JSON.stringify({
+                productId: 'full_app_purchase',
+              }),
+            );
+          }
+        });
+
         //DEV ONLY
-        const consumed = await RNIap.consumeAllItemsAndroid();
+        await RNIap.consumeAllItemsAndroid();
       } catch (err) {
         console.log('Connection: ', err);
       }
@@ -57,10 +89,10 @@ export default function useInAppPurchase(setReceipt) {
 
     // componentWillUnmount
     return () => {
-      // if (purchaseUpdateItem) {
-      //   purchaseUpdateItem.remove();
-      //   purchaseUpdateItem = null;
-      // }
+      if (purchaseUpdateItem) {
+        purchaseUpdateItem.remove();
+        purchaseUpdateItem = null;
+      }
       if (purchaseErrorItem) {
         purchaseErrorItem.remove();
         purchaseErrorItem = null;
@@ -76,51 +108,25 @@ export default function useInAppPurchase(setReceipt) {
   //   }
   // }, [receipt]);
 
-  // // Listens for purchases and perform call back when action taken (purchase always = InAppPurchase for this app). Called early in App.js as can pend on play store.
-  // purchaseUpdateItem = purchaseUpdatedListener(async (purchase) => {
-  //   const receipt = purchase.transactionReceipt;
-  //   if (receipt) {
-  //     try {
-  //       // Purchase must be acknowledged or user gets refunded in few days
-  //       const ackResult = await finishTransaction(purchase);
-  //       console.log('ackResult: ', ackResult);
-  //     } catch (ackErr) {
-  //       console.log('ackErr: ', ackErr);
-  //     }
-
-  //     setReceipt(receipt);
-  //     let receiptObj = JSON.parse(receipt);
-  //     storeData(receiptStorageKey, receiptObj);
-  //     console.log('useINNAPPPURCHASE.JS listerner is workign', receiptObj);
-  //   }
-  // });
-
-  // Listen for purchase errors (error = PurchaseError)
-  purchaseErrorItem = purchaseErrorListener((error) => {
-    console.log('purchaseErrorListener: ', error);
-    // Alert.alert('purchase error: ', JSON.stringify(error));
-  });
-
   // Get products from play store (productId is passed in for testing only)
-  // async function getItems(productId, setProductList) {
-  //   try {
-  //     const products = await RNIap.getProducts(itemSKUs);
-  //     setProductList(products);
-  //     buyFullAppAlert(products, productId);
-  //   } catch (err) {
-  //     Alert.alert('Check your internet connection', err.message);
-  //   }
-  // }
-
-  // TEST
-  async function getItems(setProductList) {
+  async function getItems() {
     try {
       const products = await RNIap.getProducts(itemSKUs);
-      setProductList(products);
+      requestPurchase(products[0].productId);
     } catch (err) {
       Alert.alert('Check your internet connection', err.message);
     }
   }
+
+  // // TEST
+  // async function getItems(setProductList) {
+  //   try {
+  //     const products = await RNIap.getProducts(itemSKUs);
+  //     setProductList(products);
+  //   } catch (err) {
+  //     Alert.alert('Check your internet connection', err.message);
+  //   }
+  // }
 
   // function buyFullAppAlert(products, productId) {
   //   Alert.alert(products[0].title, products[0].localizedPrice, [
@@ -144,23 +150,23 @@ export default function useInAppPurchase(setReceipt) {
   //   ]);
   // }
 
-  //   // Show available purchases
-  //   async function getAvailablePurchases() {
-  //     try {
-  //       console.info(
-  //         'Get available purchases (non-consumable or unconsumed consumable)',
-  //       );
-  //       const purchases = await RNIap.getAvailablePurchases();
-  //       console.info('Available purchases ::', purchases);
-  //       if (purchases && purchases.length > 0) {
-  //         setAvailableItemsMessage(`Got ${purchases.length} items`);
-  //         setReceipt(purchases[0].transactionReceipt);
-  //       }
-  //     } catch (err) {
-  //       console.log(err);
-  //       Alert.alert(err.message);
+  //   // Show previous purchases
+  // async function getAvailablePurchases() {
+  //   try {
+  //     console.info(
+  //       'Get available purchases (non-consumable or unconsumed consumable)',
+  //     );
+  //     const purchases = await RNIap.getAvailablePurchases();
+  //     console.info('Available purchases ::', purchases);
+  //     if (purchases && purchases.length > 0) {
+  //       // setAvailableItemsMessage(`Got ${purchases.length} items`);
+  //       setReceipt(purchases[0].transactionReceipt);
   //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //     Alert.alert(err.message);
   //   }
+  // }
 
   // Purchase an item
   async function requestPurchase(sku) {
@@ -171,11 +177,20 @@ export default function useInAppPurchase(setReceipt) {
     }
   }
 
+  function setAndStoreReceipt(receipt) {
+    setReceipt(receipt);
+    let receiptObj = JSON.parse(receipt);
+    storeData(receipt_Storage_Key, receiptObj);
+    console.log('Receipt set and stored.');
+  }
+
   return {
     getItems,
     // getAvailablePurchases,
     requestPurchase,
     // purchaseUpdateItem,
     // purchaseErrorItem,
+    receipt,
+    setReceipt,
   };
 }
