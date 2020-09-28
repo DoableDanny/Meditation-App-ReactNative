@@ -8,12 +8,16 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
+
 import {imageArray} from '../imageArray';
 import LinearGradient from 'react-native-linear-gradient';
+import RangeSlider from 'rn-range-slider';
+
 import VerticalPurpleGradBackground from '../components/VerticalPurpleGradBackground';
 import H from '../components/H';
 import P from '../components/P';
 import TimeSelectBtn from '../components/TimeSelectBtn';
+
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
 
@@ -124,7 +128,7 @@ function SingleMeditationScreen({
           })}
         </View>
 
-        {selectedMeditation.id < 60 ? (
+        {/* {selectedMeditation.id < 60 ? (
           <View style={styles.timeBtnsContainer}>
             <TimeSelectBtn
               title="15"
@@ -169,7 +173,38 @@ function SingleMeditationScreen({
           </View>
         ) : (
           <Text style={styles.taoTime}>{selectedTime} mins...</Text>
-        )}
+        )} */}
+
+        <View style={styles.rangeSliderWrapper}>
+          {selectedMeditation.id < 60 ? (
+            <RangeSlider
+              style={{width: 0.8 * Dimensions.get('window').width, height: 80}}
+              gravity={'center'}
+              min={5}
+              max={120}
+              step={5}
+              initialLowValue={selectedTime}
+              selectionColor="#3df"
+              blankColor="#f618"
+              rangeEnabled={false}
+              lineWidth={6}
+              thumbRadius={22}
+              thumbBorderWidth={1}
+              labelPadding={8}
+              textSize={18}
+              labelBorderWidth={1}
+              labelTailHeight={10}
+              labelGapHeight={6}
+              onValueChanged={(low, high, fromUser) => {
+                setSelectedTime(low);
+              }}
+            />
+          ) : (
+            <Text style={styles.taoTime}>{selectedTime} mins...</Text>
+          )}
+        </View>
+
+        <Text style={styles.timeText}>{selectedTime} mins...</Text>
 
         <TouchableOpacity
           onPress={() => {
@@ -179,14 +214,16 @@ function SingleMeditationScreen({
             });
             crashlytics().log('Begin pressed');
             navigation.navigate('Timer');
-          }}>
-          <LinearGradient
+          }}
+          style={styles.beginBtn}>
+          {/* <LinearGradient
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
             colors={['#8ABCE5', '#7BB4E2', '#8ABCE5']}
-            style={styles.beginBtn}>
-            <Text style={styles.begin}>BEGIN</Text>
-          </LinearGradient>
+            // style={styles.linGrad}
+          > */}
+          <Text style={styles.begin}>BEGIN</Text>
+          {/* </LinearGradient> */}
         </TouchableOpacity>
       </ScrollView>
     </VerticalPurpleGradBackground>
@@ -231,10 +268,15 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRightWidth: 0.6,
   },
+  rangeSliderWrapper: {
+    alignItems: 'center',
+    marginBottom: 32,
+  },
   timeText: {
     color: '#fff',
     fontSize: 20,
     fontFamily: 'Merienda-Regular',
+    textAlign: 'center',
   },
   taoTime: {
     textAlign: 'center',
@@ -243,8 +285,10 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
   beginBtn: {
+    backgroundColor: '#7BB4E2',
     height: 55,
     margin: 8,
+    marginTop: 16,
     marginBottom: 20,
     borderRadius: 10,
     justifyContent: 'center',
