@@ -1,18 +1,10 @@
 import 'react-native-gesture-handler';
 import React, {useState, useEffect} from 'react';
 import useMeditations from './customHooks/useMeditations';
+import useStars from './customHooks/useStars';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import analytics from '@react-native-firebase/analytics';
-import {
-  InAppPurchase,
-  PurchaseError,
-  acknowledgePurchaseAndroid,
-  consumePurchaseAndroid,
-  finishTransaction,
-  purchaseErrorListener,
-  purchaseUpdatedListener,
-} from 'react-native-iap';
 
 import HomeScreen from './screens/HomeScreen';
 import GuideScreen from './screens/GuideScreen';
@@ -20,7 +12,7 @@ import SettingsScreen from './screens/SettingsScreen';
 import StatsScreen from './screens/StatsScreen';
 import SingleMeditationScreen from './screens/SingleMeditationScreen';
 import TimerScreen from './screens/TimerScreen';
-import {getData, storeData} from './functionsAndQuotes/asyncStorageFunctions';
+import {getData} from './functionsAndQuotes/asyncStorageFunctions';
 import useInAppPurchase from './customHooks/useInAppPurchase';
 
 const Stack = createStackNavigator();
@@ -28,46 +20,27 @@ const Stack = createStackNavigator();
 const App = () => {
   const [streak, setStreak] = useState(0);
   const [longestStreak, setLongestStreak] = useState(0);
-  const [totalStars, setTotalStars] = useState(0);
+  // const [totalStars, setTotalStars] = useState(0);
 
   const {
     meditations,
     unlockMeditation,
+    updateMeditationStarValue,
     updateCompletionTime,
     resetCompletionTimes,
     resetFully,
   } = useMeditations();
+
+  const {totalStars, setTotalStars} = useStars();
 
   const [selectedMeditation, setSelectedMeditation] = useState('');
   const [selectedTime, setSelectedTime] = useState(30);
   const [totalMeditationTime, setTotalMeditationTime] = useState(0);
   const [totalMeditationsCompleted, setTotalMeditationsCompleted] = useState(0);
 
-  // For the in app purchase
-  // const [receipt, setReceipt] = useState();
   const receiptStorageKey = '@full_app_purchase_receipt';
-  // // Variables to check if item purchased or not
-  // let purchaseUpdateItem;
+  // Full app purchase receipt
   const {receipt, setReceipt} = useInAppPurchase();
-
-  // // Listens for purchases and perform call back when action taken (purchase always = InAppPurchase for this app). Called early in App.js as can pend on play store.
-  // purchaseUpdateItem = purchaseUpdatedListener(async (purchase) => {
-  //   const receipt = purchase.transactionReceipt;
-  //   if (receipt) {
-  //     try {
-  //       // Purchase must be acknowledged or user gets refunded in few days
-  //       const ackResult = await finishTransaction(purchase);
-  //       console.log('ackResult: ', ackResult);
-  //     } catch (ackErr) {
-  //       console.log('ackErr: ', ackErr);
-  //     }
-
-  //     setReceipt(receipt);
-  //     let receiptObj = JSON.parse(receipt);
-  //     storeData(receiptStorageKey, receiptObj);
-  //     console.log('APP.JS, the listener is working', receiptObj);
-  //   }
-  // });
 
   useEffect(() => {
     getData(receiptStorageKey).then((data) => {
@@ -190,6 +163,7 @@ const App = () => {
               selectedMeditation={selectedMeditation}
               meditations={meditations}
               unlockMeditation={unlockMeditation}
+              updateMeditationStarValue={updateMeditationStarValue}
               updateCompletionTime={updateCompletionTime}
               setStreak={setStreak}
               setLongestStreak={setLongestStreak}

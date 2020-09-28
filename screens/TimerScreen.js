@@ -21,11 +21,13 @@ import trackPlayerInit from '../functionsAndQuotes/trackPlayerInit';
 import VerticalPurpleGradBackground from '../components/VerticalPurpleGradBackground';
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
+import useStars from '../customHooks/useStars';
 
 function TimerScreen({
   selectedMeditation,
   meditations,
   unlockMeditation,
+  updateMeditationStarValue,
   updateCompletionTime,
   setStreak,
   setLongestStreak,
@@ -36,13 +38,18 @@ function TimerScreen({
   setTotalMeditationsCompleted,
   setTotalStars,
   navigation,
-  // receipt,
 }) {
-  const [seconds, setSeconds] = useState(`00`);
-  const [minutes, setMinutes] = useState(selectedTime); //CHANGE THIS!!
+  const [seconds, setSeconds] = useState(`02`);
+  const [minutes, setMinutes] = useState('00'); //CHANGE THIS!!
   const [timerOn, setTimerOn] = useState(true);
   const [completionText, setCompletionText] = useState('');
   const [stopSound, setStopSound] = useState(false);
+
+  const {
+    convertNewTimeToStars,
+    checkForStarImprovement,
+    // calculateNewStarTotal,
+  } = useStars();
 
   // Stop playing sound on component unmount
   useEffect(() => {
@@ -122,36 +129,60 @@ function TimerScreen({
           let nextMeditationId = selectedMeditation.id + 1;
 
           let meditationsCopy = [...meditations];
-          let currentMeditation = {...meditationsCopy[selectedMeditation.id]};
+          // let selectedMeditation = {...meditationsCopy[selectedMeditation.id]};
+
           let nextMeditation = {...meditationsCopy[nextMeditationId]};
 
-          if (nextMeditationId < 59) {
+          // CHANGED &&...
+          if (nextMeditationId < 59 && selectedTime >= 15) {
             unlockMeditation(nextMeditationId);
             meditationsCopy[nextMeditationId] = nextMeditation;
-          } else if (currentMeditation.id == 59) {
+          } else if (selectedMeditation.id == 59) {
             setCompletionText(
               'You completed all 60 days, I hope you gained self-understanding and peace. You have been awarded the NAVAL PEACE PRIZE!',
             );
-          } else if (currentMeditation.id == 64) {
+          } else if (selectedMeditation.id == 64) {
             setCompletionText(
               `Congratulations on completing the Tao Series, you have developed an extremely useful habit. I give you no more prizes, but you shouldn't have expected any!`,
             );
           }
 
           // update total number of stars
-          if (selectedTime > 15) {
+          //CHANGED from > 15
+          if (selectedTime >= 30) {
+            ////////////TESTING - good///////
+            let newStarValue = convertNewTimeToStars(selectedTime);
+            console.log('NEW_STAR_VALUE: ', newStarValue);
+            //////////////////////////////
+            ////////////////////////////////
+            console.log('CURRENT_MEDITATION: ', selectedMeditation);
+
+            let prevStarValue = selectedMeditation.stars
+              ? selectedMeditation.stars
+              : 0;
+
+            // Check for star improvement, if yes then new star total calculated and set and stored.
+            checkForStarImprovement(newStarValue, prevStarValue);
+
+            ////////////////////////////
+            ////////////////////////////
+            if (newStarValue > prevStarValue)
+              updateMeditationStarValue(selectedMeditation.id, newStarValue);
+            ///////////////////////////
+            ///////////////////////////
+
             getData(`@total_stars`)
               .then((data) => {
-                console.log('stars', data);
                 let stars = data == null ? 0 : parseInt(data);
                 let starsObj = {
                   starGain: 0,
                 };
 
                 // check for time improvement and add correct amount of stars
-                let prevCompletionTime = currentMeditation.completionTime;
+                let prevCompletionTime = selectedMeditation.completionTime;
+
                 let timeImprovement = selectedTime - prevCompletionTime;
-                console.log(prevCompletionTime, timeImprovement);
+
                 switch (timeImprovement) {
                   case 15:
                     starsObj.starGain = prevCompletionTime == 0 ? 0 : 1;
@@ -175,7 +206,6 @@ function TimerScreen({
                     break;
                 }
                 setTotalStars(stars + starsObj.starGain);
-                console.log('stars', stars, starsObj.starGain);
 
                 // If >= 100 stars, unlock Tao med 4
                 if (

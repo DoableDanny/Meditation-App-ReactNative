@@ -178,7 +178,7 @@ function SingleMeditationScreen({
         <View style={styles.rangeSliderWrapper}>
           {selectedMeditation.id < 60 ? (
             <RangeSlider
-              style={{width: 0.8 * Dimensions.get('window').width, height: 80}}
+              style={{width: 0.85 * Dimensions.get('window').width, height: 80}}
               gravity={'center'}
               min={5}
               max={120}

@@ -298,6 +298,15 @@ export default function useMeditations() {
     setAndStoreMeditations(updatedMeditations);
   }
 
+  // Update selected meditation's star value
+  function updateMeditationStarValue(id, newStarValue) {
+    const updatedMeditations = [...meditations];
+    updatedMeditations[id].stars = newStarValue;
+    setAndStoreMeditations(updatedMeditations);
+
+    console.log('updatedMeditations[id].stars', updatedMeditations[id].stars);
+  }
+
   // id is for current meditation
   function updateCompletionTime(id, newTime) {
     const meditation = meditations.find((m) => m.id === id);
@@ -327,6 +336,7 @@ export default function useMeditations() {
   return {
     meditations,
     unlockMeditation,
+    updateMeditationStarValue,
     updateCompletionTime,
     resetCompletionTimes,
     resetFully,
