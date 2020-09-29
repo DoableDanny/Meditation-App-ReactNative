@@ -102,7 +102,7 @@ function StatsScreen({
           <Text style={styles.key}>
             Hours Meditated:{' '}
             <Text style={styles.value}>
-              {totalMeditationTime / 60}{' '}
+              {(totalMeditationTime / 60).toPrecision(2)}{' '}
               {totalMeditationTime == 1 ? 'hour' : 'hours'}
             </Text>
           </Text>
