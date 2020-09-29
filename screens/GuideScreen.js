@@ -30,25 +30,20 @@ function GuideScreen() {
             or sounds to listen to. No distractions from your own thoughts.
           </P>
           <P>
-            Most meditation apps seem to involve breathy relaxing voices and
-            sounds of rainfall. Whilst this may be relaxing, you may not be
-            getting the full benefits that you get from sitting in silence, with
-            just your thoughts and emotions for company.
+            The full benefits of meditation lie in sitting in silence, with just
+            your thoughts and emotions for company.
           </P>
           <P>
-            There are 60 meditations in total, 1 per day. You can choose to do
-            15, 30, 45, or 60 mins. The following day is unlocked after
-            completing the current day's meditation.
+            There are 60 meditations in total, 1 per day. The following day is
+            unlocked after completing at least a 15 minute session of the
+            current day's meditation.
           </P>
           <P>
             Throughout your meditation journey, you will be collecting stars. 30
             mins gets you 1 star, 45 mins = 2 stars and 60 mins for a glorious 3
             stars!
           </P>
-          <P>
-            Complete all 60 days with 3 stars to unlock a bonus meditation
-            series.
-          </P>
+          <P>Unlock bonus Tao meditations with day streaks and stars!</P>
           <H extraStyle={{textAlign: 'center'}}>The Inspirations</H>
           <P>
             <Text style={styles.influences}>Naval Ravikant</Text> and his life
