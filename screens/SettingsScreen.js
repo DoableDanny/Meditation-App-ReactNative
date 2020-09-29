@@ -207,12 +207,25 @@ function SettingsScreen({
               );
             }}
           />
+
+          <Text style={styles.description}>{receipt.productId}</Text>
+
           <Text style={styles.description}>
             {receipt
               ? '**Purchased**'
               : 'The first 7 meditations are free. To gain full access to the rest, please purchase the full app.'}
           </Text>
         </View>
+
+        <DeleteBtn
+          title="REMOVE PURCHASE"
+          onPress={() => {
+            removeValue(`@full_app_purchase_receipt`, `app purchase`);
+            setReceipt({
+              productId: 'initial_state',
+            });
+          }}
+        />
 
         <View style={styles.textAndButtonWrapper}>
           <DeleteBtn

@@ -1,5 +1,6 @@
-import {useState, useEffect} from 'react';
-import {Alert} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {Alert, View} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {getData, storeData} from '../functionsAndQuotes/asyncStorageFunctions';
 
 export default function useStars() {
@@ -63,6 +64,52 @@ export default function useStars() {
     }
   }
 
+  // Render stars for each med on homeScreen
+  function renderStars(time) {
+    let stars = convertCompletionTimeToStars(time);
+
+    switch (stars) {
+      case 0:
+        return (
+          <View style={{flexDirection: 'row'}}>
+            <Icon name="star-outline" size={22} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={22} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={22} style={{color: 'gold'}} />
+          </View>
+        );
+      case 1:
+        return (
+          <View style={{flexDirection: 'row'}}>
+            <Icon name="star" size={22} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={22} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={22} style={{color: 'gold'}} />
+          </View>
+        );
+      case 2:
+        return (
+          <View style={{flexDirection: 'row'}}>
+            <Icon name="star" size={22} style={{color: 'gold'}} />
+            <Icon name="star" size={22} style={{color: 'gold'}} />
+            <Icon name="star-outline" size={22} style={{color: 'gold'}} />
+          </View>
+        );
+      case 3:
+        return (
+          <View style={{flexDirection: 'row'}}>
+            <Icon
+              name="star"
+              size={22}
+              style={{
+                color: 'gold',
+              }}
+            />
+            <Icon name="star" size={22} style={{color: 'gold'}} />
+            <Icon name="star" size={22} style={{color: 'gold'}} />
+          </View>
+        );
+    }
+  }
+
   return {
     convertCompletionTimeToStars,
     // checkForStarImprovement,
@@ -71,5 +118,6 @@ export default function useStars() {
     totalStars,
     setTotalStars,
     awardBonusTaoMedForStars,
+    renderStars,
   };
 }

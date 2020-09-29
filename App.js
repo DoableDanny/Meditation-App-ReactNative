@@ -42,19 +42,6 @@ const App = () => {
   // Full app purchase receipt
   const {receipt, setReceipt} = useInAppPurchase();
 
-  useEffect(() => {
-    getData(receiptStorageKey).then((data) => {
-      if (data) setReceipt(data);
-    });
-
-    // return () => {
-    //   if (purchaseUpdateItem) {
-    //     purchaseUpdateItem.remove();
-    //     purchaseUpdateItem = null;
-    //   }
-    // };
-  }, []);
-
   // Firebase session timeout is 1 hr, 15 mins
   analytics().setSessionTimeoutDuration(4500000);
 

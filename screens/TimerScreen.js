@@ -164,14 +164,15 @@ function TimerScreen({
               newTotalStars = calculateNewStarTotal(starImprovement);
 
               // Check if unlocked Bonus Tao med for newTotalStars
-            } else console.log('NO_NEED_TO_UPDATE_STARS');
-            console.log('CURRENT_MEDITATION: ', selectedMeditation);
-            console.log(
-              'PREV_COMPLETION_TIME',
-              selectedMeditation.completionTime,
-            );
-            console.log('PREV_STAR_VALUE: ', prevStarValue);
-            console.log('NEW_STAR_VALUE: ', newStarValue);
+            }
+            // else console.log('NO_NEED_TO_UPDATE_STARS');
+            // console.log('CURRENT_MEDITATION: ', selectedMeditation);
+            // console.log(
+            //   'PREV_COMPLETION_TIME',
+            //   selectedMeditation.completionTime,
+            // );
+            // console.log('PREV_STAR_VALUE: ', prevStarValue);
+            // console.log('NEW_STAR_VALUE: ', newStarValue);
 
             //AWARDING TAO MEDS
             if (newTotalStars >= 100 && newTotalStars < 103) {

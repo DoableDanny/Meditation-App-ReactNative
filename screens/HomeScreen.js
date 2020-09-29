@@ -6,12 +6,13 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
-
 import {useIsFocused} from '@react-navigation/native';
+import useStars from '../customHooks/useStars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {imageArray} from '../imageArray';
-import renderStars from '../functionsAndQuotes/renderStars';
+// import renderStars from '../functionsAndQuotes/renderStars';
 import HomeNavBtn from '../components/HomeNavBtn';
 import LinearGradient from 'react-native-linear-gradient';
 import crashlytics from '@react-native-firebase/crashlytics';
@@ -19,6 +20,7 @@ import crashlytics from '@react-native-firebase/crashlytics';
 function HomeScreen({navigation, meditations, setSelectedMeditation, receipt}) {
   // True if we're on this screen, false if not (I'm using this to re-render homescreen)
   const isFocused = useIsFocused();
+  const {renderStars} = useStars();
 
   useEffect(() => {
     crashlytics().log('HomeScreen mounted');
@@ -41,7 +43,13 @@ function HomeScreen({navigation, meditations, setSelectedMeditation, receipt}) {
                 receipt.productId === 'full_app_purchase'
               ) {
                 navigation.navigate('Meditation');
+              } else if (item.id == 7 && !item.locked) {
+                Alert.alert(
+                  'Please Purchase the Full App',
+                  "To continue progressing, please purchase the full app from 'SETTINGS'.",
+                );
               }
+
               // item.locked ? null : navigation.navigate('Meditation');
               crashlytics().log(`Meditation ${item.id + 1} was selected`);
             }}>
@@ -72,7 +80,7 @@ function HomeScreen({navigation, meditations, setSelectedMeditation, receipt}) {
 
                   <View style={styles.starsAndTitleWrapper}>
                     <Text style={styles.title}>{item.title} </Text>
-                    {renderStars(item)}
+                    {renderStars(item.completionTime)}
                   </View>
                 </LinearGradient>
               ) : (

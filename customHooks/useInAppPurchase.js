@@ -18,19 +18,7 @@ import {getData, storeData} from '../functionsAndQuotes/asyncStorageFunctions';
 
 // Play store item Ids
 const itemSKUs = Platform.select({
-  android: [
-    'full_app_purchase',
-    'test_1',
-    'test_2',
-    // 'test_3',
-    // 'test_4',
-    // 'test_5',
-    // 'test_6',
-    // 'test_7',
-    // 'test_8',
-    // 'test_9',
-    // 'test_10',
-  ],
+  android: ['full_app_purchase', 'test_1', 'test_2'],
 });
 
 // Variables to check if item purchased or not
@@ -40,7 +28,9 @@ let purchaseErrorItem;
 const receipt_Storage_Key = '@full_app_purchase_receipt';
 
 export default function useInAppPurchase() {
-  const [receipt, setReceipt] = useState();
+  const [receipt, setReceipt] = useState({
+    productId: 'initial_state',
+  });
 
   // Initiate connection to play store and cancel any failed orders still pending on google play cache
   useEffect(() => {
@@ -99,6 +89,16 @@ export default function useInAppPurchase() {
       }
       RNIap.endConnection();
     };
+  }, []);
+
+  // Upon initial app load, check for receipt in storage, if exists then setReceipt
+  useEffect(() => {
+    getData(receipt_Storage_Key).then((data) => {
+      if (data) {
+        setReceipt(JSON.parse(data));
+      }
+      console.log(data);
+    });
   }, []);
 
   // // Detects any change in receipt value then displays receipt
@@ -178,8 +178,11 @@ export default function useInAppPurchase() {
   }
 
   function setAndStoreReceipt(receipt) {
-    setReceipt(receipt);
     let receiptObj = JSON.parse(receipt);
+    setReceipt(receiptObj);
+    console.log('TYPEOF: ', typeof receiptObj);
+    console.log('RECEIPTOBJ: ', receiptObj);
+
     storeData(receipt_Storage_Key, receiptObj);
     console.log('Receipt set and stored.');
   }
