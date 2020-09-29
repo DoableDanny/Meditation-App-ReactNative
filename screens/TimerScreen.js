@@ -36,11 +36,10 @@ function TimerScreen({
   setTotalMeditationTime,
   totalMeditationsCompleted,
   setTotalMeditationsCompleted,
-  setTotalStars,
   navigation,
 }) {
-  const [seconds, setSeconds] = useState(`02`);
-  const [minutes, setMinutes] = useState('00'); //CHANGE THIS!!
+  const [seconds, setSeconds] = useState(`00`);
+  const [minutes, setMinutes] = useState(selectedTime); //CHANGE THIS!!
   const [timerOn, setTimerOn] = useState(true);
   const [completionText, setCompletionText] = useState('');
   const [stopSound, setStopSound] = useState(false);

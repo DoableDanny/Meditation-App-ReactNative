@@ -70,8 +70,8 @@ export default function useInAppPurchase() {
           }
         });
 
-        //DEV ONLY
-        await RNIap.consumeAllItemsAndroid();
+        // //DEV ONLY
+        // await RNIap.consumeAllItemsAndroid();
       } catch (err) {
         console.log('Connection: ', err);
       }
