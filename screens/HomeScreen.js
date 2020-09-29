@@ -69,6 +69,7 @@ function HomeScreen({navigation, meditations, setSelectedMeditation, receipt}) {
                       <Text style={styles.number}>{index + 1}</Text>
                     </View>
                   </View>
+
                   <View style={styles.starsAndTitleWrapper}>
                     <Text style={styles.title}>{item.title} </Text>
                     {renderStars(item)}

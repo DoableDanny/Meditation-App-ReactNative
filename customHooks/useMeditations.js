@@ -299,13 +299,13 @@ export default function useMeditations() {
   }
 
   // Update selected meditation's star value
-  function updateMeditationStarValue(id, newStarValue) {
-    const updatedMeditations = [...meditations];
-    updatedMeditations[id].stars = newStarValue;
-    setAndStoreMeditations(updatedMeditations);
+  // function updateMeditationStarValue(id, newStarValue) {
+  //   const updatedMeditations = [...meditations];
+  //   updatedMeditations[id].stars = newStarValue;
+  //   setAndStoreMeditations(updatedMeditations);
 
-    console.log('updatedMeditations[id].stars', updatedMeditations[id].stars);
-  }
+  //   console.log('UPDATED_MED_STAR_VALUE', updatedMeditations[id].stars);
+  // }
 
   // id is for current meditation
   function updateCompletionTime(id, newTime) {
@@ -336,7 +336,7 @@ export default function useMeditations() {
   return {
     meditations,
     unlockMeditation,
-    updateMeditationStarValue,
+    // updateMeditationStarValue,
     updateCompletionTime,
     resetCompletionTimes,
     resetFully,
