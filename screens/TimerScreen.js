@@ -303,9 +303,10 @@ function TimerScreen({
               getData(`@longest_streak_key`).then((data) => {
                 let longestStreak;
 
-                //// For testing awards/////////////
-                // data = '2';
+                // For testing awards/////////////
+                // data = '14';
                 // streak = 30;
+                /////////////
 
                 if (data && parseInt(data) < streak) {
                   longestStreak = streak;
@@ -338,7 +339,7 @@ function TimerScreen({
                       break;
                     case 30:
                       Alert.alert(
-                        'Wow, Thirty Days straight!',
+                        'Wow, Thirty Days Straight!',
                         `You have been awarded Tao Meditation III. You are developing a life changing habit!`,
                       );
                       unlockMeditation(62);

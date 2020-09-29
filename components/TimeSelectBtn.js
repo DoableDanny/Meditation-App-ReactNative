@@ -1,7 +1,7 @@
 import React from 'react';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 
-function Btn({title, onPress, selectedTime, extraStyles}) {
+function TimeSelectBtn({title, onPress, selectedTime, extraStyles}) {
   console.log(selectedTime);
   return (
     <TouchableOpacity
@@ -21,14 +21,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    padding: 10,
+    padding: 5,
     borderRightWidth: 0.6,
   },
   timeText: {
     color: '#fff',
-    fontSize: 20,
+    fontSize: 16,
     fontFamily: 'Merienda-Regular',
   },
 });
 
-export default Btn;
+export default TimeSelectBtn;

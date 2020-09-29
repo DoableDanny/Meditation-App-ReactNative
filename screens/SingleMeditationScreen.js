@@ -107,6 +107,10 @@ function SingleMeditationScreen({
 
   const selectedMedEssay = medEssays[selectedMeditation.id].default;
 
+  const timeoptionsRow1 = [15, 20, 25, 30, 35];
+  const timeoptionsRow2 = [40, 45, 50, 55, 60];
+  const timeoptionsRow3 = [65, 70, 75, 80, 85];
+
   return (
     <VerticalPurpleGradBackground style={{flex: 1}}>
       <ScrollView>
@@ -128,54 +132,120 @@ function SingleMeditationScreen({
           })}
         </View>
 
-        {/* {selectedMeditation.id < 60 ? (
-          <View style={styles.timeBtnsContainer}>
-            <TimeSelectBtn
-              title="15"
-              onPress={() => {
-                setSelectedTime(15);
-                crashlytics().log('15 mins pressed');
-              }}
-              selectedTime={selectedTime}
-              extraStyles={{
-                borderTopLeftRadius: 7,
-                borderBottomLeftRadius: 7,
-              }}
-            />
-            <TimeSelectBtn
-              title="30"
-              onPress={() => {
-                setSelectedTime(30);
-                crashlytics().log('30 mins pressed');
-              }}
-              selectedTime={selectedTime}
-            />
-            <TimeSelectBtn
-              title="45"
-              onPress={() => {
-                setSelectedTime(45);
-                crashlytics().log('45 mins pressed');
-              }}
-              selectedTime={selectedTime}
-            />
-            <TimeSelectBtn
-              title="60"
-              onPress={() => {
-                setSelectedTime(60);
-                crashlytics().log('60 mins pressed');
-              }}
-              selectedTime={selectedTime}
-              extraStyles={{
-                borderTopRightRadius: 7,
-                borderBottomRightRadius: 7,
-              }}
-            />
+        {selectedMeditation.id < 60 ? (
+          <View>
+            <View style={styles.timeBtnsContainer}>
+              <TimeSelectBtn
+                title="15"
+                onPress={() => {
+                  setSelectedTime(15);
+                  crashlytics().log('15 mins pressed');
+                }}
+                selectedTime={selectedTime}
+                extraStyles={{
+                  borderTopLeftRadius: 7,
+                  borderBottomLeftRadius: 7,
+                }}
+              />
+
+              <TimeSelectBtn
+                title="23"
+                onPress={() => {
+                  setSelectedTime(23);
+                  crashlytics().log('23 mins pressed');
+                }}
+                selectedTime={selectedTime}
+              />
+
+              <TimeSelectBtn
+                title="30"
+                onPress={() => {
+                  setSelectedTime(30);
+                  crashlytics().log('30 mins pressed');
+                }}
+                selectedTime={selectedTime}
+              />
+              <TimeSelectBtn
+                title="38"
+                onPress={() => {
+                  setSelectedTime(38);
+                  crashlytics().log('38 mins pressed');
+                }}
+                selectedTime={selectedTime}
+              />
+
+              <TimeSelectBtn
+                title="45"
+                onPress={() => {
+                  setSelectedTime(45);
+                  crashlytics().log('45 mins pressed');
+                }}
+                selectedTime={selectedTime}
+                extraStyles={{
+                  borderTopRightRadius: 7,
+                  borderBottomRightRadius: 7,
+                }}
+              />
+            </View>
+            <View style={styles.timeBtnsContainer}>
+              <TimeSelectBtn
+                title="60"
+                onPress={() => {
+                  setSelectedTime(60);
+                  crashlytics().log('60 mins pressed');
+                }}
+                selectedTime={selectedTime}
+                extraStyles={{
+                  borderTopLeftRadius: 7,
+                  borderBottomLeftRadius: 7,
+                }}
+              />
+
+              <TimeSelectBtn
+                title="75"
+                onPress={() => {
+                  setSelectedTime(75);
+                  crashlytics().log('75 mins pressed');
+                }}
+                selectedTime={selectedTime}
+              />
+              <TimeSelectBtn
+                title="90"
+                onPress={() => {
+                  setSelectedTime(90);
+                  crashlytics().log('90 mins pressed');
+                }}
+                selectedTime={selectedTime}
+              />
+
+              <TimeSelectBtn
+                title="105"
+                onPress={() => {
+                  setSelectedTime(105);
+                  crashlytics().log('105 mins pressed');
+                }}
+                selectedTime={selectedTime}
+              />
+
+              <TimeSelectBtn
+                title="120"
+                onPress={() => {
+                  setSelectedTime(120);
+                  crashlytics().log('120 mins pressed');
+                }}
+                selectedTime={selectedTime}
+                extraStyles={{
+                  borderTopRightRadius: 7,
+                  borderBottomRightRadius: 7,
+                }}
+              />
+            </View>
           </View>
         ) : (
           <Text style={styles.taoTime}>{selectedTime} mins...</Text>
-        )} */}
+        )}
 
-        <View style={styles.rangeSliderWrapper}>
+        {/* <View style={styles.rangeSliderWrapper}>
           {selectedMeditation.id < 60 ? (
             <RangeSlider
               style={{width: 0.85 * Dimensions.get('window').width, height: 80}}
@@ -204,7 +274,7 @@ function SingleMeditationScreen({
           )}
         </View>
 
-        <Text style={styles.timeText}>{selectedTime} mins...</Text>
+        <Text style={styles.timeText}>{selectedTime} mins...</Text> */}
 
         <TouchableOpacity
           onPress={() => {
@@ -259,14 +329,9 @@ const styles = StyleSheet.create({
   },
   timeBtnsContainer: {
     flexDirection: 'row',
-    margin: 16,
-  },
-  timeBtn: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-    padding: 10,
-    borderRightWidth: 0.6,
+    marginRight: 16,
+    marginLeft: 16,
+    margin: 4,
   },
   rangeSliderWrapper: {
     alignItems: 'center',
@@ -287,8 +352,7 @@ const styles = StyleSheet.create({
   beginBtn: {
     backgroundColor: '#7BB4E2',
     height: 55,
-    margin: 8,
-    marginTop: 16,
+    margin: 16,
     marginBottom: 20,
     borderRadius: 10,
     justifyContent: 'center',
