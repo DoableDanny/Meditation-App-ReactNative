@@ -14,7 +14,11 @@ const medEssay = {
 
     'Someone gets more than you think they deserve, and you become jealous. A past event didn’t go your way, and you feel depressed. You have an exam in two days and you’ve studied hard. You think you deserve to do well, but the future is uncertain, so you become anxious. All this trouble caused from having ideals and beliefs in our minds.',
 
-    'This is the point of meditation. It is to be aware and see things how they truly are with no ideals or conclusions. Blue skies, trees and the TV are all real things. So are your thoughts, your judgements and beliefs. So can you just look at them without any effort to stop them or justify them? Can you also watch the thoughts that are judging and condemning your thoughts? The ones that say “I am meditating so I should not be thinking so much”. Can you watch those too?',
+    'This is the point of meditation. It is to be aware and see things how they truly are with no ideals or conclusions.',
+
+    'Blue skies, trees and the TV are all real things. So are your thoughts - your judgements and beliefs. So can you just look at them without any effort to stop them or justify them?',
+
+    'Can you also watch the thoughts that are judging and condemning your thoughts? The ones that say “I am meditating so I should not be thinking so much”. Can you watch those too?',
 
     'If you can then you’ll find that they will dissipate naturally by themselves. Offer resistance and they will take root in your mind.',
 

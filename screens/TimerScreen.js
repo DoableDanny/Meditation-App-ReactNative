@@ -479,7 +479,7 @@ const styles = StyleSheet.create({
   },
   completionText: {
     fontSize: 22,
-    color: '#F0F7FC',
+    color: 'rgba(255, 255, 255, 0.8)',
     textAlign: 'center',
     marginTop: 10,
     marginRight: 3,
@@ -493,7 +493,7 @@ const styles = StyleSheet.create({
     paddingRight: 80,
     marginBottom: 24,
     borderRadius: 10,
-    backgroundColor: '#8ABCE5',
+    backgroundColor: '#74B0E1',
   },
   doneText: {
     color: '#fff',

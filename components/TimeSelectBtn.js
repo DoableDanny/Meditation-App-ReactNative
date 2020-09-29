@@ -8,7 +8,7 @@ function TimeSelectBtn({title, onPress, selectedTime, extraStyles}) {
       onPress={onPress}
       style={{
         ...styles.timeBtn,
-        backgroundColor: selectedTime == title ? '#8ABCE5' : '#4192D5',
+        backgroundColor: selectedTime == title ? '#92C1E7' : '#4192D5',
         ...extraStyles,
       }}>
       <Text style={styles.timeText}>{title}</Text>

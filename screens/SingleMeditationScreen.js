@@ -286,14 +286,7 @@ function SingleMeditationScreen({
             navigation.navigate('Timer');
           }}
           style={styles.beginBtn}>
-          {/* <LinearGradient
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}
-            colors={['#8ABCE5', '#7BB4E2', '#8ABCE5']}
-            // style={styles.linGrad}
-          > */}
           <Text style={styles.begin}>BEGIN</Text>
-          {/* </LinearGradient> */}
         </TouchableOpacity>
       </ScrollView>
     </VerticalPurpleGradBackground>
@@ -350,7 +343,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
   beginBtn: {
-    backgroundColor: '#7BB4E2',
+    backgroundColor: '#65A7DD',
     height: 55,
     margin: 16,
     marginTop: 24,
