@@ -209,10 +209,10 @@ function SettingsScreen({
             }}
           />
 
-          <Text style={styles.description}>{receipt.productId}</Text>
+          {/* <Text style={styles.description}>{receipt.productId}</Text> */}
 
           <Text style={styles.description}>
-            {receipt
+            {receipt.productId == 'full_app_purchase'
               ? '**Purchased**'
               : 'The first 7 meditations are free. To gain full access to the rest, please purchase the full app.'}
           </Text>

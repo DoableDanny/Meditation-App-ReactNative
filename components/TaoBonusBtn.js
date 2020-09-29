@@ -1,9 +1,10 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, Text} from 'react-native';
-import renderStars from '../functionsAndQuotes/renderStars';
+import useStars from '../customHooks/useStars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function TaoBonusBtn({title, onPress, taoMeditation, icon, num}) {
+  const [renderStars] = useStars();
   return (
     <TouchableOpacity onPress={onPress} style={styles.btnStyle}>
       <Text style={styles.titleStyle}>{taoMeditation.title}</Text>
