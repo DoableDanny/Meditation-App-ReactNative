@@ -118,7 +118,8 @@ function SettingsScreen({
       const keys = await AsyncStorage.getAllKeys();
       let filteredKeys = keys
         .filter((item) => item != '@meditations_completed')
-        .filter((item2) => item2 != '@total_stars');
+        .filter((item2) => item2 != '@total_stars')
+        .filter((item3) => item3 != '@full_app_purchase_receipt');
       await AsyncStorage.multiRemove(filteredKeys);
       Alert.alert('Success', `Your ${messageObject} was deleted successfully`);
       setTotalMeditationTime(0);
