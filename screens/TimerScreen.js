@@ -176,7 +176,7 @@ function TimerScreen({
 
             //AWARDING TAO MEDS
             if (newTotalStars >= 100 && newTotalStars < 103) {
-              awardBonusTaoMedForStars(100);
+              awardBonusTaoMedForStars();
               unlockMeditation(63);
             }
             if (newTotalStars >= 180 && newTotalStars < 183) {

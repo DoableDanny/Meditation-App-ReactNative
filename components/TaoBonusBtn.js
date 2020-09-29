@@ -4,11 +4,11 @@ import useStars from '../customHooks/useStars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function TaoBonusBtn({title, onPress, taoMeditation, icon, num}) {
-  const [renderStars] = useStars();
+  const {renderStars} = useStars();
   return (
     <TouchableOpacity onPress={onPress} style={styles.btnStyle}>
       <Text style={styles.titleStyle}>{taoMeditation.title}</Text>
-      {renderStars(taoMeditation)}
+      {renderStars(taoMeditation.completionTime)}
       <Text style={styles.lockedRequirement}>
         <Icon name={icon} size={30} style={styles.requirmentIcon} /> x {num}
       </Text>

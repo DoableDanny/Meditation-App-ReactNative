@@ -43,7 +43,7 @@ export default function useStars() {
     console.log('STARS_SET_AND_STORED');
   }
 
-  async function awardBonusTaoMedForStars() {
+  async function awardBonusTaoMedForStars(num) {
     const TAO_SERIES_KEY = `@tao_series`;
     let data = await getData(TAO_SERIES_KEY);
 
@@ -53,9 +53,7 @@ export default function useStars() {
         `Your outstanding efforts deserve a reward: The fourth Tao Bonus Meditation!`,
       );
       storeData(TAO_SERIES_KEY, 100);
-    }
-
-    if (data == 100) {
+    } else if (data == 100 && num == 180) {
       Alert.alert(
         `CONGRATULATIONS!`,
         `Your outstanding efforts deserve a reward: The final Tao Bonus Meditation!`,
