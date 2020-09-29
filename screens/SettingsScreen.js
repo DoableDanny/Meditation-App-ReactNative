@@ -218,7 +218,7 @@ function SettingsScreen({
           </Text>
         </View>
 
-        <DeleteBtn
+        {/* <DeleteBtn
           title="REMOVE PURCHASE"
           onPress={() => {
             removeValue(`@full_app_purchase_receipt`, `app purchase`);
@@ -226,7 +226,7 @@ function SettingsScreen({
               productId: 'initial_state',
             });
           }}
-        />
+        /> */}
 
         <View style={styles.textAndButtonWrapper}>
           <DeleteBtn
@@ -264,7 +264,8 @@ function SettingsScreen({
           />
           <Text style={styles.description}>
             All meditations but day one will be locked. Your stars will also be
-            deleted.
+            deleted. If you purchased the full version, you will still have full
+            access.
           </Text>
         </View>
 

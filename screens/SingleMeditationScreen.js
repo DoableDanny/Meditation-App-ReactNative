@@ -133,7 +133,7 @@ function SingleMeditationScreen({
         </View>
 
         {selectedMeditation.id < 60 ? (
-          <View>
+          <View style={{marginTop: 16}}>
             <View style={styles.timeBtnsContainer}>
               <TimeSelectBtn
                 title="15"
@@ -308,14 +308,14 @@ const styles = StyleSheet.create({
   },
   quoteText: {
     fontSize: 21,
-    color: '#D0F6ED',
+    color: '#ABCFED',
     lineHeight: 25,
     marginBottom: 4,
     fontStyle: 'italic',
   },
   quoteAuthor: {
     fontSize: 21,
-    color: '#D0F6ED',
+    color: '#ABCFED',
     lineHeight: 25,
     marginBottom: 24,
     alignSelf: 'flex-end',

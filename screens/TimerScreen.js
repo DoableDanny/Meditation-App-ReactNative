@@ -493,10 +493,10 @@ const styles = StyleSheet.create({
     paddingRight: 80,
     marginBottom: 24,
     borderRadius: 10,
-    backgroundColor: '#74B0E1',
+    backgroundColor: '#61A5DC',
   },
   doneText: {
-    color: '#fff',
+    color: 'rgba(255, 255, 255, 0.9)',
     fontSize: 26,
     textAlign: 'center',
     fontFamily: 'Merienda-Bold',
