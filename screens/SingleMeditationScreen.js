@@ -149,14 +149,22 @@ function SingleMeditationScreen({
               />
 
               <TimeSelectBtn
-                title="23"
+                title="20"
                 onPress={() => {
-                  setSelectedTime(23);
-                  crashlytics().log('23 mins pressed');
+                  setSelectedTime(20);
+                  crashlytics().log('20 mins pressed');
                 }}
                 selectedTime={selectedTime}
               />
 
+              <TimeSelectBtn
+                title="25"
+                onPress={() => {
+                  setSelectedTime(25);
+                  crashlytics().log('25 mins pressed');
+                }}
+                selectedTime={selectedTime}
+              />
               <TimeSelectBtn
                 title="30"
                 onPress={() => {
@@ -165,20 +173,12 @@ function SingleMeditationScreen({
                 }}
                 selectedTime={selectedTime}
               />
-              <TimeSelectBtn
-                title="38"
-                onPress={() => {
-                  setSelectedTime(38);
-                  crashlytics().log('38 mins pressed');
-                }}
-                selectedTime={selectedTime}
-              />
 
               <TimeSelectBtn
-                title="45"
+                title="35"
                 onPress={() => {
-                  setSelectedTime(45);
-                  crashlytics().log('45 mins pressed');
+                  setSelectedTime(35);
+                  crashlytics().log('35 mins pressed');
                 }}
                 selectedTime={selectedTime}
                 extraStyles={{
@@ -189,10 +189,10 @@ function SingleMeditationScreen({
             </View>
             <View style={styles.timeBtnsContainer}>
               <TimeSelectBtn
-                title="60"
+                title="45"
                 onPress={() => {
-                  setSelectedTime(60);
-                  crashlytics().log('60 mins pressed');
+                  setSelectedTime(45);
+                  crashlytics().log('45 mins pressed');
                 }}
                 selectedTime={selectedTime}
                 extraStyles={{
@@ -202,6 +202,14 @@ function SingleMeditationScreen({
               />
 
               <TimeSelectBtn
+                title="60"
+                onPress={() => {
+                  setSelectedTime(60);
+                  crashlytics().log('60 mins pressed');
+                }}
+                selectedTime={selectedTime}
+              />
+              <TimeSelectBtn
                 title="75"
                 onPress={() => {
                   setSelectedTime(75);
@@ -209,6 +217,7 @@ function SingleMeditationScreen({
                 }}
                 selectedTime={selectedTime}
               />
+
               <TimeSelectBtn
                 title="90"
                 onPress={() => {
@@ -223,15 +232,6 @@ function SingleMeditationScreen({
                 onPress={() => {
                   setSelectedTime(105);
                   crashlytics().log('105 mins pressed');
-                }}
-                selectedTime={selectedTime}
-              />
-
-              <TimeSelectBtn
-                title="120"
-                onPress={() => {
-                  setSelectedTime(120);
-                  crashlytics().log('120 mins pressed');
                 }}
                 selectedTime={selectedTime}
                 extraStyles={{
@@ -353,6 +353,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#7BB4E2',
     height: 55,
     margin: 16,
+    marginTop: 24,
     marginBottom: 20,
     borderRadius: 10,
     justifyContent: 'center',
