@@ -5,7 +5,7 @@ const medEssay = {
   },
   paragraphs: [
     `Thoughts will appear throughout the day. Let them come and go.`,
-    `If you throw dirt into a river, it carries on flowing, and become clean again.`,
+    `If you throw dirt into a river, it carries on flowing, and becomes clean again.`,
     `It is your minds job to feed you thought.`,
     `You are not your mind.`,
   ],
