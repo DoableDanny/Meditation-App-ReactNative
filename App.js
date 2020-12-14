@@ -38,36 +38,14 @@ const App = () => {
   const [totalMeditationTime, setTotalMeditationTime] = useState(0);
   const [totalMeditationsCompleted, setTotalMeditationsCompleted] = useState(0);
 
-  const receiptStorageKey = '@full_app_purchase_receipt';
   // Full app purchase receipt
   const {receipt, setReceipt} = useInAppPurchase();
 
   // Firebase session timeout is 1 hr, 15 mins
   analytics().setSessionTimeoutDuration(4500000);
 
-  // Variables for firebase navigation stuff (see NavigationContainer props)
-  // const routeNameRef = React.useRef();
-  // const navigationRef = React.useRef();
-
   return (
-    <NavigationContainer
-    // ref={navigationRef}
-    // onReady={() =>
-    //   (routeNameRef.current = navigationRef.current.getCurrentRoute().name)
-    // }
-    // onStateChange={() => {
-    //   const previousRouteName = routeNameRef.current;
-    //   const currentRouteName = navigationRef.current.getCurrentRoute().name;
-
-    //   if (previousRouteName !== currentRouteName) {
-    //     // Send of to firebase analytics
-    //     analytics().setCurrentScreen(currentRouteName, currentRouteName);
-    //   }
-
-    //   // Save the current route name for later comparision
-    //   routeNameRef.current = currentRouteName;
-    // }}
-    >
+    <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{
@@ -160,7 +138,6 @@ const App = () => {
               totalMeditationsCompleted={totalMeditationsCompleted}
               setTotalMeditationsCompleted={setTotalMeditationsCompleted}
               setTotalStars={setTotalStars}
-              // receipt={receipt}
             />
           )}
         </Stack.Screen>

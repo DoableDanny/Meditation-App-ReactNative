@@ -222,12 +222,6 @@ function StatsScreen({
           ) : (
             <LockedTaoMed icon="star" num="180" />
           )}
-          {/* {meditations[59].completionTime > 0 ? (
-            <Text style={styles.award}>NAVAL PEACE PRIZE</Text>
-          ) : null}
-          {totalStars == 195 ? (
-            <Text style={styles.award}>ZEN MASTER</Text>
-          ) : null} */}
         </View>
 
         <View style={styles.iconWrapper}>

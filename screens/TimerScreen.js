@@ -27,7 +27,6 @@ function TimerScreen({
   selectedMeditation,
   meditations,
   unlockMeditation,
-  updateMeditationStarValue,
   updateCompletionTime,
   setStreak,
   setLongestStreak,
@@ -128,11 +127,9 @@ function TimerScreen({
           let nextMeditationId = selectedMeditation.id + 1;
 
           let meditationsCopy = [...meditations];
-          // let selectedMeditation = {...meditationsCopy[selectedMeditation.id]};
 
           let nextMeditation = {...meditationsCopy[nextMeditationId]};
 
-          // CHANGED &&...
           if (nextMeditationId < 59 && selectedTime >= 15) {
             unlockMeditation(nextMeditationId);
             meditationsCopy[nextMeditationId] = nextMeditation;
@@ -147,9 +144,7 @@ function TimerScreen({
           }
 
           // update total number of stars
-          //CHANGED from > 15
           if (selectedTime >= 30) {
-            ////////////TESTING - good/////// 1, 2, or 3 stars returned
             // Define star variables
             let prevStarValue = convertCompletionTimeToStars(
               selectedMeditation.completionTime,
@@ -161,17 +156,7 @@ function TimerScreen({
             if (prevStarValue < newStarValue) {
               let starImprovement = newStarValue - prevStarValue;
               newTotalStars = calculateNewStarTotal(starImprovement);
-
-              // Check if unlocked Bonus Tao med for newTotalStars
             }
-            // else console.log('NO_NEED_TO_UPDATE_STARS');
-            // console.log('CURRENT_MEDITATION: ', selectedMeditation);
-            // console.log(
-            //   'PREV_COMPLETION_TIME',
-            //   selectedMeditation.completionTime,
-            // );
-            // console.log('PREV_STAR_VALUE: ', prevStarValue);
-            // console.log('NEW_STAR_VALUE: ', newStarValue);
 
             //AWARDING TAO MEDS
             if (newTotalStars >= 100 && newTotalStars < 103) {
@@ -182,83 +167,7 @@ function TimerScreen({
               awardBonusTaoMedForStars(180);
               unlockMeditation(64);
             }
-
-            // getData(`@total_stars`)
-            //   .then((data) => {
-            // let stars = data == null ? 0 : parseInt(data);
-            // let starsObj = {
-            //   starGain: 0,
-            // };
-
-            // // check for time improvement and add correct amount of stars
-            // let prevCompletionTime = selectedMeditation.completionTime;
-
-            // let timeImprovement = selectedTime - prevCompletionTime;
-
-            // switch (timeImprovement) {
-            //   case 15:
-            //     starsObj.starGain = prevCompletionTime == 0 ? 0 : 1;
-            //     storeData(`@total_stars`, stars + starsObj.starGain);
-            //     break;
-            //   case 30:
-            //     starsObj.starGain = prevCompletionTime == 0 ? 1 : 2;
-            //     storeData(`@total_stars`, stars + starsObj.starGain);
-            //     break;
-            //   case 45:
-            //     starsObj.starGain = prevCompletionTime == 0 ? 2 : 3;
-            //     storeData(`@total_stars`, stars + starsObj.starGain);
-            //     break;
-            //   case 60:
-            //   case 75:
-            //   case 90:
-            //   case 105:
-            //   case 120:
-            //     starsObj.starGain = 3;
-            //     storeData(`@total_stars`, stars + starsObj.starGain);
-            //     break;
-            // }
-            // setTotalStars(stars + starsObj.starGain);
-
-            //   // If >= 100 stars, unlock Tao med 4
-            //   if (
-            //     stars + starsObj.starGain >= 100 &&
-            //     stars + starsObj.starGain < 103
-            //   ) {
-            //     getData(`@tao_series`).then((data) => {
-            //       if (data == null) {
-            //         Alert.alert(
-            //           `CONGRATULATIONS!`,
-            //           `Your outstanding efforts deserve a reward: The fourth Tao Bonus Meditation!`,
-            //         );
-            //         storeData(`@tao_series`, 100);
-            //         unlockMeditation(63);
-            //       }
-            //     });
-            //   }
-            //   // If >= 180 stars, unlock Tao med 5
-            //   if (
-            //     stars + starsObj.starGain >= 180 &&
-            //     stars + starsObj.starGain < 183
-            //   ) {
-            //     getData(`@tao_series`).then((data) => {
-            //       if (data == 100) {
-            //         Alert.alert(
-            //           `CONGRATULATIONS!`,
-            //           `Your outstanding efforts deserve a reward: The final Tao Bonus Meditation!`,
-            //         );
-            //         storeData(`@tao_series`, 180);
-            //         unlockMeditation(64);
-            //       }
-            //     });
-            //   }
-            // })
-            // .then(() =>
-            //   updateCompletionTime(selectedMeditation.id, selectedTime),
-            // );
           }
-          // else {
-          //   updateCompletionTime(selectedMeditation.id, selectedTime);
-          // }
 
           updateCompletionTime(selectedMeditation.id, selectedTime);
 
@@ -301,11 +210,6 @@ function TimerScreen({
               // Get longest streak data and check if needs updating
               getData(`@longest_streak_key`).then((data) => {
                 let longestStreak;
-
-                // For testing awards/////////////
-                // data = '14';
-                // streak = 30;
-                /////////////
 
                 if (data && parseInt(data) < streak) {
                   longestStreak = streak;
@@ -441,8 +345,6 @@ function TimerScreen({
     </VerticalPurpleGradBackground>
   );
 }
-
-const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
 
 const styles = StyleSheet.create({
   screenContainer: {

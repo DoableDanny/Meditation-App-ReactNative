@@ -10,8 +10,6 @@ import {
 } from 'react-native';
 
 import {imageArray} from '../imageArray';
-import LinearGradient from 'react-native-linear-gradient';
-import RangeSlider from 'rn-range-slider';
 
 import VerticalPurpleGradBackground from '../components/VerticalPurpleGradBackground';
 import H from '../components/H';
@@ -106,10 +104,6 @@ function SingleMeditationScreen({
   ];
 
   const selectedMedEssay = medEssays[selectedMeditation.id].default;
-
-  const timeoptionsRow1 = [15, 20, 25, 30, 35];
-  const timeoptionsRow2 = [40, 45, 50, 55, 60];
-  const timeoptionsRow3 = [65, 70, 75, 80, 85];
 
   return (
     <VerticalPurpleGradBackground style={{flex: 1}}>
@@ -245,37 +239,6 @@ function SingleMeditationScreen({
           <Text style={styles.taoTime}>{selectedTime} mins...</Text>
         )}
 
-        {/* <View style={styles.rangeSliderWrapper}>
-          {selectedMeditation.id < 60 ? (
-            <RangeSlider
-              style={{width: 0.85 * Dimensions.get('window').width, height: 80}}
-              gravity={'center'}
-              min={5}
-              max={120}
-              step={5}
-              initialLowValue={selectedTime}
-              selectionColor="#3df"
-              blankColor="#f618"
-              rangeEnabled={false}
-              lineWidth={6}
-              thumbRadius={22}
-              thumbBorderWidth={1}
-              labelPadding={8}
-              textSize={18}
-              labelBorderWidth={1}
-              labelTailHeight={10}
-              labelGapHeight={6}
-              onValueChanged={(low, high, fromUser) => {
-                setSelectedTime(low);
-              }}
-            />
-          ) : (
-            <Text style={styles.taoTime}>{selectedTime} mins...</Text>
-          )}
-        </View>
-
-        <Text style={styles.timeText}>{selectedTime} mins...</Text> */}
-
         <TouchableOpacity
           onPress={() => {
             analytics().logEvent('Begin_Meditation_Event', {
@@ -325,10 +288,6 @@ const styles = StyleSheet.create({
     marginRight: 16,
     marginLeft: 16,
     margin: 4,
-  },
-  rangeSliderWrapper: {
-    alignItems: 'center',
-    marginBottom: 32,
   },
   timeText: {
     color: '#fff',

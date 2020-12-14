@@ -12,7 +12,6 @@ import {useIsFocused} from '@react-navigation/native';
 import useStars from '../customHooks/useStars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {imageArray} from '../imageArray';
-// import renderStars from '../functionsAndQuotes/renderStars';
 import HomeNavBtn from '../components/HomeNavBtn';
 import LinearGradient from 'react-native-linear-gradient';
 import crashlytics from '@react-native-firebase/crashlytics';

@@ -1,21 +1,16 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {View, ScrollView, Text, StyleSheet, Alert} from 'react-native';
-import {
-  getData,
-  removeMultipleItems,
-} from '../functionsAndQuotes/asyncStorageFunctions';
+import {removeMultipleItems} from '../functionsAndQuotes/asyncStorageFunctions';
 import {removeValue} from '../functionsAndQuotes/asyncStorageFunctions';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HorizPurpleGrad from '../components/HorizPurpleGrad';
 import DeleteBtn from '../components/DeleteBtn';
-import AppPurchaseTest from '../components/appPurchaseTest';
 
 import useInAppPurchase from '../customHooks/useInAppPurchase';
 
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 function SettingsScreen({
   resetFully,
@@ -26,46 +21,13 @@ function SettingsScreen({
   setTotalMeditationsCompleted,
   setTotalStars,
   receipt,
-  setReceipt,
 }) {
-  const [dateLastCompleted, setDateLastCompleted] = useState('-');
-  const [averageSessionTime, setAverageSessionTime] = useState(0);
-
-  const [productId, setProductId] = useState('Danny, press somet!');
-  const [productList, setProductList] = useState([
-    {
-      title: 'placeholder1',
-      productId: 'pid1',
-      price: '$$1',
-    },
-    {
-      title: 'placeholder2',
-      productId: 'pid2',
-      price: '$$2',
-    },
-    {
-      title: 'placeholder3',
-      productId: 'pid3',
-      price: '$$3',
-    },
-  ]);
-
   // InAppPurchase functions from custom hook
-  const {getItems, requestPurchase, getAvailablePurchases} = useInAppPurchase();
+  const {getItems} = useInAppPurchase();
 
   useEffect(() => {
     crashlytics().log('SettingsScreen mounted');
   }, []);
-
-  // useEffect(() => {
-  //   const receiptStorageKey = '@full_app_purchase_receipt';
-  //   getData(receiptStorageKey).then((jsonValue) => {
-  //     console.log('JSONvalue: ', jsonValue);
-  //     if (jsonValue) {
-  //       setReceipt(jsonValue);
-  //     }
-  //   });
-  // }, []);
 
   const warningAlert = (messageObject) => {
     Alert.alert(
@@ -124,10 +86,8 @@ function SettingsScreen({
       Alert.alert('Success', `Your ${messageObject} was deleted successfully`);
       setTotalMeditationTime(0);
       setTotalMeditationsCompleted(0);
-      setAverageSessionTime(0);
       setStreak(0);
       setLongestStreak(0);
-      setDateLastCompleted('-');
     } catch (error) {
       console.error(error);
       crashlytics().recordError(error);
@@ -147,69 +107,14 @@ function SettingsScreen({
   return (
     <HorizPurpleGrad colors={purpleGrad}>
       <ScrollView>
-        {/* <AppPurchaseTest productId={productId} setProductId={setProductId} /> */}
-
-        {/* {productList.map((product) => (
-          <TouchableOpacity
-            style={{marginBottom: 30, backgroundColor: 'blue'}}
-            onPress={() => {
-              setProductId(product.productId);
-            }}>
-            <Text style={styles.description}>{product.title}</Text>
-            <Text style={styles.description}>{product.productId}</Text>
-            <Text style={styles.description}>{product.price}</Text>
-          </TouchableOpacity>
-        ))} */}
-        {/* 
-        <Text style={{...styles.description, marginBottom: 20}}>
-          {productId}
-        </Text> */}
-
-        {/* <DeleteBtn
-          title="Get Items"
-          onPress={() => {
-            // crashlytics().log('Full App Access button pressed');
-            getItems(setProductList);
-          }}
-        /> */}
-
-        {/* <View style={{marginTop: 32}}>
-          <DeleteBtn
-            title="Request Purchase"
-            onPress={() => {
-              // crashlytics().log('Full App Access button pressed');
-              requestPurchase(productId);
-            }}
-          />
-        </View> */}
-
-        {/* <View style={{marginTop: 32}}>
-          <DeleteBtn
-            title="Get available Purchases"
-            onPress={() => {
-              // crashlytics().log('Full App Access button pressed');
-              getAvailablePurchases();
-            }}
-          />
-        </View> */}
-
-        {/* <Text style={{...styles.description, marginTop: 20}}>
-          {receipt ? JSON.parse(receipt).productId : ''}
-        </Text> */}
-
         <View style={{...styles.textAndButtonWrapper, marginTop: 32}}>
           <DeleteBtn
             title="Full App Access"
             onPress={() => {
               crashlytics().log('Full App Access button pressed');
-              getItems(
-                productId,
-                // setProductList
-              );
+              getItems();
             }}
           />
-
-          {/* <Text style={styles.description}>{receipt.productId}</Text> */}
 
           <Text style={styles.description}>
             {receipt.productId == 'full_app_purchase'
@@ -217,16 +122,6 @@ function SettingsScreen({
               : 'The first 7 meditations are free. To gain full access to the rest, please purchase the full app.'}
           </Text>
         </View>
-
-        {/* <DeleteBtn
-          title="REMOVE PURCHASE"
-          onPress={() => {
-            removeValue(`@full_app_purchase_receipt`, `app purchase`);
-            setReceipt({
-              productId: 'initial_state',
-            });
-          }}
-        /> */}
 
         <View style={styles.textAndButtonWrapper}>
           <DeleteBtn

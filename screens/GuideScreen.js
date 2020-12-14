@@ -84,8 +84,6 @@ function GuideScreen() {
   );
 }
 
-const purpleGrad = ['#2F2198', '#271C7E', '#1F1663'];
-
 const styles = StyleSheet.create({
   contentContainer: {
     marginLeft: 16,
